@@ -41,21 +41,21 @@
           </b-card>
           <br />
           <b-row>
-            <b-col lg="4" md="6">
+            <b-col md="4" cols="6">
               <b-button block class="button-color">
                 <b-row>
                   <MedInput subtitle="T" latestVS="36.6"></MedInput>
                 </b-row>
               </b-button>
             </b-col>
-            <b-col lg="4" md="6">
+            <b-col md="4" cols="6">
               <b-button block class="button-color">
                 <b-row>
                   <MedInput subtitle="P" latestVS="92"></MedInput>
                 </b-row>
               </b-button>
             </b-col>
-            <b-col lg="4" md="6">
+            <b-col md="4" cols="6">
               <b-button block class="button-color">
                 <b-row>
                   <MedInput subtitle="R" latestVS="20"></MedInput>
@@ -85,21 +85,21 @@
                 </b-row>
               </b-button>
             </b-col>
-            <b-col lg="4" md="6">
+            <b-col md="4" cols="6">
               <b-button block class="button-color">
                 <b-row>
                   <MedInput subtitle="O2 Sat" latestVS="95" textColor="text-danger"></MedInput>
                 </b-row>
               </b-button>
             </b-col>
-            <b-col lg="4" md="6">
+            <b-col md="4" cols="6">
               <b-button block class="button-color">
                 <b-row>
                   <MedInput subtitle="Urine" latestVS="57"></MedInput>
                 </b-row>
               </b-button>
             </b-col>
-            <b-col lg="4" md="6">
+            <b-col md="4" cols="6">
               <b-button block class="button-color">
                 <b-row>
                   <MedInput subtitle="PainScore" latestVS="2"></MedInput>
