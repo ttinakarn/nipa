@@ -12,7 +12,7 @@
     <div class="display-4">Welcome Tip</div>
     <br />
     <b-row id="my-beds">
-      <b-col lg="3" sm="4" xs="12" v-for="bed in beds" :key="bed" :per-page="perPage">
+      <b-col lg="3" sm="4" xs="12" v-for="bed in beds" :key="bed">
         <div v-if="bed.status == 'normal'">
           <router-link to="/bedinfo">
             <b-button variant="success" class="button-size">
@@ -52,7 +52,6 @@
         </div>
       </b-col>
     </b-row>
-    <b-pagination :total-rows="rows" :per-page="perPage" aria-controls="my-beds"></b-pagination>
   </div>
 </template>
 
@@ -75,7 +74,6 @@
 export default {
   data() {
     return {
-      perPage: 4,
       beds: [
         { bedNo: "1", latestVS: "10:12", status: "warning" },
         { bedNo: "2", latestVS: "10:12", status: "normal" },
@@ -103,12 +101,7 @@ export default {
         { bedNo: "24", latestVS: null, status: null },
         { bedNo: "25", latestVS: null, status: null },
         { bedNo: "26", latestVS: "10:12", status: "warning" }
-      ],
-      computed: {
-        rows() {
-          return this.beds.length;
-        }
-      }
+      ]
     };
   }
 };
