@@ -4,6 +4,7 @@ import Home from './views/Home.vue'
 import Login from './views/Login.vue'
 import BedInfo from './views/BedInfo.vue'
 import AddVS from './views/AddVS.vue'
+import Table from './views/Table.vue'
 
 Vue.use(Router)
 
@@ -28,6 +29,11 @@ export default new Router({
       path: '/addvs',
       name: 'addvs',
       component: AddVS
+    },
+    {
+      path: '/table',
+      name: 'table',
+      component: Table
     }
   ]
 })

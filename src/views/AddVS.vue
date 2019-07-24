@@ -7,7 +7,7 @@
       <b-navbar-brand class="topnav-centered">Add Vital Sign</b-navbar-brand>
       <b-navbar-nav class="ml-auto">
         <b-navbar-brand class="text-danger" right>
-          <router-link to="/home" class="text-success">Save</router-link>
+          <router-link to="/table" class="text-success">Table</router-link>
         </b-navbar-brand>
       </b-navbar-nav>
     </b-navbar>
