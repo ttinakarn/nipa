@@ -10,6 +10,8 @@ import 'bootstrap-vue/dist/bootstrap-vue.css'
 import 'vue-easytable/libs/themes-base/index.css'
 
 Vue.use(BootstrapVue)
+Vue.use(require('vue-moment'));
+
 Vue.component(VTable.name, VTable)
 Vue.component(VPagination.name, VPagination)
 
