@@ -4,7 +4,7 @@
       <b-navbar-brand>
         <img src="../assets/logo-main.png" alt="HospitalLogo" height="50" />
       </b-navbar-brand>
-      <b-navbar-brand class="topnav-centered">time</b-navbar-brand>
+      <b-navbar-brand class="topnav-centered"><span>{{time}}</span></b-navbar-brand>
       <b-navbar-nav class="ml-auto">
         <b-navbar-brand class="text-danger" right>
           <img src="../assets/logo.png" alt="NiPALogo" height="50" />
@@ -41,17 +41,22 @@
           <td>V</td>
           <td>M</td>
         </tr>
-        <tr v-for="data in vitalsigns" :key="data.vsid" class="normal" :class="{'warning' : data.o2sat < condition[0].o2sat }">
+        <tr
+          v-for="data in vitalsigns"
+          :key="data.vsid"
+          class="normal"
+          :class="{'warning' : data.o2sat < condition[0].mino2sat }"
+        >
           <td>{{data.vsid}}</td>
           <td>{{data.temp}}</td>
           <td>{{data.pulse}}</td>
           <td>{{data.resp}}</td>
           <td>{{data.sbp}}/{{data.dbp}}</td>
-          <td :class="{'text-danger' : data.o2sat < condition[0].o2sat }">{{data.o2sat}}</td>
-          <td>{{data.e}}</td>
-          <td>{{data.v}}</td>
-          <td>{{data.m}}</td>
-          <td :class="{'text-danger' : data.urine < condition[0].urine }">{{data.urine}}</td>
+          <td :class="{'text-danger' : data.o2sat < condition[0].mino2sat }">{{data.o2sat}}</td>
+          <td>{{data.eye}}</td>
+          <td>{{data.verbal}}</td>
+          <td>{{data.motor}}</td>
+          <td :class="{'text-danger' : data.urine < condition[0].minurine }">{{data.urine}}</td>
           <td>{{data.painscore}}</td>
           <td>{{data.fallrisk}}</td>
           <td>{{data.remark}}</td>
@@ -94,30 +99,36 @@
 
 <script>
 import axios from "axios";
+import moment from 'moment';
+
 export default {
   name: "vitalsigns",
-  time: '',
   data() {
     return {
       vitalsigns: [],
-      condition: []
+      condition: [],
+      time: null
     };
   },
   methods: {
-    moment: function() {
-      return moment();
+    updateCurrentTime() {
+      this.time = moment().format('LTS');
     }
+  },
+  created() {
+    this.time = moment().format('LTS');
+    setInterval(() => this.updateCurrentTime(), 1 * 1000);
   },
   mounted() {
     var instance = this;
-    axios.get("http://localhost:8080/api/vitalsign").then(function(response) {
+    axios.get("http://192.168.11.13:8080/api/vitalsign").then(function(response) {
       console.log("vital sign data: " + response);
       instance.vitalsigns = response.data.data;
     });
     // localStorage.removeItem("condition");
     if(localStorage.getItem("condition") == null){
       console.log("Retrieved data");
-      axios.get("http://localhost:8080/api/condition").then(function(response) {
+      axios.get("http://192.168.11.13:8080/api/condition").then(function(response) {
         console.log(response);
         localStorage.setItem("condition", JSON.stringify(response.data.data));
         console.log(localStorage.getItem("condition"));

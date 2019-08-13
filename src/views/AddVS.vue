@@ -115,7 +115,10 @@
             </b-col>
           </b-row>
         </b-tab>
-        <b-tab title="Fall Risk">
+        <b-tab>
+          <template slot="title">
+            Fall Risk <b-badge pill variant="success">{{sumfallrisk}}</b-badge>
+          </template>
           <b-card bg-variant="light" text-variant="dark">
             <b-col>
               <b-row>
@@ -148,9 +151,10 @@
                 style="background-color: #7fdbd5;"
                 block
                 :class="{'bg-dark' : this.checked1 != false}"
+                v-on:click="calchecked1"
               >
                 <img alt="Vue logo" src="../assets/falling-man.png" class="responsive" />
-                <br />History of falling immeditely
+                <br />History of falling immeditely {{checked4}}
               </b-button>
             </b-col>
             <b-col md="4" xs="12">
@@ -159,6 +163,7 @@
                 style="background-color: #7fdbd5;"
                 block
                 :class="{'bg-dark' : this.checked2 != false}"
+                v-on:click="calchecked2"
               >
                 <img alt="Vue logo" src="../assets/prescription.png" class="responsive" />
                 <br />Secondary diagnosis
@@ -170,6 +175,7 @@
                 style="background-color: #7fdbd5;"
                 block
                 :class="{'bg-dark' : this.checked3 != false}"
+                v-on:click="calchecked3"
               >
                 <img alt="Vue logo" src="../assets/serum.png" class="responsive" />
                 <br />IV / Heparin lock
@@ -178,60 +184,20 @@
             <b-col cols="12">
               <h5 align="left">Ambulatory aid</h5>
             </b-col>
-            <Radio
-              md="4"
-              xs="12"
-              title="Bed Rest / Nurse assist"
-              v-model="checked4"
-            ></Radio>
-            <Radio
-              md="4"
-              xs="12"
-              title="Crutches / Cane"
-              v-model="checked4"
-            ></Radio>
-            <Radio
-              md="4"
-              xs="12"
-              title="Fracture"
-              v-model="checked4"
-            ></Radio>
+            <Radio md="4" xs="12" title="Bed Rest / Nurse assist" v-model="checked4"></Radio>
+            <Radio md="4" xs="12" title="Crutches / Cane" v-model="checked4"></Radio>
+            <Radio md="4" xs="12" title="Fracture" v-model="checked4"></Radio>
             <b-col cols="12">
               <h5 align="left">Gate / Transfering</h5>
             </b-col>
-           <Radio
-              md="4"
-              xs="12"
-              title="Normal"
-              v-model="checked5"
-            ></Radio>
-            <Radio
-              md="4"
-              xs="12"
-              title="Weak"
-              v-model="checked5"
-            ></Radio>
-            <Radio
-              md="4"
-              xs="12"
-              title="Impaired"
-              v-model="checked5"
-            ></Radio>
+            <Radio md="4" xs="12" title="Normal" v-model="checked5"></Radio>
+            <Radio md="4" xs="12" title="Weak" v-model="checked5"></Radio>
+            <Radio md="4" xs="12" title="Impaired" v-model="checked5"></Radio>
             <b-col cols="12">
               <h5 align="left">Mental State</h5>
             </b-col>
-            <Radio
-              md="6"
-              xs="12"
-              title="Oriented own ability"
-              v-model="checked6"
-            ></Radio>
-            <Radio
-              md="6"
-              xs="12"
-              title="Forget limitations"
-              v-model="checked6"
-            ></Radio>
+            <Radio md="6" xs="12" title="Oriented own ability" icon="apathy.png" v-model="checked6"></Radio>
+            <Radio md="6" xs="12" title="Forget limitations" v-model="checked6"></Radio>
           </b-row>
         </b-tab>
       </b-tabs>
@@ -242,6 +208,7 @@
 <script>
 import MedInput from "@/components/MedInput.vue";
 import Radio from "@/components/RadioButton.vue";
+import { log } from 'util';
 export default {
   components: {
     MedInput,
@@ -249,13 +216,46 @@ export default {
   },
   data() {
     return {
+      sumfallrisk: 1,
       checked1: false,
       checked2: false,
       checked3: false,
       checked4: "",
+      selected: "",
       checked5: "",
       checked6: ""
     };
+  },
+  methods: {
+    // History of falling immeditely
+    calchecked1: function() {
+      if (this.checked1 == true) {
+        this.sumfallrisk = this.sumfallrisk + 24;
+      } else {
+        this.sumfallrisk = this.sumfallrisk - 24;
+      }
+    },
+    // Secondary diagnosis
+    calchecked2: function() {
+      if (this.checked2 == true) {
+        this.sumfallrisk = this.sumfallrisk + 15;
+      } else {
+        this.sumfallrisk = this.sumfallrisk - 15;
+      }
+    },
+    // IV / Heparin lock
+    calchecked3: function() {
+      if (this.checked3 == true) {
+        this.sumfallrisk = this.sumfallrisk + 20;
+      } else {
+        this.sumfallrisk = this.sumfallrisk - 20;
+      }
+    },
+    //Ambulatory aid
+
+    //Gate / transfering
+
+    //Mental State
   }
 };
 </script>

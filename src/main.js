@@ -2,18 +2,14 @@ import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
 import BootstrapVue from 'bootstrap-vue'
-import {VTable,VPagination} from 'vue-easytable'
+import moment from 'moment'
 
 import './registerServiceWorker'
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
-import 'vue-easytable/libs/themes-base/index.css'
 
-Vue.use(BootstrapVue)
-Vue.use(require('vue-moment'));
-
-Vue.component(VTable.name, VTable)
-Vue.component(VPagination.name, VPagination)
+Vue.use(BootstrapVue);
+Vue.prototype.moment = moment;
 
 Vue.config.productionTip = false
 
