@@ -2,12 +2,12 @@
   <div>
     <b-navbar toggleable="sm" type="light" variant="light">
       <b-navbar-brand>
-        <img src="../assets/logo-main.png" alt="HospitalLogo" height="50" />
+        <img src="../assets/logo-main.png" alt="HospitalLogo" height="60" />
       </b-navbar-brand>
       <b-navbar-brand class="topnav-centered"><span>{{time}}</span></b-navbar-brand>
       <b-navbar-nav class="ml-auto">
         <b-navbar-brand class="text-danger" right>
-          <img src="../assets/logo.png" alt="NiPALogo" height="50" />
+          <img src="../assets/logo.png" alt="NiPALogo" height="60" />
         </b-navbar-brand>
       </b-navbar-nav>
     </b-navbar>
@@ -44,19 +44,20 @@
         <tr
           v-for="data in vitalsigns"
           :key="data.vsid"
-          class="normal"
-          :class="{'warning' : data.o2sat < condition[0].mino2sat }"
+          :class="{
+            'normal' : data.o2sat >= condition[0].mino2sat || data.urine >= condition[0].minurine,
+            'warning' : data.o2sat < condition[1].mino2sat || data.urine <= condition[1].maxurine}"
         >
           <td>{{data.vsid}}</td>
-          <td>{{data.temp}}</td>
-          <td>{{data.pulse}}</td>
-          <td>{{data.resp}}</td>
+          <td :class="{'text-danger' : data.temp < condition[4].mintemp || data.temp > condition[4].maxtemp }">{{data.temp}}</td>
+          <td :class="{'text-danger' : data.pulse < condition[4].minpulse || data.pulse > condition[4].maxpulse }">{{data.pulse}}</td>
+          <td :class="{'text-danger' : data.resp < condition[4].minresp || data.resp > condition[4].maxresp }">{{data.resp}}</td>
           <td>{{data.sbp}}/{{data.dbp}}</td>
-          <td :class="{'text-danger' : data.o2sat < condition[0].mino2sat }">{{data.o2sat}}</td>
+          <td :class="{'text-danger' : data.o2sat < condition[4].mino2sat }">{{data.o2sat}}</td>
           <td>{{data.eye}}</td>
           <td>{{data.verbal}}</td>
           <td>{{data.motor}}</td>
-          <td :class="{'text-danger' : data.urine < condition[0].minurine }">{{data.urine}}</td>
+          <td :class="{'text-danger' : data.urine < condition[4].minurine }">{{data.urine}}</td>
           <td>{{data.painscore}}</td>
           <td>{{data.fallrisk}}</td>
           <td>{{data.remark}}</td>
@@ -121,14 +122,14 @@ export default {
   },
   mounted() {
     var instance = this;
-    axios.get("http://192.168.11.13:8080/api/vitalsign").then(function(response) {
+    axios.get("http://localhost:8080/api/vitalsign").then(function(response) {
       console.log("vital sign data: " + response);
       instance.vitalsigns = response.data.data;
     });
     // localStorage.removeItem("condition");
     if(localStorage.getItem("condition") == null){
       console.log("Retrieved data");
-      axios.get("http://192.168.11.13:8080/api/condition").then(function(response) {
+      axios.get("http://localhost:8080/api/condition").then(function(response) {
         console.log(response);
         localStorage.setItem("condition", JSON.stringify(response.data.data));
         console.log(localStorage.getItem("condition"));

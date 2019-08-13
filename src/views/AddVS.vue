@@ -117,7 +117,8 @@
         </b-tab>
         <b-tab>
           <template slot="title">
-            Fall Risk <b-badge pill variant="success">{{sumfallrisk}}</b-badge>
+            Fall Risk
+            <b-badge pill variant="success">{{sumfallrisk}}</b-badge>
           </template>
           <b-card bg-variant="light" text-variant="dark">
             <b-col>
@@ -154,7 +155,7 @@
                 v-on:click="calchecked1"
               >
                 <img alt="Vue logo" src="../assets/falling-man.png" class="responsive" />
-                <br />History of falling immeditely {{checked4}}
+                <br />History of falling immeditely
               </b-button>
             </b-col>
             <b-col md="4" xs="12">
@@ -182,22 +183,78 @@
               </b-button>
             </b-col>
             <b-col cols="12">
-              <h5 align="left">Ambulatory aid</h5>
+              <h5 align="left">Ambulatory aid {{checked4}}</h5>
             </b-col>
-            <Radio md="4" xs="12" title="Bed Rest / Nurse assist" v-model="checked4"></Radio>
-            <Radio md="4" xs="12" title="Crutches / Cane" v-model="checked4"></Radio>
-            <Radio md="4" xs="12" title="Fracture" v-model="checked4"></Radio>
+            <Radio
+              md="4"
+              xs="12"
+              title="Bed Rest / Nurse assist"
+              v-model="checked4"
+              @score="calchecked4"
+              checked4score="0"
+            ></Radio>
+            <Radio
+              md="4"
+              xs="12"
+              title="Crutches / Cane"
+              v-model="checked4"
+              @score="calchecked4"
+              checked4score="15"
+            ></Radio>
+            <Radio
+              md="4"
+              xs="12"
+              title="Fracture"
+              v-model="checked4"
+              @score="calchecked4"
+              checked4score="30"
+            ></Radio>
             <b-col cols="12">
               <h5 align="left">Gate / Transfering</h5>
             </b-col>
-            <Radio md="4" xs="12" title="Normal" v-model="checked5"></Radio>
-            <Radio md="4" xs="12" title="Weak" v-model="checked5"></Radio>
-            <Radio md="4" xs="12" title="Impaired" v-model="checked5"></Radio>
+            <Radio
+              md="4"
+              xs="12"
+              title="Normal"
+              v-model="checked5"
+              @score="getScore"
+              checked5score="0"
+            ></Radio>
+            <Radio
+              md="4"
+              xs="12"
+              title="Weak"
+              v-model="checked5"
+              @score="getScore"
+              checked5score="10"
+            ></Radio>
+            <Radio
+              md="4"
+              xs="12"
+              title="Impaired"
+              v-model="checked5"
+              @score="getScore"
+              checked5score="20"
+            ></Radio>
             <b-col cols="12">
               <h5 align="left">Mental State</h5>
             </b-col>
-            <Radio md="6" xs="12" title="Oriented own ability" icon="apathy.png" v-model="checked6"></Radio>
-            <Radio md="6" xs="12" title="Forget limitations" v-model="checked6"></Radio>
+            <Radio
+              md="6"
+              xs="12"
+              title="Oriented own ability"
+              v-model="checked6"
+              @score="getScore"
+              checked6score="0"
+            ></Radio>
+            <Radio
+              md="6"
+              xs="12"
+              title="Forget limitations"
+              v-model="checked6"
+              @score="getScore"
+              checked6score="15"
+            ></Radio>
           </b-row>
         </b-tab>
       </b-tabs>
@@ -208,7 +265,8 @@
 <script>
 import MedInput from "@/components/MedInput.vue";
 import Radio from "@/components/RadioButton.vue";
-import { log } from 'util';
+import { log } from "util";
+import { parse } from "path";
 export default {
   components: {
     MedInput,
@@ -223,7 +281,9 @@ export default {
       checked4: "",
       selected: "",
       checked5: "",
-      checked6: ""
+      checked6: "",
+      count: 0,
+      currentvalue: ""
     };
   },
   methods: {
@@ -252,11 +312,52 @@ export default {
       }
     },
     //Ambulatory aid
-
-    //Gate / transfering
-
-    //Mental State
+    calchecked4(value) {
+      this.count = this.count + 1;
+      // console.log("Before if " + this.currentvalue);
+      if (this.count > 1) {
+        if (this.currentvalue == "Crutches / Cane") {
+          this.sumfallrisk = this.sumfallrisk - 15;
+          this.sumfallrisk = this.sumfallrisk + parseInt(value);
+        } else if (this.currentvalue == "Fracture") {
+          this.sumfallrisk = this.sumfallrisk - 30;
+          this.sumfallrisk = this.sumfallrisk + parseInt(value);
+        } else {
+          this.sumfallrisk = this.sumfallrisk + parseInt(value);
+        }
+      } else {
+        this.sumfallrisk = this.sumfallrisk + parseInt(value);
+      }
+      this.currentvalue = this.checked4;
+      // console.log("After if " + this.currentvalue);
+      // console.log(value);
+    },
+    getScore(value) {
+      this.count = this.count + 1;
+      console.log("Before if " + this.currentvalue);
+      //Ambulatory aid
+      if (this.count > 1) {
+        if (this.currentvalue == "Crutches / Cane") {
+          this.sumfallrisk = this.sumfallrisk - 15;
+          this.sumfallrisk = this.sumfallrisk + parseInt(value);
+        } else if (this.currentvalue == "Fracture") {
+          this.sumfallrisk = this.sumfallrisk - 30;
+          this.sumfallrisk = this.sumfallrisk + parseInt(value);
+        } else {
+          this.sumfallrisk = this.sumfallrisk + parseInt(value);
+        }
+      } else {
+        this.sumfallrisk = this.sumfallrisk + parseInt(value);
+      }
+      this.currentvalue = this.checked4;
+      console.log("After if " + this.currentvalue);
+      console.log(value);
+    }
   }
+
+  //Gate / transfering
+
+  //Mental State
 };
 </script>
 
