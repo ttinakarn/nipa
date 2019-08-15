@@ -17,7 +17,7 @@
             centered ok-only
             @ok="saveNewVS"
           >
-            <p class="my-4">Data was submitted successfully!</p>
+          <p class="my-4">Data was submitted successfully!</p>
           </b-modal>
         </b-navbar-brand>
       </b-navbar-nav>
@@ -134,7 +134,11 @@
         <b-tab>
           <template slot="title">
             Fall Risk
-            <b-badge pill variant="success">{{fallrisk}}</b-badge>
+            <b-badge v-if="fallrisk > 0" 
+              pill 
+              variant="success">
+              {{fallrisk}}
+            </b-badge>
           </template>
           <b-card bg-variant="light" text-variant="dark">
             <b-col>
@@ -207,7 +211,6 @@
               title="Bed Rest / Nurse assist"
               v-model="checked4"
               @score="calchecked4"
-              checked4score="0"
             ></Radio>
             <Radio
               md="4"
@@ -215,7 +218,6 @@
               title="Crutches / Cane"
               v-model="checked4"
               @score="calchecked4"
-              checked4score="15"
             ></Radio>
             <Radio
               md="4"
@@ -223,7 +225,6 @@
               title="Fracture"
               v-model="checked4"
               @score="calchecked4"
-              checked4score="30"
             ></Radio>
             <b-col cols="12">
               <h5 align="left">Gate / Transfering</h5>
@@ -233,24 +234,21 @@
               xs="12"
               title="Normal"
               v-model="checked5"
-              @score="getScore"
-              checked5score="0"
+              @score="calchecked5"
             ></Radio>
             <Radio
               md="4"
               xs="12"
               title="Weak"
               v-model="checked5"
-              @score="getScore"
-              checked5score="10"
+              @score="calchecked5"
             ></Radio>
             <Radio
               md="4"
               xs="12"
               title="Impaired"
               v-model="checked5"
-              @score="getScore"
-              checked5score="20"
+              @score="calchecked5"
             ></Radio>
             <b-col cols="12">
               <h5 align="left">Mental State</h5>
@@ -260,16 +258,14 @@
               xs="12"
               title="Oriented own ability"
               v-model="checked6"
-              @score="getScore"
-              checked6score="0"
+              @score="calchecked6"
             ></Radio>
             <Radio
               md="6"
               xs="12"
               title="Forget limitations"
               v-model="checked6"
-              @score="getScore"
-              checked6score="15"
+              @score="calchecked6"
             ></Radio>
           </b-row>
         </b-tab>
@@ -296,8 +292,12 @@ export default {
       selected: "",
       checked5: "",
       checked6: "",
-      count: 0,
-      currentvalue: "",
+      checked4count: 0,
+      checked4currentvalue: "",
+      checked5count: 0,
+      checked5currentvalue: "",
+      checked6count: 0,
+      checked6currentvalue: "",
       temp: "",
       pulse: "",
       resp: "",
@@ -317,68 +317,91 @@ export default {
     // History of falling immeditely
     calchecked1: function() {
       if (this.checked1 == true) {
-        this.fallrisk = this.fallrisk + 24;
+        this.fallrisk = this.fallrisk + 1;
       } else {
-        this.fallrisk = this.fallrisk - 24;
+        this.fallrisk = this.fallrisk - 1;
       }
     },
+    
     // Secondary diagnosis
     calchecked2: function() {
       if (this.checked2 == true) {
-        this.fallrisk = this.fallrisk + 15;
+        this.fallrisk = this.fallrisk + 1;
       } else {
-        this.fallrisk = this.fallrisk - 15;
+        this.fallrisk = this.fallrisk - 1;
       }
     },
+    
     // IV / Heparin lock
     calchecked3: function() {
       if (this.checked3 == true) {
-        this.fallrisk = this.fallrisk + 20;
+        this.fallrisk = this.fallrisk + 1;
       } else {
-        this.fallrisk = this.fallrisk - 20;
+        this.fallrisk = this.fallrisk - 1;
       }
     },
+    
     //Ambulatory aid
     calchecked4(value) {
-      this.count = this.count + 1;
-      // console.log("Before if " + this.currentvalue);
-      if (this.count > 1) {
-        if (this.currentvalue == "Crutches / Cane") {
-          this.fallrisk = this.fallrisk - 15;
-          this.fallrisk = this.fallrisk + parseInt(value);
-        } else if (this.currentvalue == "Fracture") {
-          this.fallrisk = this.fallrisk - 30;
-          this.fallrisk = this.fallrisk + parseInt(value);
-        } else {
-          this.fallrisk = this.fallrisk + parseInt(value);
+      this.checked4count = this.checked4count + 1
+        if(this.checked4 != this.checked4currentvalue){
+          if(this.checked4count > 1){
+            if(this.checked4 == 'Bed Rest / Nurse assist'){
+              this.fallrisk = this.fallrisk - 1;
+            }
+            else if((this.checked4 == 'Crutches / Cane' && this.checked4currentvalue == 'Fracture') || (this.checked4 == 'Fracture' && this.checked4currentvalue == 'Crutches / Cane')){
+              console.log('Do nothing');
+            }
+            else if(this.checked4 == 'Crutches / Cane' || this.checked4 == 'Fracture'){
+              this.fallrisk = this.fallrisk + value;
+            }
+          }
+          else {
+          this.fallrisk = this.fallrisk + value;
         }
-      } else {
-        this.fallrisk = this.fallrisk + parseInt(value);
-      }
-      this.currentvalue = this.checked4;
-      // console.log("After if " + this.currentvalue);
-      // console.log(value);
+      } 
+      this.checked4currentvalue = this.checked4;
     },
-    getScore(value) {
-      this.count = this.count + 1;
-      console.log("Before if " + this.currentvalue);
-      //Ambulatory aid
-      if (this.count > 1) {
-        if (this.currentvalue == "Crutches / Cane") {
-          this.fallrisk = this.fallrisk - 15;
-          this.fallrisk = this.fallrisk + parseInt(value);
-        } else if (this.currentvalue == "Fracture") {
-          this.fallrisk = this.fallrisk - 30;
-          this.fallrisk = this.fallrisk + parseInt(value);
-        } else {
-          this.fallrisk = this.fallrisk + parseInt(value);
+    
+    //Gate / transfering
+    calchecked5(value) {
+      this.checked5count = this.checked5count + 1
+        if(this.checked5 != this.checked5currentvalue){
+          if(this.checked5count > 1){
+            if(this.checked5 == 'Normal'){
+              this.fallrisk = this.fallrisk - 1;
+            }
+            else if((this.checked5 == 'Weak' && this.checked5currentvalue == 'Impaired') || (this.checked5 == 'Impaired' && this.checked5currentvalue == 'Weak')){
+              console.log('Do nothing');
+            }
+            else if(this.checked5 == 'Weak' || this.checked5 == 'Impaired'){
+              this.fallrisk = this.fallrisk + value;
+            }
+          }
+          else {
+          this.fallrisk = this.fallrisk + value;
         }
-      } else {
-        this.fallrisk = this.fallrisk + parseInt(value);
-      }
-      this.currentvalue = this.checked4;
-      console.log("After if " + this.currentvalue);
-      console.log(value);
+      } 
+      this.checked5currentvalue = this.checked5;
+    },
+    
+    //Mental State
+    calchecked6(value) {
+      this.checked6count = this.checked6count + 1
+        if(this.checked6 != this.checked6currentvalue){
+          if(this.checked6count > 1){
+            if(this.checked6 == 'Oriented own ability'){
+              this.fallrisk = this.fallrisk - 1;
+            }
+            else {
+              this.fallrisk = this.fallrisk + value;
+            }
+          }
+          else {
+          this.fallrisk = this.fallrisk + value;
+        }
+      } 
+      this.checked6currentvalue = this.checked6;
     },
     saveNewVS() {
       // axios.post('/addVS', {
@@ -418,10 +441,6 @@ export default {
       this.$router.push('/home')
     }
   }
-
-  //Gate / transfering
-
-  //Mental State
 };
 </script>
 
