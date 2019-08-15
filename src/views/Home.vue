@@ -12,7 +12,7 @@
     <div class="display-4">Welcome Tip</div>
     <br />
     <b-row id="my-beds">
-      <b-col lg="3" sm="4" xs="12" v-for="bed in beds" :key="bed">
+      <b-col lg="3" sm="4" xs="12" v-for="bed in beds" :key="bed.bedNo">
         <div v-if="bed.status == 'normal'">
           <router-link to="/bedinfo">
             <b-button variant="success" class="button-size">
