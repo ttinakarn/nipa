@@ -4,7 +4,9 @@
       <b-navbar-brand>
         <img src="../assets/logo-main.png" alt="HospitalLogo" height="60" />
       </b-navbar-brand>
-      <b-navbar-brand class="topnav-centered"><span>{{time}}</span></b-navbar-brand>
+      <b-navbar-brand class="topnav-centered">
+        <span>{{time}}</span>
+      </b-navbar-brand>
       <b-navbar-nav class="ml-auto">
         <b-navbar-brand class="text-danger" right>
           <img src="../assets/logo.png" alt="NiPALogo" height="60" />
@@ -44,20 +46,35 @@
         <tr
           v-for="data in vitalsigns"
           :key="data.vsid"
-          :class="{
-            'normal' : data.o2sat >= condition[0].mino2sat || data.urine >= condition[0].minurine,
-            'warning' : data.o2sat < condition[1].mino2sat || data.urine <= condition[1].maxurine}"
+          :class="rowCondition(data.temp, data.pulse, data.sbp, data.dbp, data.o2sat, data.eye, data.verbal, data.motor, data.urine, data.painscore, data.fallrisk)"
         >
           <td>{{data.vsid}}</td>
-          <td :class="{'text-danger' : data.temp < condition[4].mintemp || data.temp > condition[4].maxtemp }">{{data.temp}}</td>
-          <td :class="{'text-danger' : data.pulse < condition[4].minpulse || data.pulse > condition[4].maxpulse }">{{data.pulse}}</td>
-          <td :class="{'text-danger' : data.resp < condition[4].minresp || data.resp > condition[4].maxresp }">{{data.resp}}</td>
-          <td>{{data.sbp}}/{{data.dbp}}</td>
-          <td :class="{'text-danger' : data.o2sat < condition[4].mino2sat }">{{data.o2sat}}</td>
-          <td>{{data.eye}}</td>
-          <td>{{data.verbal}}</td>
-          <td>{{data.motor}}</td>
-          <td :class="{'text-danger' : data.urine < condition[4].minurine }">{{data.urine}}</td>
+          <td
+            :class="{'text-danger' : data.temp < condition[0].mintemp || data.temp > condition[0].maxtemp}"
+          >{{data.temp}}</td>
+          <td
+            :class="{'text-danger' : data.pulse < condition[0].minpulse || data.pulse > condition[0].maxpulse }"
+          >{{data.pulse}}</td>
+          <td
+            :class="{'text-danger' : data.resp < condition[0].minresp || data.resp > condition[0].maxresp }"
+          >{{data.resp}}</td>
+          <td>
+            <span
+              :class="{'text-danger' : data.sbp < condition[0].minsbp || data.sbp > condition[0].maxsbp }"
+            >{{data.sbp}}</span>/
+            <span
+              :class="{'text-danger' : data.dbp < condition[0].mindbp || data.dbp > condition[0].maxdbp }"
+            >{{data.dbp}}</span>
+          </td>
+          <td
+            :class="{'text-danger font-weight-bold' : data.o2sat < condition[0].mino2sat }"
+          >{{data.o2sat}}</td>
+          <td :class="{'text-danger' : data.eye < condition[0].maxeye }">{{data.eye}}</td>
+          <td :class="{'text-danger' : data.verbal < condition[0].maxverbal }">{{data.verbal}}</td>
+          <td :class="{'text-danger' : data.motor < condition[0].maxmotor }">{{data.motor}}</td>
+          <td
+            :class="{'text-danger font-weight-bold' : data.urine < condition[0].minurine }"
+          >{{data.urine}}</td>
           <td>{{data.painscore}}</td>
           <td>{{data.fallrisk}}</td>
           <td>{{data.remark}}</td>
@@ -100,7 +117,7 @@
 
 <script>
 import axios from "axios";
-import moment from 'moment';
+import moment from "moment";
 
 export default {
   name: "vitalsigns",
@@ -113,11 +130,63 @@ export default {
   },
   methods: {
     updateCurrentTime() {
-      this.time = moment().format('LTS');
+      this.time = moment().format("LTS");
+    },
+    rowCondition(
+      temp,
+      pulse,
+      sbp,
+      dbp,
+      o2sat,
+      eye,
+      verbal,
+      motor,
+      urine,
+      painscore,
+      fallrisk
+    ) {
+      if (
+        temp >= this.condition[3].mino2sat ||
+        pulse >= this.condition[3].minpulse ||
+        sbp >= this.condition[3].minsbp ||
+        dbp >= this.condition[3].mindbp ||
+        o2sat <= this.condition[3].mino2sat ||
+        eye <= this.condition[3].maxeye ||
+        verbal <= this.condition[3].maxverbal ||
+        motor <= this.condition[3].maxmotor ||
+        urine <= this.condition[3].maxurine ||
+        painscore >= this.condition[3].minpainscore ||
+        fallrisk == this.condition[3].maxfallrisk
+      ) {
+        return "danger";
+      } else if (
+        (temp >= this.condition[2].mintemp &&
+          temp <= this.condition[2].maxtemp) ||
+        (pulse >= this.condition[2].minpulse &&
+          pulse <= this.condition[2].maxpulse) ||
+        ((sbp >= this.condition[2].minsbp || sbp <= this.condition[2].maxsbp) &&
+          (dbp >= this.condition[2].mindbp ||
+            dbp <= this.condition[2].maxdbp) &&
+          o2sat < this.condition[2].mino2sat) ||
+        eye == this.condition[2].maxeye ||
+        verbal == this.condition[2].minverbal ||
+        verbal == this.condition[2].maxverbal ||
+        motor == this.condition[2].minmotor ||
+        motor == this.condition[2].maxmotor ||
+        urine <= this.condition[2].maxurine ||
+        (painscore >= this.condition[2].minpainscore &&
+          painscore <= this.conditon[2].maxpainscore) ||
+        fallrisk == this.condition[2].minfallrisk ||
+        fallrisk == this.condition[2].maxfallrisk
+      ) {
+        return "warning";
+      } else {
+        return "normal";
+      }
     }
   },
   created() {
-    this.time = moment().format('LTS');
+    this.time = moment().format("LTS");
     setInterval(() => this.updateCurrentTime(), 1 * 1000);
   },
   mounted() {
@@ -127,7 +196,7 @@ export default {
       instance.vitalsigns = response.data.data;
     });
     // localStorage.removeItem("condition");
-    if(localStorage.getItem("condition") == null){
+    if (localStorage.getItem("condition") == null) {
       console.log("Retrieved data");
       axios.get("http://localhost:8080/api/condition").then(function(response) {
         console.log(response);
