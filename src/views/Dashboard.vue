@@ -50,28 +50,28 @@
         >
           <td>{{data.vsid}}</td>
           <td
-            :class="{'text-danger' : data.temp < condition[0].mintemp || data.temp > condition[0].maxtemp}"
+            :class="{'text-danger font-weight-bold' : data.temp < condition[0].mintemp || data.temp > condition[0].maxtemp}"
           >{{data.temp}}</td>
           <td
-            :class="{'text-danger' : data.pulse < condition[0].minpulse || data.pulse > condition[0].maxpulse }"
+            :class="{'text-danger font-weight-bold' : data.pulse < condition[0].minpulse || data.pulse > condition[0].maxpulse }"
           >{{data.pulse}}</td>
           <td
-            :class="{'text-danger' : data.resp < condition[0].minresp || data.resp > condition[0].maxresp }"
+            :class="{'text-danger font-weight-bold' : data.resp < condition[0].minresp || data.resp > condition[0].maxresp }"
           >{{data.resp}}</td>
           <td>
             <span
-              :class="{'text-danger' : data.sbp < condition[0].minsbp || data.sbp > condition[0].maxsbp }"
-            >{{data.sbp}}</span>/
+              :class="{'text-danger font-weight-bold' : data.sbp < condition[0].minsbp || data.sbp > condition[0].maxsbp }"
+            >{{data.sbp}}</span> /
             <span
-              :class="{'text-danger' : data.dbp < condition[0].mindbp || data.dbp > condition[0].maxdbp }"
+              :class="{'text-danger font-weight-bold' : data.dbp < condition[0].mindbp || data.dbp > condition[0].maxdbp }"
             >{{data.dbp}}</span>
           </td>
           <td
             :class="{'text-danger font-weight-bold' : data.o2sat < condition[0].mino2sat }"
           >{{data.o2sat}}</td>
-          <td :class="{'text-danger' : data.eye < condition[0].maxeye }">{{data.eye}}</td>
-          <td :class="{'text-danger' : data.verbal < condition[0].maxverbal }">{{data.verbal}}</td>
-          <td :class="{'text-danger' : data.motor < condition[0].maxmotor }">{{data.motor}}</td>
+          <td :class="{'text-danger font-weight-bold' : data.eye < condition[0].maxeye }">{{data.eye}}</td>
+          <td :class="{'text-danger font-weight-bold' : data.verbal < condition[0].maxverbal }">{{data.verbal}}</td>
+          <td :class="{'text-danger font-weight-bold' : data.motor < condition[0].maxmotor }">{{data.motor}}</td>
           <td
             :class="{'text-danger font-weight-bold' : data.urine < condition[0].minurine }"
           >{{data.urine}}</td>
@@ -111,7 +111,7 @@
 }
 
 .danger {
-  background-color: #ff5757;
+  background-color: #FDA7A7     ;
 }
 </style>
 
@@ -146,7 +146,7 @@ export default {
       fallrisk
     ) {
       if (
-        temp >= this.condition[3].mino2sat ||
+        temp >= this.condition[3].mintemp ||
         pulse >= this.condition[3].minpulse ||
         sbp >= this.condition[3].minsbp ||
         dbp >= this.condition[3].mindbp ||
@@ -157,7 +157,9 @@ export default {
         urine <= this.condition[3].maxurine ||
         painscore >= this.condition[3].minpainscore ||
         fallrisk == this.condition[3].maxfallrisk
-      ) {
+      ) {        
+        // console.log(this.condition[3].mintemp);
+        
         return "danger";
       } else if (
         (temp >= this.condition[2].mintemp &&
