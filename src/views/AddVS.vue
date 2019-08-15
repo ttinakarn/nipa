@@ -7,9 +7,9 @@
       <b-navbar-brand class="topnav-centered">Add Vital Sign</b-navbar-brand>
       <b-navbar-nav class="ml-auto">
         <b-navbar-brand class="text-success" right>
-          <span v-b-modal.getNewVS>Save</span>
+          <span v-b-modal.saveNewVS>Save</span>
           <b-modal
-            id="getNewVS"
+            id="saveNewVS"
             title="Confirmation"
             okVariant="success"
             headerClass="p-2 border-bottom-0"
@@ -281,8 +281,7 @@
 <script>
 import MedInput from "@/components/MedInput.vue";
 import Radio from "@/components/RadioButton.vue";
-import { log } from "util";
-import { parse } from "path";
+import axios from "axios";
 export default {
   components: {
     MedInput,
@@ -310,7 +309,7 @@ export default {
       o2sat: "",
       urine: "",
       painscore: "",
-      fallrisk: 1,
+      fallrisk: 0,
       remark: ""
     };
   },
@@ -382,6 +381,27 @@ export default {
       console.log(value);
     },
     saveNewVS() {
+      // axios.post('/addVS', {
+      //   temp: this.temp,
+      //   pulse: this.pulse,
+      //   resp: this.resp,
+      //   sbp: this.sbp,
+      //   dbp: this.dbp,
+      //   eye: this.eye,
+      //   verbal: this.verbal,
+      //   motor: this.motor,
+      //   o2sat: this.o2sat,
+      //   urine: this.urine,
+      //   painscore: this.painscore,
+      //   fallrisk: this.fallrisk,
+      //   remark: this.remark,
+      // })
+      // .then(function (response) {
+      //   console.log(response);
+      // })
+      // .catch(function (error) {
+      //   console.log(error);
+      // });
       console.log(this.temp);
       console.log(this.pulse);
       console.log(this.resp);
