@@ -10,7 +10,7 @@
     </b-row>
     <b-row>
       <b-col>
-        <b-form-input></b-form-input>
+        <b-form-input v-model="value" @keyup="$emit('update:sendVSData', value);"></b-form-input>
       </b-col>
     </b-row>
   </b-col>
@@ -18,6 +18,11 @@
 
 <script>
 export default {
+  data(){
+    return{
+      value: ''
+    }
+  },
   props: ['subtitle', 'latestVS', 'textColor', 'cols']
 };
 </script>

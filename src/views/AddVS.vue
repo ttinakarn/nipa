@@ -6,8 +6,19 @@
       </b-navbar-brand>
       <b-navbar-brand class="topnav-centered">Add Vital Sign</b-navbar-brand>
       <b-navbar-nav class="ml-auto">
-        <b-navbar-brand class="text-danger" right>
-          <router-link to="/dashboard" class="text-success">Dashboard</router-link>
+        <b-navbar-brand class="text-success" right>
+          <span v-b-modal.getNewVS>Save</span>
+          <b-modal
+            id="getNewVS"
+            title="Confirmation"
+            okVariant="success"
+            headerClass="p-2 border-bottom-0"
+            footerClass="p-2 border-top-0"
+            centered ok-only
+            @ok="saveNewVS"
+          >
+            <p class="my-4">Data was submitted successfully!</p>
+          </b-modal>
         </b-navbar-brand>
       </b-navbar-nav>
     </b-navbar>
@@ -44,21 +55,21 @@
             <b-col md="4" cols="6">
               <b-button block class="button-color">
                 <b-row>
-                  <MedInput subtitle="T" latestVS="36.6"></MedInput>
+                  <MedInput subtitle="T" latestVS="36.6" :sendVSData.sync="temp"></MedInput>
                 </b-row>
               </b-button>
             </b-col>
             <b-col md="4" cols="6">
               <b-button block class="button-color">
                 <b-row>
-                  <MedInput subtitle="P" latestVS="92"></MedInput>
+                  <MedInput subtitle="P" latestVS="92" :sendVSData.sync="pulse"></MedInput>
                 </b-row>
               </b-button>
             </b-col>
             <b-col md="4" cols="6">
               <b-button block class="button-color">
                 <b-row>
-                  <MedInput subtitle="R" latestVS="20"></MedInput>
+                  <MedInput subtitle="R" latestVS="20" :sendVSData.sync="resp"></MedInput>
                 </b-row>
               </b-button>
             </b-col>
@@ -68,8 +79,8 @@
                   <h5>BP</h5>
                 </b-col>
                 <b-row>
-                  <MedInput cols="6" subtitle="SBP" latestVS="131"></MedInput>
-                  <MedInput cols="6" subtitle="DBP" latestVS="77"></MedInput>
+                  <MedInput cols="6" subtitle="SBP" latestVS="131" :sendVSData.sync="sbp"></MedInput>
+                  <MedInput cols="6" subtitle="DBP" latestVS="77" :sendVSData.sync="dbp"></MedInput>
                 </b-row>
               </b-button>
             </b-col>
@@ -79,37 +90,42 @@
                   <h5>Coma Score</h5>
                 </b-col>
                 <b-row>
-                  <MedInput cols="4" subtitle="E" latestVS="4"></MedInput>
-                  <MedInput cols="4" subtitle="V" latestVS="5"></MedInput>
-                  <MedInput cols="4" subtitle="M" latestVS="6"></MedInput>
+                  <MedInput cols="4" subtitle="E" latestVS="4" :sendVSData.sync="eye"></MedInput>
+                  <MedInput cols="4" subtitle="V" latestVS="5" :sendVSData.sync="verbal"></MedInput>
+                  <MedInput cols="4" subtitle="M" latestVS="6" :sendVSData.sync="motor"></MedInput>
                 </b-row>
               </b-button>
             </b-col>
             <b-col md="4" cols="6">
               <b-button block class="button-color">
                 <b-row>
-                  <MedInput subtitle="O2 Sat" latestVS="95" textColor="text-danger"></MedInput>
+                  <MedInput
+                    subtitle="O2 Sat"
+                    latestVS="95"
+                    textColor="text-danger"
+                    :sendVSData.sync="o2sat"
+                  ></MedInput>
                 </b-row>
               </b-button>
             </b-col>
             <b-col md="4" cols="6">
               <b-button block class="button-color">
                 <b-row>
-                  <MedInput subtitle="Urine" latestVS="57"></MedInput>
+                  <MedInput subtitle="Urine" latestVS="57" :sendVSData.sync="urine"></MedInput>
                 </b-row>
               </b-button>
             </b-col>
             <b-col md="4" cols="6">
               <b-button block class="button-color">
                 <b-row>
-                  <MedInput subtitle="PainScore" latestVS="2"></MedInput>
+                  <MedInput subtitle="PainScore" latestVS="2" :sendVSData.sync="painscore"></MedInput>
                 </b-row>
               </b-button>
             </b-col>
             <b-col cols="12">
               <b-button block class="button-color">
                 <b-row>
-                  <MedInput subtitle="Remark"></MedInput>
+                  <MedInput subtitle="Remark" :sendVSData.sync="remark"></MedInput>
                 </b-row>
               </b-button>
             </b-col>
@@ -118,7 +134,7 @@
         <b-tab>
           <template slot="title">
             Fall Risk
-            <b-badge pill variant="success">{{sumfallrisk}}</b-badge>
+            <b-badge pill variant="success">{{fallrisk}}</b-badge>
           </template>
           <b-card bg-variant="light" text-variant="dark">
             <b-col>
@@ -274,7 +290,6 @@ export default {
   },
   data() {
     return {
-      sumfallrisk: 1,
       checked1: false,
       checked2: false,
       checked3: false,
@@ -283,32 +298,45 @@ export default {
       checked5: "",
       checked6: "",
       count: 0,
-      currentvalue: ""
+      currentvalue: "",
+      temp: "",
+      pulse: "",
+      resp: "",
+      sbp: "",
+      dbp: "",
+      eye: "",
+      verbal: "",
+      motor: "",
+      o2sat: "",
+      urine: "",
+      painscore: "",
+      fallrisk: 1,
+      remark: ""
     };
   },
   methods: {
     // History of falling immeditely
     calchecked1: function() {
       if (this.checked1 == true) {
-        this.sumfallrisk = this.sumfallrisk + 24;
+        this.fallrisk = this.fallrisk + 24;
       } else {
-        this.sumfallrisk = this.sumfallrisk - 24;
+        this.fallrisk = this.fallrisk - 24;
       }
     },
     // Secondary diagnosis
     calchecked2: function() {
       if (this.checked2 == true) {
-        this.sumfallrisk = this.sumfallrisk + 15;
+        this.fallrisk = this.fallrisk + 15;
       } else {
-        this.sumfallrisk = this.sumfallrisk - 15;
+        this.fallrisk = this.fallrisk - 15;
       }
     },
     // IV / Heparin lock
     calchecked3: function() {
       if (this.checked3 == true) {
-        this.sumfallrisk = this.sumfallrisk + 20;
+        this.fallrisk = this.fallrisk + 20;
       } else {
-        this.sumfallrisk = this.sumfallrisk - 20;
+        this.fallrisk = this.fallrisk - 20;
       }
     },
     //Ambulatory aid
@@ -317,16 +345,16 @@ export default {
       // console.log("Before if " + this.currentvalue);
       if (this.count > 1) {
         if (this.currentvalue == "Crutches / Cane") {
-          this.sumfallrisk = this.sumfallrisk - 15;
-          this.sumfallrisk = this.sumfallrisk + parseInt(value);
+          this.fallrisk = this.fallrisk - 15;
+          this.fallrisk = this.fallrisk + parseInt(value);
         } else if (this.currentvalue == "Fracture") {
-          this.sumfallrisk = this.sumfallrisk - 30;
-          this.sumfallrisk = this.sumfallrisk + parseInt(value);
+          this.fallrisk = this.fallrisk - 30;
+          this.fallrisk = this.fallrisk + parseInt(value);
         } else {
-          this.sumfallrisk = this.sumfallrisk + parseInt(value);
+          this.fallrisk = this.fallrisk + parseInt(value);
         }
       } else {
-        this.sumfallrisk = this.sumfallrisk + parseInt(value);
+        this.fallrisk = this.fallrisk + parseInt(value);
       }
       this.currentvalue = this.checked4;
       // console.log("After if " + this.currentvalue);
@@ -338,20 +366,36 @@ export default {
       //Ambulatory aid
       if (this.count > 1) {
         if (this.currentvalue == "Crutches / Cane") {
-          this.sumfallrisk = this.sumfallrisk - 15;
-          this.sumfallrisk = this.sumfallrisk + parseInt(value);
+          this.fallrisk = this.fallrisk - 15;
+          this.fallrisk = this.fallrisk + parseInt(value);
         } else if (this.currentvalue == "Fracture") {
-          this.sumfallrisk = this.sumfallrisk - 30;
-          this.sumfallrisk = this.sumfallrisk + parseInt(value);
+          this.fallrisk = this.fallrisk - 30;
+          this.fallrisk = this.fallrisk + parseInt(value);
         } else {
-          this.sumfallrisk = this.sumfallrisk + parseInt(value);
+          this.fallrisk = this.fallrisk + parseInt(value);
         }
       } else {
-        this.sumfallrisk = this.sumfallrisk + parseInt(value);
+        this.fallrisk = this.fallrisk + parseInt(value);
       }
       this.currentvalue = this.checked4;
       console.log("After if " + this.currentvalue);
       console.log(value);
+    },
+    saveNewVS() {
+      console.log(this.temp);
+      console.log(this.pulse);
+      console.log(this.resp);
+      console.log(this.sbp);
+      console.log(this.dbp);
+      console.log(this.eye);
+      console.log(this.verbal);
+      console.log(this.motor);
+      console.log(this.o2sat);
+      console.log(this.urine);
+      console.log(this.painscore);
+      console.log(this.fallrisk);
+      console.log(this.remark);
+      this.$router.push('/home')
     }
   }
 
