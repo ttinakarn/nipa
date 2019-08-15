@@ -51,21 +51,6 @@ export default {
         this.score = 0;
         this.$emit("score", this.score);
       }
-      // if (this.count > 1) {
-      //   if (this.title == "Crutches / Cane" || this.title == "Fracture") {
-      //     this.score = this.score - 1;
-      //   } else if (this.title == "Fracture") {
-      //     this.score = this.score - 30;
-      //   }
-      // }
-      // this.currentvalue = this.title;
-
-      // else if(this.title == 'Normal' || this.title == 'Weak' || this.title == "Impaired"){
-      //   this.score = this.score + parseInt(this.checked5score);
-      // } else {
-      //   this.score = this.score + parseInt(this.checked6score);
-      // }
-      // this.$emit("score", this.score);
     }
   }
 };
