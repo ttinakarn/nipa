@@ -44,6 +44,77 @@
           <td>M</td>
         </tr>
         <tr
+          v-for="data in alerted"
+          :key="data.vsid"
+          :class="rowCondition(data.temp, data.pulse, data.sbp, data.dbp, data.o2sat, data.eye, data.verbal, data.motor, data.urine, data.painscore, data.fallrisk)"
+        >
+          <td>{{data.vsid}}</td>
+          <td
+            :class="{'text-danger font-weight-bold' : data.temp < condition[0].mintemp || data.temp > condition[0].maxtemp}"
+          >{{data.temp}}</td>
+          <td
+            :class="{'text-danger font-weight-bold' : data.pulse < condition[0].minpulse || data.pulse > condition[0].maxpulse }"
+          >{{data.pulse}}</td>
+          <td
+            :class="{'text-danger font-weight-bold' : data.resp < condition[0].minresp || data.resp > condition[0].maxresp }"
+          >{{data.resp}}</td>
+          <td>
+            <span
+              :class="{'text-danger font-weight-bold' : data.sbp < condition[0].minsbp || data.sbp > condition[0].maxsbp }"
+            >{{data.sbp}}</span> /
+            <span
+              :class="{'text-danger font-weight-bold' : data.dbp < condition[0].mindbp || data.dbp > condition[0].maxdbp }"
+            >{{data.dbp}}</span>
+          </td>
+          <td
+            :class="{'text-danger font-weight-bold' : data.o2sat < condition[0].mino2sat }"
+          >{{data.o2sat}}</td>
+          <td
+            :class="{'text-danger font-weight-bold' : data.eye < condition[0].maxeye }"
+          >{{data.eye}}</td>
+          <td
+            :class="{'text-danger font-weight-bold' : data.verbal < condition[0].maxverbal }"
+          >{{data.verbal}}</td>
+          <td
+            :class="{'text-danger font-weight-bold' : data.motor < condition[0].maxmotor }"
+          >{{data.motor}}</td>
+          <td
+            :class="{'text-danger font-weight-bold' : data.urine < condition[0].minurine }"
+          >{{data.urine}}</td>
+          <td>{{data.painscore}}</td>
+          <td>{{data.fallrisk}}</td>
+          <td>{{data.remark}}</td>
+          <td>{{data.nurseid}}</td>
+        </tr>
+      </table><br>
+      <table class="table table-bordered" style="text-align:center">
+        <tr class="header">
+          <td rowspan="2">vsid</td>
+          <td colspan="4">Vital Sign</td>
+          <td rowspan="2">O2Sat</td>
+          <td colspan="3">Coma Score</td>
+          <td rowspan="2">Urine</td>
+          <td rowspan="2">
+            Pain
+            <br />Score
+          </td>
+          <td rowspan="2">
+            Fall
+            <br />Risk
+          </td>
+          <td rowspan="2">Remark</td>
+          <td rowspan="2">Recorder</td>
+        </tr>
+        <tr class="header">
+          <td>T</td>
+          <td>P</td>
+          <td>R</td>
+          <td>BP</td>
+          <td>E</td>
+          <td>V</td>
+          <td>M</td>
+        </tr>
+        <tr
           v-for="data in vitalsigns"
           :key="data.vsid"
           :class="rowCondition(data.temp, data.pulse, data.sbp, data.dbp, data.o2sat, data.eye, data.verbal, data.motor, data.urine, data.painscore, data.fallrisk)"
@@ -69,9 +140,15 @@
           <td
             :class="{'text-danger font-weight-bold' : data.o2sat < condition[0].mino2sat }"
           >{{data.o2sat}}</td>
-          <td :class="{'text-danger font-weight-bold' : data.eye < condition[0].maxeye }">{{data.eye}}</td>
-          <td :class="{'text-danger font-weight-bold' : data.verbal < condition[0].maxverbal }">{{data.verbal}}</td>
-          <td :class="{'text-danger font-weight-bold' : data.motor < condition[0].maxmotor }">{{data.motor}}</td>
+          <td
+            :class="{'text-danger font-weight-bold' : data.eye < condition[0].maxeye }"
+          >{{data.eye}}</td>
+          <td
+            :class="{'text-danger font-weight-bold' : data.verbal < condition[0].maxverbal }"
+          >{{data.verbal}}</td>
+          <td
+            :class="{'text-danger font-weight-bold' : data.motor < condition[0].maxmotor }"
+          >{{data.motor}}</td>
           <td
             :class="{'text-danger font-weight-bold' : data.urine < condition[0].minurine }"
           >{{data.urine}}</td>
@@ -111,7 +188,7 @@
 }
 
 .danger {
-  background-color: #FDA7A7     ;
+  background-color: #fda7a7;
 }
 </style>
 
@@ -124,14 +201,12 @@ export default {
   data() {
     return {
       vitalsigns: [],
+      alerted: [],
       condition: [],
       time: null
     };
   },
   methods: {
-    updateCurrentTime() {
-      this.time = moment().format("LTS");
-    },
     rowCondition(
       temp,
       pulse,
@@ -157,9 +232,7 @@ export default {
         urine <= this.condition[3].maxurine ||
         painscore >= this.condition[3].minpainscore ||
         fallrisk == this.condition[3].maxfallrisk
-      ) {        
-        // console.log(this.condition[3].mintemp);
-        
+      ) {
         return "danger";
       } else if (
         (temp >= this.condition[2].mintemp &&
@@ -185,6 +258,9 @@ export default {
       } else {
         return "normal";
       }
+    },
+    updateCurrentTime() {
+      this.time = moment().format("LTS");
     }
   },
   created() {
@@ -196,7 +272,26 @@ export default {
     axios.get("http://localhost:8080/api/vitalsign").then(function(response) {
       console.log("vital sign data: " + response);
       instance.vitalsigns = response.data.data;
+      for (var i = 0; i < response.data.data.length; i++) {
+        var zone = instance.rowCondition(
+          instance.vitalsigns[i].temp,
+          instance.vitalsigns[i].pulse,
+          instance.vitalsigns[i].sbp,
+          instance.vitalsigns[i].dbp,
+          instance.vitalsigns[i].o2sat,
+          instance.vitalsigns[i].eye,
+          instance.vitalsigns[i].verbal,
+          instance.vitalsigns[i].motor,
+          instance.vitalsigns[i].urine,
+          instance.vitalsigns[i].painscore,
+          instance.vitalsigns[i].fallrisk
+        );
+        if(zone != 'normal'){
+          instance.alerted.push(instance.vitalsigns[i]);
+        }
+      }
     });
+
     // localStorage.removeItem("condition");
     if (localStorage.getItem("condition") == null) {
       console.log("Retrieved data");

@@ -4,7 +4,7 @@
       <b-navbar-brand>
         <router-link to="/bedinfo">&lt; Back</router-link>
       </b-navbar-brand>
-      <b-navbar-brand class="topnav-centered">Add Vital Sign</b-navbar-brand>
+      <b-navbar-brand class="topnav-centered">Add New Vital Sign</b-navbar-brand>
       <b-navbar-nav class="ml-auto">
         <b-navbar-brand class="text-success" right>
           <span v-b-modal.saveNewVS>Save</span>
@@ -203,7 +203,7 @@
               </b-button>
             </b-col>
             <b-col cols="12">
-              <h5 align="left">Ambulatory aid {{checked4}}</h5>
+              <h5 align="left">Ambulatory aid</h5>
             </b-col>
             <Radio
               md="4"
