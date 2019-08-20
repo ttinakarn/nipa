@@ -376,7 +376,7 @@ export default {
     saveNewVS() {
       moment.locale("th");
       axios
-        .post("http://localhost:8080/api/vitalsign/", {
+        .post("https://nipa.herokuapp.com/api/vitalsign", {
           an: "9688",
           temp: parseInt(this.temp),
           pulse: parseInt(this.pulse),

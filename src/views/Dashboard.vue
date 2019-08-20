@@ -270,7 +270,7 @@ export default {
   },
   mounted() {
     var instance = this;
-    axios.get("http://localhost:8080/api/vitalsign").then(function(response) {
+    axios.get("https://nipa.herokuapp.com/api/vitalsign").then(function(response) {
       console.log("vital sign data: " + response);
       instance.vitalsigns = response.data.data;
       for (var i = 0; i < response.data.data.length; i++) {
@@ -296,7 +296,7 @@ export default {
     // localStorage.removeItem("condition");
     if (localStorage.getItem("condition") == null) {
       console.log("Retrieved data");
-      axios.get("http://localhost:8080/api/condition").then(function(response) {
+      axios.get("https://nipa.herokuapp.com/api/condition").then(function(response) {
         console.log(response);
         localStorage.setItem("condition", JSON.stringify(response.data.data));
         console.log(localStorage.getItem("condition"));
