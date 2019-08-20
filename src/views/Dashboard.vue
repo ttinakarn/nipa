@@ -260,6 +260,7 @@ export default {
       }
     },
     updateCurrentTime() {
+      moment.locale("th");
       this.time = moment().format("LTS");
     }
   },
