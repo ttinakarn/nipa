@@ -1,6 +1,6 @@
 <template>
   <div>
-    <b-navbar toggleable="sm" type="light" variant="light">
+    <b-navbar toggleable="sm" type="light" variant="light" fixed="top">
       <b-navbar-brand>
         <router-link to="/bedinfo">&lt; Back</router-link>
       </b-navbar-brand>
