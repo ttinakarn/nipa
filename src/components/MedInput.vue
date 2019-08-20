@@ -21,7 +21,7 @@
 export default {
   data(){
     return{
-      value: ''
+      value: null
     }
   },
   props: ['subtitle', 'latestVS', 'textColor', 'cols']

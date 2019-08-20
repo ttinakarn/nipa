@@ -7,17 +7,16 @@
       <b-navbar-brand class="topnav-centered">Add New Vital Sign</b-navbar-brand>
       <b-navbar-nav class="ml-auto">
         <b-navbar-brand class="text-success" right>
-          <span v-b-modal.saveNewVS>Save</span>
+          <span @click="saveNewVS">Save</span>
           <b-modal
             id="saveNewVS"
             title="Confirmation"
             okVariant="success"
             headerClass="p-2 border-bottom-0"
             footerClass="p-2 border-top-0"
-            centered ok-only
-            @ok="saveNewVS"
+            centered
           >
-          <p class="my-4">Data was submitted successfully!</p>
+            <p class="my-4">Data was submitted successfully!</p>
           </b-modal>
         </b-navbar-brand>
       </b-navbar-nav>
@@ -134,11 +133,7 @@
         <b-tab>
           <template slot="title">
             Fall Risk
-            <b-badge v-if="fallrisk > 0" 
-              pill 
-              variant="success">
-              {{fallrisk}}
-            </b-badge>
+            <b-badge v-if="fallrisk > 0" pill variant="success">{{fallrisk}}</b-badge>
           </template>
           <b-card bg-variant="light" text-variant="dark">
             <b-col>
@@ -212,44 +207,14 @@
               v-model="checked4"
               @score="calchecked4"
             ></Radio>
-            <Radio
-              md="4"
-              xs="12"
-              title="Crutches / Cane"
-              v-model="checked4"
-              @score="calchecked4"
-            ></Radio>
-            <Radio
-              md="4"
-              xs="12"
-              title="Fracture"
-              v-model="checked4"
-              @score="calchecked4"
-            ></Radio>
+            <Radio md="4" xs="12" title="Crutches / Cane" v-model="checked4" @score="calchecked4"></Radio>
+            <Radio md="4" xs="12" title="Fracture" v-model="checked4" @score="calchecked4"></Radio>
             <b-col cols="12">
               <h5 align="left">Gate / Transfering</h5>
             </b-col>
-            <Radio
-              md="4"
-              xs="12"
-              title="Normal"
-              v-model="checked5"
-              @score="calchecked5"
-            ></Radio>
-            <Radio
-              md="4"
-              xs="12"
-              title="Weak"
-              v-model="checked5"
-              @score="calchecked5"
-            ></Radio>
-            <Radio
-              md="4"
-              xs="12"
-              title="Impaired"
-              v-model="checked5"
-              @score="calchecked5"
-            ></Radio>
+            <Radio md="4" xs="12" title="Normal" v-model="checked5" @score="calchecked5"></Radio>
+            <Radio md="4" xs="12" title="Weak" v-model="checked5" @score="calchecked5"></Radio>
+            <Radio md="4" xs="12" title="Impaired" v-model="checked5" @score="calchecked5"></Radio>
             <b-col cols="12">
               <h5 align="left">Mental State</h5>
             </b-col>
@@ -278,6 +243,7 @@
 import MedInput from "@/components/MedInput.vue";
 import Radio from "@/components/RadioButton.vue";
 import axios from "axios";
+import moment from "moment";
 export default {
   components: {
     MedInput,
@@ -322,7 +288,7 @@ export default {
         this.fallrisk = this.fallrisk - 1;
       }
     },
-    
+
     // Secondary diagnosis
     calchecked2: function() {
       if (this.checked2 == true) {
@@ -331,7 +297,7 @@ export default {
         this.fallrisk = this.fallrisk - 1;
       }
     },
-    
+
     // IV / Heparin lock
     calchecked3: function() {
       if (this.checked3 == true) {
@@ -340,105 +306,126 @@ export default {
         this.fallrisk = this.fallrisk - 1;
       }
     },
-    
+
     //Ambulatory aid
     calchecked4(value) {
-      this.checked4count = this.checked4count + 1
-        if(this.checked4 != this.checked4currentvalue){
-          if(this.checked4count > 1){
-            if(this.checked4 == 'Bed Rest / Nurse assist'){
-              this.fallrisk = this.fallrisk - 1;
-            }
-            else if((this.checked4 == 'Crutches / Cane' && this.checked4currentvalue == 'Fracture') || (this.checked4 == 'Fracture' && this.checked4currentvalue == 'Crutches / Cane')){
-              console.log('Do nothing');
-            }
-            else if(this.checked4 == 'Crutches / Cane' || this.checked4 == 'Fracture'){
-              this.fallrisk = this.fallrisk + value;
-            }
+      this.checked4count = this.checked4count + 1;
+      if (this.checked4 != this.checked4currentvalue) {
+        if (this.checked4count > 1) {
+          if (this.checked4 == "Bed Rest / Nurse assist") {
+            this.fallrisk = this.fallrisk - 1;
+          } else if (
+            (this.checked4 == "Crutches / Cane" &&
+              this.checked4currentvalue == "Fracture") ||
+            (this.checked4 == "Fracture" &&
+              this.checked4currentvalue == "Crutches / Cane")
+          ) {
+            console.log("Do nothing");
+          } else if (
+            this.checked4 == "Crutches / Cane" ||
+            this.checked4 == "Fracture"
+          ) {
+            this.fallrisk = this.fallrisk + value;
           }
-          else {
+        } else {
           this.fallrisk = this.fallrisk + value;
         }
-      } 
+      }
       this.checked4currentvalue = this.checked4;
     },
-    
+
     //Gate / transfering
     calchecked5(value) {
-      this.checked5count = this.checked5count + 1
-        if(this.checked5 != this.checked5currentvalue){
-          if(this.checked5count > 1){
-            if(this.checked5 == 'Normal'){
-              this.fallrisk = this.fallrisk - 1;
-            }
-            else if((this.checked5 == 'Weak' && this.checked5currentvalue == 'Impaired') || (this.checked5 == 'Impaired' && this.checked5currentvalue == 'Weak')){
-              console.log('Do nothing');
-            }
-            else if(this.checked5 == 'Weak' || this.checked5 == 'Impaired'){
-              this.fallrisk = this.fallrisk + value;
-            }
+      this.checked5count = this.checked5count + 1;
+      if (this.checked5 != this.checked5currentvalue) {
+        if (this.checked5count > 1) {
+          if (this.checked5 == "Normal") {
+            this.fallrisk = this.fallrisk - 1;
+          } else if (
+            (this.checked5 == "Weak" &&
+              this.checked5currentvalue == "Impaired") ||
+            (this.checked5 == "Impaired" && this.checked5currentvalue == "Weak")
+          ) {
+            console.log("Do nothing");
+          } else if (this.checked5 == "Weak" || this.checked5 == "Impaired") {
+            this.fallrisk = this.fallrisk + value;
           }
-          else {
+        } else {
           this.fallrisk = this.fallrisk + value;
         }
-      } 
+      }
       this.checked5currentvalue = this.checked5;
     },
-    
+
     //Mental State
     calchecked6(value) {
-      this.checked6count = this.checked6count + 1
-        if(this.checked6 != this.checked6currentvalue){
-          if(this.checked6count > 1){
-            if(this.checked6 == 'Oriented own ability'){
-              this.fallrisk = this.fallrisk - 1;
-            }
-            else {
-              this.fallrisk = this.fallrisk + value;
-            }
+      this.checked6count = this.checked6count + 1;
+      if (this.checked6 != this.checked6currentvalue) {
+        if (this.checked6count > 1) {
+          if (this.checked6 == "Oriented own ability") {
+            this.fallrisk = this.fallrisk - 1;
+          } else {
+            this.fallrisk = this.fallrisk + value;
           }
-          else {
+        } else {
           this.fallrisk = this.fallrisk + value;
         }
-      } 
+      }
       this.checked6currentvalue = this.checked6;
     },
     saveNewVS() {
-      // axios.post('/addVS', {
-      //   temp: this.temp,
-      //   pulse: this.pulse,
-      //   resp: this.resp,
-      //   sbp: this.sbp,
-      //   dbp: this.dbp,
-      //   eye: this.eye,
-      //   verbal: this.verbal,
-      //   motor: this.motor,
-      //   o2sat: this.o2sat,
-      //   urine: this.urine,
-      //   painscore: this.painscore,
-      //   fallrisk: this.fallrisk,
-      //   remark: this.remark,
-      // })
-      // .then(function (response) {
-      //   console.log(response);
-      // })
-      // .catch(function (error) {
-      //   console.log(error);
-      // });
-      console.log(this.temp);
-      console.log(this.pulse);
-      console.log(this.resp);
-      console.log(this.sbp);
-      console.log(this.dbp);
-      console.log(this.eye);
-      console.log(this.verbal);
-      console.log(this.motor);
-      console.log(this.o2sat);
-      console.log(this.urine);
-      console.log(this.painscore);
-      console.log(this.fallrisk);
-      console.log(this.remark);
-      this.$router.push('/home')
+      moment.locale("th");
+      axios
+        .post("http://localhost:8080/api/vitalsign/", {
+          an: "9688",
+          temp: parseInt(this.temp),
+          pulse: parseInt(this.pulse),
+          resp: parseInt(this.resp),
+          sbp: parseInt(this.sbp),
+          dbp: parseInt(this.dbp),
+          eye: parseInt(this.eye),
+          verbal: parseInt(this.verbal),
+          motor: parseInt(this.motor),
+          o2sat: parseInt(this.o2sat),
+          urine: parseInt(this.urine),
+          painscore: parseInt(this.painscore),
+          fallrisk: parseInt(this.fallrisk),
+          remark: this.remark,
+          nurseid: "8238",
+          date: moment().format("YYYY-MM-DD LTS")
+        })
+        .then((response) => {
+          this.$bvModal
+            .msgBoxOk("Data was submitted successfully", {
+              title: "Confirmation",
+              size: "sm",
+              buttonSize: "sm",
+              okVariant: "success",
+              headerClass: "p-2 border-bottom-0",
+              footerClass: "p-2 border-top-0",
+              centered: true
+            })
+            .then(value => {
+              this.$router.push("/home");
+            })
+            .catch(err => {
+              // An error occurred
+            });
+          console.log(response);
+        })
+        .catch((error) => {
+          this.$bvModal
+            .msgBoxOk(error.message, {
+              title: "Can't Save",
+              size: "sm",
+              buttonSize: "sm",
+              okVariant: "danger",
+              headerClass: "p-2 border-bottom-0",
+              footerClass: "p-2 border-top-0",
+              centered: true
+            })
+          console.log(error);
+        });
     }
   }
 };
