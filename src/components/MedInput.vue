@@ -10,7 +10,8 @@
     </b-row>
     <b-row>
       <b-col>
-        <b-form-input v-model="value" @keyup="$emit('update:sendVSData', value);" type="number" placeholder="N/A"></b-form-input>
+        <b-form-input v-if="subtitle != 'Remark'" v-model="value" @keyup="$emit('update:sendVSData', value);" type="number" placeholder="N/A"></b-form-input>
+        <b-form-input v-else v-model="value" @keyup="$emit('update:sendVSData', value);" placeholder="N/A"></b-form-input>
       </b-col>
     </b-row>
   </b-col>
