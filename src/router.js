@@ -5,6 +5,7 @@ import Login from './views/Login.vue'
 import BedInfo from './views/BedInfo.vue'
 import AddVS from './views/AddVS.vue'
 import Dashboard from './views/Dashboard.vue'
+import VitalSignGraph from './views/VitalSignGraph.vue'
 
 Vue.use(Router)
 
@@ -34,6 +35,11 @@ export default new Router({
       path: '/dashboard',
       name: 'dashboard',
       component: Dashboard
+    },
+    {
+      path: '/graph',
+      name: 'graph',
+      component: VitalSignGraph
     }
   ]
 })
