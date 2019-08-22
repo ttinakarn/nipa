@@ -15,18 +15,21 @@
     </b-navbar>
 
     <br />
-    <div style="margin: 10px"></div>
+    <div style="margin: 10px"><chart></chart></div>
   </div>
 </template>
 
 <script>
 import moment from "moment";
-
+import chart from "@/components/Chart.vue"
 export default {
+  components: {
+    chart
+  },
   data() {
     return {
-      time: null
-    };
+      time: null,
+    } 
   },
   methods: {
     updateCurrentTime() {
