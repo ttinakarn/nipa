@@ -1,85 +1,87 @@
 <template>
   <div>
     <table class="table table-bordered" style="text-align:center">
-        <tr class="header">
-          <td rowspan="2">
-            {{firstcol}}
-          </td>
-          <td colspan="4">Vital Sign</td>
-          <td rowspan="2">O2Sat</td>
-          <td colspan="3">Coma Score</td>
-          <td rowspan="2">Urine</td>
-          <td rowspan="2">
-            Pain
-            <br />Score
-          </td>
-          <td rowspan="2">
-            Fall
-            <br />Risk
-          </td>
-          <td rowspan="2">Remark</td>
-          <td rowspan="2">Recorder</td>
-        </tr>
-        <tr class="header">
-          <td>T</td>
-          <td>P</td>
-          <td>R</td>
-          <td>BP</td>
-          <td>E</td>
-          <td>V</td>
-          <td>M</td>
-        </tr>
-        <tr
-          v-for="data in vs"
-          :key="data.bednumber"
-          :class="rowCondition(data.temp, data.pulse, data.sbp, data.dbp, data.o2sat, data.eye, data.verbal, data.motor, data.urine, data.painscore, data.fallrisk)"
-        >
-          <td>{{data.bednumber}}</td>
-          <td
-            :class="{'text-danger font-weight-bold' : data.temp < condition[0].mintemp || data.temp > condition[0].maxtemp}"
-          >{{data.temp}}</td>
-          <td
-            :class="{'text-danger font-weight-bold' : data.pulse < condition[0].minpulse || data.pulse > condition[0].maxpulse }"
-          >{{data.pulse}}</td>
-          <td
-            :class="{'text-danger font-weight-bold' : data.resp < condition[0].minresp || data.resp > condition[0].maxresp }"
-          >{{data.resp}}</td>
-          <td>
-            <span
-              :class="{'text-danger font-weight-bold' : data.sbp < condition[0].minsbp || data.sbp > condition[0].maxsbp }"
-            >{{data.sbp}}</span> /
-            <span
-              :class="{'text-danger font-weight-bold' : data.dbp < condition[0].mindbp || data.dbp > condition[0].maxdbp }"
-            >{{data.dbp}}</span>
-          </td>
-          <td
-            :class="{'text-danger font-weight-bold' : data.o2sat < condition[0].mino2sat }"
-          >{{data.o2sat}}</td>
-          <td
-            :class="{'text-danger font-weight-bold' : data.eye < condition[0].maxeye }"
-          >{{data.eye}}</td>
-          <td
-            :class="{'text-danger font-weight-bold' : data.verbal < condition[0].maxverbal }"
-          >{{data.verbal}}</td>
-          <td
-            :class="{'text-danger font-weight-bold' : data.motor < condition[0].maxmotor }"
-          >{{data.motor}}</td>
-          <td
-            :class="{'text-danger font-weight-bold' : data.urine < condition[0].minurine }"
-          >{{data.urine}}</td>
-          <td>{{data.painscore}}</td>
-          <td>{{data.fallrisk}}</td>
-          <td>{{data.remark}}</td>
-          <td>{{data.name}}</td>
-        </tr>
-      </table>
+      <tr class="header">
+        <td rowspan="2">{{firstcol}}</td>
+        <td colspan="4">Vital Sign</td>
+        <td rowspan="2">O2Sat</td>
+        <td colspan="3">Coma Score</td>
+        <td rowspan="2">Urine</td>
+        <td rowspan="2">
+          Pain
+          <br />Score
+        </td>
+        <td rowspan="2">
+          Fall
+          <br />Risk
+        </td>
+        <td rowspan="2">Remark</td>
+        <td rowspan="2">Recorder</td>
+        <td rowspan="2" v-if="show == true">View</td>
+      </tr>
+      <tr class="header">
+        <td>T</td>
+        <td>P</td>
+        <td>R</td>
+        <td>BP</td>
+        <td>E</td>
+        <td>V</td>
+        <td>M</td>
+      </tr>
+      <tr
+        v-for="data in vs"
+        :key="data.bednumber"
+        :class="rowCondition(data.temp, data.pulse, data.sbp, data.dbp, data.o2sat, data.eye, data.verbal, data.motor, data.urine, data.painscore, data.fallrisk)"
+      >
+        <td>{{data.bednumber}}</td>
+        <td
+          :class="{'text-danger font-weight-bold' : data.temp < condition[0].mintemp || data.temp > condition[0].maxtemp}"
+        >{{data.temp}}</td>
+        <td
+          :class="{'text-danger font-weight-bold' : data.pulse < condition[0].minpulse || data.pulse > condition[0].maxpulse }"
+        >{{data.pulse}}</td>
+        <td
+          :class="{'text-danger font-weight-bold' : data.resp < condition[0].minresp || data.resp > condition[0].maxresp }"
+        >{{data.resp}}</td>
+        <td>
+          <span
+            :class="{'text-danger font-weight-bold' : data.sbp < condition[0].minsbp || data.sbp > condition[0].maxsbp }"
+          >{{data.sbp}}</span> /
+          <span
+            :class="{'text-danger font-weight-bold' : data.dbp < condition[0].mindbp || data.dbp > condition[0].maxdbp }"
+          >{{data.dbp}}</span>
+        </td>
+        <td
+          :class="{'text-danger font-weight-bold' : data.o2sat < condition[0].mino2sat }"
+        >{{data.o2sat}}</td>
+        <td :class="{'text-danger font-weight-bold' : data.eye < condition[0].maxeye }">{{data.eye}}</td>
+        <td
+          :class="{'text-danger font-weight-bold' : data.verbal < condition[0].maxverbal }"
+        >{{data.verbal}}</td>
+        <td
+          :class="{'text-danger font-weight-bold' : data.motor < condition[0].maxmotor }"
+        >{{data.motor}}</td>
+        <td
+          :class="{'text-danger font-weight-bold' : data.urine < condition[0].minurine }"
+        >{{data.urine}}</td>
+        <td>{{data.painscore}}</td>
+        <td>{{data.fallrisk}}</td>
+        <td>{{data.remark}}</td>
+        <td>{{data.name}}</td>
+        <td v-if="show == true">
+          <b-button size="sm" style="background: #7FDBD5; border: #7FDBD5;">
+            <router-link to="/graph" style="color: #2c3e50;">View</router-link>
+          </b-button>
+        </td>
+      </tr>
+    </table>
   </div>
 </template>
 
 <script>
 import axios from "axios";
 export default {
-  props: ['firstcol', 'vs'],
+  props: ["firstcol", "vs", "show"],
   data() {
     return {
       condition: []
@@ -139,7 +141,7 @@ export default {
       }
     }
   },
-  
+
   mounted() {
     var instance = this;
     console.log(instance.vs);

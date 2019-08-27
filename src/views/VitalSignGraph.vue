@@ -2,7 +2,8 @@
   <div>
     <b-navbar toggleable="sm" type="light" variant="light">
       <b-navbar-brand>
-        <img src="../assets/logo-main.png" alt="HospitalLogo" height="60" />
+        <router-link to="/dashboard" style="color: #2c3e50;"><img src="../assets/logo-main.png" alt="HospitalLogo" height="60" /></router-link>
+        
       </b-navbar-brand>
       <b-navbar-brand class="topnav-centered">
         <span>{{time}}</span>
@@ -26,7 +27,7 @@
         </b-form-checkbox-group>
       </b-form-group> -->
       <chart></chart><br>
-     <VSTable firstcol="Bed" :vs="vitalsigns"></VSTable>
+     <VSTable firstcol="Date&Time" :vs="vitalsigns" :show="false"></VSTable>
     </div>
   </div>
 </template>

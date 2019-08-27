@@ -16,8 +16,8 @@
 
     <br />
     <div style="margin: 10px">
-      <VSTable firstcol="Bed" :vs="alerted"></VSTable>
-      <VSTable firstcol="Bed" :vs="vitalsigns"></VSTable>
+      <VSTable firstcol="Bed" :vs="alerted" :show="false"></VSTable>
+      <VSTable firstcol="Bed" :vs="vitalsigns" :show="true"></VSTable>
     </div>
   </div>
 </template>
