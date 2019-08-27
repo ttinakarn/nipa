@@ -3,6 +3,7 @@ import { Line } from "vue-chartjs";
 
 export default {
   extends: Line,
+  props: ['x'],
   data() {
     return {
       chartdata: {
@@ -12,7 +13,7 @@ export default {
           {
             label: "2018 Sales",
             fill: false,
-            data: [300, 700, 450, 750, 450],
+            data: [300, 700, 700, 750, 450],
             borderColor: "rgba(50, 115, 220, 0.5)",
             backgroundColor: "rgba(50, 115, 220, 0.1)",
             id: "0"

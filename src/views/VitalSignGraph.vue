@@ -25,23 +25,35 @@
           <b-form-checkbox value="dbp" v-model="selectedData">DBP</b-form-checkbox>
         </b-form-checkbox-group>
       </b-form-group> -->
-      <chart></chart>
+      <chart></chart><br>
+     <VSTable firstcol="Bed" :vs="vitalsigns"></VSTable>
     </div>
   </div>
 </template>
 
 <script>
+import axios from "axios";
 import moment from "moment";
 import chart from "@/components/Chart.vue";
+import VSTable from "@/components/VSTable.vue"
 export default {
   components: {
-    chart
+    chart, VSTable
   },
   data() {
     return {
+      vitalsigns: [],
       time: null,
-      selectedData: ['temp', 'pulse', 'resp', 'sbp', 'dbp']
     };
+  },
+  mounted() {
+    var instance = this;
+    axios
+      .get("https://nipa.herokuapp.com/api/vitalsign/187439")
+      .then(function(response) {
+        console.log("vital sign data: " + response);
+        instance.vitalsigns = response.data.data;
+      });
   },
   methods: {
     updateCurrentTime() {
@@ -49,11 +61,6 @@ export default {
       this.time = moment().format("LTS");
     }
   },
-  // computed: {
-  //   displayedDatasets() {
-  //     return this.selectedData.map(year => datasets[year]);
-  //   }
-  // },
   created() {
     this.time = moment().format("LTS");
     setInterval(() => this.updateCurrentTime(), 1 * 1000);
