@@ -18,7 +18,7 @@
     <div style="margin: 10px">
       <table class="table table-bordered" style="text-align:center">
         <tr class="header">
-          <td rowspan="2">vsid</td>
+          <td rowspan="2">Bed <br> Number</td>
           <td colspan="4">Vital Sign</td>
           <td rowspan="2">O2Sat</td>
           <td colspan="3">Coma Score</td>
@@ -45,10 +45,10 @@
         </tr>
         <tr
           v-for="data in alerted"
-          :key="data.vsid"
+          :key="data.bednumber"
           :class="rowCondition(data.temp, data.pulse, data.sbp, data.dbp, data.o2sat, data.eye, data.verbal, data.motor, data.urine, data.painscore, data.fallrisk)"
         >
-          <td>{{data.vsid}}</td>
+          <td>{{data.bednumber}}</td>
           <td
             :class="{'text-danger font-weight-bold' : data.temp < condition[0].mintemp || data.temp > condition[0].maxtemp}"
           >{{data.temp}}</td>
@@ -84,12 +84,12 @@
           <td>{{data.painscore}}</td>
           <td>{{data.fallrisk}}</td>
           <td>{{data.remark}}</td>
-          <td>{{data.nurseid}}</td>
+          <td>{{data.name}}</td>
         </tr>
       </table><br>
       <table class="table table-bordered" style="text-align:center">
         <tr class="header">
-          <td rowspan="2">vsid</td>
+          <td rowspan="2">Bed <br> Number</td>
           <td colspan="4">Vital Sign</td>
           <td rowspan="2">O2Sat</td>
           <td colspan="3">Coma Score</td>
@@ -116,10 +116,10 @@
         </tr>
         <tr
           v-for="data in vitalsigns"
-          :key="data.vsid"
+          :key="data.bednumber"
           :class="rowCondition(data.temp, data.pulse, data.sbp, data.dbp, data.o2sat, data.eye, data.verbal, data.motor, data.urine, data.painscore, data.fallrisk)"
         >
-          <td>{{data.vsid}}</td>
+          <td>{{data.bednumber}}</td>
           <td
             :class="{'text-danger font-weight-bold' : data.temp < condition[0].mintemp || data.temp > condition[0].maxtemp}"
           >{{data.temp}}</td>
@@ -155,7 +155,7 @@
           <td>{{data.painscore}}</td>
           <td>{{data.fallrisk}}</td>
           <td>{{data.remark}}</td>
-          <td>{{data.nurseid}}</td>
+          <td>{{data.name}}</td>
         </tr>
       </table>
     </div>
