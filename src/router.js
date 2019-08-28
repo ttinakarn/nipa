@@ -37,7 +37,7 @@ export default new Router({
       component: Dashboard
     },
     {
-      path: '/graph',
+      path: '/graph/:an',
       name: 'graph',
       component: VitalSignGraph
     }

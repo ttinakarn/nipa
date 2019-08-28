@@ -2,8 +2,9 @@
   <div>
     <b-navbar toggleable="sm" type="light" variant="light">
       <b-navbar-brand>
-        <router-link to="/dashboard" style="color: #2c3e50;"><img src="../assets/logo-main.png" alt="HospitalLogo" height="60" /></router-link>
-        
+        <router-link to="/dashboard" style="color: #2c3e50;">
+          <img src="../assets/logo-main.png" alt="HospitalLogo" height="60" />
+        </router-link>
       </b-navbar-brand>
       <b-navbar-brand class="topnav-centered">
         <span>{{time}}</span>
@@ -25,9 +26,10 @@
           <b-form-checkbox value="sbp" v-model="selectedData">SBP</b-form-checkbox>
           <b-form-checkbox value="dbp" v-model="selectedData">DBP</b-form-checkbox>
         </b-form-checkbox-group>
-      </b-form-group> -->
-      <chart></chart><br>
-     <VSTable firstcol="Date&Time" :vs="vitalsigns" :show="false"></VSTable>
+      </b-form-group>-->
+      <chart></chart>
+      <br />
+      <VSTable firstcol="Date&Time" :vs="vitalsigns" :show="false"></VSTable>
     </div>
   </div>
 </template>
@@ -36,21 +38,24 @@
 import axios from "axios";
 import moment from "moment";
 import chart from "@/components/Chart.vue";
-import VSTable from "@/components/VSTable.vue"
+import VSTable from "@/components/VSTable.vue";
 export default {
   components: {
-    chart, VSTable
+    chart,
+    VSTable
   },
   data() {
     return {
       vitalsigns: [],
-      time: null,
+      time: null
     };
   },
   mounted() {
     var instance = this;
+    console.log(instance.$route.params.an);
+    
     axios
-      .get("https://nipa.herokuapp.com/api/vitalsign/187439")
+      .get("https://nipa.herokuapp.com/api/vitalsign/" + instance.$route.params.an)
       .then(function(response) {
         console.log("vital sign data: " + response);
         instance.vitalsigns = response.data.data;

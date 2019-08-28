@@ -33,7 +33,8 @@
         :key="data.bednumber"
         :class="rowCondition(data.temp, data.pulse, data.sbp, data.dbp, data.o2sat, data.eye, data.verbal, data.motor, data.urine, data.painscore, data.fallrisk)"
       >
-        <td>{{data.bednumber}}</td>
+        <td v-if="firstcol == 'Bed'">{{data.bednumber}}</td>
+        <td v-else>{{data.date}}</td>
         <td
           :class="{'text-danger font-weight-bold' : data.temp < condition[0].mintemp || data.temp > condition[0].maxtemp}"
         >{{data.temp}}</td>
@@ -70,7 +71,7 @@
         <td>{{data.name}}</td>
         <td v-if="show == true">
           <b-button size="sm" style="background: #7FDBD5; border: #7FDBD5;">
-            <router-link to="/graph" style="color: #2c3e50;">View</router-link>
+            <router-link :to="{ name: 'graph', params: {an: data.an}}" style="color: #2c3e50;">View</router-link>
           </b-button>
         </td>
       </tr>
@@ -144,7 +145,6 @@ export default {
 
   mounted() {
     var instance = this;
-    console.log(instance.vs);
 
     // localStorage.removeItem("condition");
     if (localStorage.getItem("condition") == null) {
