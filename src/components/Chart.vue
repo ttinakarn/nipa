@@ -16,7 +16,8 @@ export default {
             data: [300, 700, 700, 750, 450],
             borderColor: "rgba(50, 115, 220, 0.5)",
             backgroundColor: "rgba(50, 115, 220, 0.1)",
-            id: "0"
+            id: "0",
+            lineTension: 0
           },
           {
             label: "2017 Sales",
@@ -24,7 +25,8 @@ export default {
             data: [600, 550, 750, 250, 700],
             borderColor: "rgba(255, 56, 96, 0.5)",
             backgroundColor: "rgba(255, 56, 96, 0.1)",
-            id: "1"
+            id: "1",
+            lineTension: 0
           }
         ]
       },
