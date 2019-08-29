@@ -23,9 +23,9 @@
     </b-navbar>
     <br />
     <b-container>
-      <b-tabs content-class="mt-3" fill>
+      <b-tabs content-class="mt-3" fill v-if="bedinfo != null && $route.params.an != null">
         <b-tab title="Vital Sign" active>
-          <b-card bg-variant="light" text-variant="dark" v-if="bedinfo != null && $route.params.an != null">
+          <b-card bg-variant="light" text-variant="dark" >
             <b-col>
               <b-row>
                 <b-col md="6" xs="12" style="text-align: left;">
@@ -41,10 +41,7 @@
                   <h5>Recorder: {{bedinfo.emptitle}}{{bedinfo.empname}} {{bedinfo.empsurname}}</h5>
                 </b-col>
                 <b-col md="6" xs="12" style="text-align: left;">
-                  <h5>Painscore: 2</h5>
-                </b-col>
-                <b-col md="6" xs="12" style="text-align: left;">
-                  <h5>Fall Risk: 2</h5>
+                  <h5>Fall Risk: {{bedinfo.fallrisk}}</h5>
                 </b-col>
               </b-row>
             </b-col>
@@ -54,21 +51,21 @@
             <b-col md="4" cols="6">
               <b-button block class="button-color">
                 <b-row>
-                  <MedInput subtitle="T" latestVS="36.6" :sendVSData.sync="temp"></MedInput>
+                  <MedInput subtitle="T" :latestVS="bedinfo.temp" :sendVSData.sync="temp"></MedInput>
                 </b-row>
               </b-button>
             </b-col>
             <b-col md="4" cols="6">
               <b-button block class="button-color">
                 <b-row>
-                  <MedInput subtitle="P" latestVS="92" :sendVSData.sync="pulse"></MedInput>
+                  <MedInput subtitle="P" :latestVS="bedinfo.pulse" :sendVSData.sync="pulse"></MedInput>
                 </b-row>
               </b-button>
             </b-col>
             <b-col md="4" cols="6">
               <b-button block class="button-color">
                 <b-row>
-                  <MedInput subtitle="R" latestVS="20" :sendVSData.sync="resp"></MedInput>
+                  <MedInput subtitle="R" :latestVS="bedinfo.resp" :sendVSData.sync="resp"></MedInput>
                 </b-row>
               </b-button>
             </b-col>
@@ -78,8 +75,8 @@
                   <h5>BP</h5>
                 </b-col>
                 <b-row>
-                  <MedInput cols="6" subtitle="SBP" latestVS="131" :sendVSData.sync="sbp"></MedInput>
-                  <MedInput cols="6" subtitle="DBP" latestVS="77" :sendVSData.sync="dbp"></MedInput>
+                  <MedInput cols="6" subtitle="SBP" :latestVS="bedinfo.sbp" :sendVSData.sync="sbp"></MedInput>
+                  <MedInput cols="6" subtitle="DBP" :latestVS="bedinfo.dbp" :sendVSData.sync="dbp"></MedInput>
                 </b-row>
               </b-button>
             </b-col>
@@ -89,9 +86,9 @@
                   <h5>Coma Score</h5>
                 </b-col>
                 <b-row>
-                  <MedInput cols="4" subtitle="E" latestVS="4" :sendVSData.sync="eye"></MedInput>
-                  <MedInput cols="4" subtitle="V" latestVS="5" :sendVSData.sync="verbal"></MedInput>
-                  <MedInput cols="4" subtitle="M" latestVS="6" :sendVSData.sync="motor"></MedInput>
+                  <MedInput cols="4" subtitle="E" :latestVS="bedinfo.eye" :sendVSData.sync="eye"></MedInput>
+                  <MedInput cols="4" subtitle="V" :latestVS="bedinfo.verbal" :sendVSData.sync="verbal"></MedInput>
+                  <MedInput cols="4" subtitle="M" :latestVS="bedinfo.motor" :sendVSData.sync="motor"></MedInput>
                 </b-row>
               </b-button>
             </b-col>
@@ -100,7 +97,7 @@
                 <b-row>
                   <MedInput
                     subtitle="O2 Sat"
-                    latestVS="95"
+                    :latestVS="bedinfo.o2sat"
                     textColor="text-danger"
                     :sendVSData.sync="o2sat"
                   ></MedInput>
@@ -110,14 +107,14 @@
             <b-col md="4" cols="6">
               <b-button block class="button-color">
                 <b-row>
-                  <MedInput subtitle="Urine" latestVS="57" :sendVSData.sync="urine"></MedInput>
+                  <MedInput subtitle="Urine" :latestVS="bedinfo.urine" :sendVSData.sync="urine"></MedInput>
                 </b-row>
               </b-button>
             </b-col>
             <b-col md="4" cols="6">
               <b-button block class="button-color">
                 <b-row>
-                  <MedInput subtitle="PainScore" latestVS="2" :sendVSData.sync="painscore"></MedInput>
+                  <MedInput subtitle="PainScore" :latestVS="bedinfo.painscore" :sendVSData.sync="painscore"></MedInput>
                 </b-row>
               </b-button>
             </b-col>
@@ -151,10 +148,7 @@
                   <h5>Recorder: {{bedinfo.emptitle}}{{bedinfo.empname}} {{bedinfo.empsurname}}</h5>
                 </b-col>
                 <b-col md="6" xs="12" style="text-align: left;">
-                  <h5>Painscore: 2</h5>
-                </b-col>
-                <b-col md="6" xs="12" style="text-align: left;">
-                  <h5>Fall Risk: 2</h5>
+                  <h5>Fall Risk: {{bedinfo.fallrisk}}</h5>
                 </b-col>
               </b-row>
             </b-col>
