@@ -7,10 +7,10 @@
       <b-navbar-brand class="topnav-centered">Patient's Information</b-navbar-brand>
     </b-navbar>
     <br/>
-    <b-container>
+    <b-container v-if="bedinfo != null && $route.params.an != null">
       <b-jumbotron :header="bednumber">
         <b-col>
-          <b-row v-if="bedinfo != null">
+          <b-row>
             <b-col lg="6" xs="12" style="text-align: left;">
               <h5 >HN: {{bedinfo.hn}}</h5>
             </b-col>
@@ -33,7 +33,7 @@
         </b-col>
       </b-jumbotron>
       <b-button size="lg" style="background: #7FDBD5; border: #7FDBD5;">
-        <router-link to="/addvs" style="color: #2c3e50;">Next</router-link>
+        <router-link :to="{ name: 'addvs', params: {bednumber: $route.params.bednumber, an: bedinfo.an}}" style="color: #2c3e50;">Next</router-link>
       </b-button>
     </b-container>
   </div>
@@ -55,7 +55,7 @@ export default {
       .then(function(response) {
         console.log(response.data.data);
         instance.bedinfo = response.data.data[0];
-        console.log(instance.bedinfo.an);
+        // console.log(instance.bedinfo.an);
       });
   }
 }

@@ -27,7 +27,7 @@ export default new Router({
       component: BedInfo
     },
     {
-      path: '/addvs',
+      path: '/addvs/:bednumber/:an',
       name: 'addvs',
       component: AddVS
     },

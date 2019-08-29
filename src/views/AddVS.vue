@@ -2,7 +2,7 @@
   <div>
     <b-navbar toggleable="sm" type="light" variant="light">
       <b-navbar-brand>
-        <router-link to="/bedinfo">&lt; Back</router-link>
+        <router-link :to="{ name: 'bedinfo', params: {bednumber: $route.params.bednumber, an: $route.params.an}}">&lt; Back</router-link>
       </b-navbar-brand>
       <b-navbar-brand class="topnav-centered">Add New Vital Sign</b-navbar-brand>
       <b-navbar-nav class="ml-auto">
@@ -25,20 +25,20 @@
     <b-container>
       <b-tabs content-class="mt-3" fill>
         <b-tab title="Vital Sign" active>
-          <b-card bg-variant="light" text-variant="dark">
+          <b-card bg-variant="light" text-variant="dark" v-if="bedinfo != null && $route.params.an != null">
             <b-col>
               <b-row>
                 <b-col md="6" xs="12" style="text-align: left;">
-                  <h5>Bed 1</h5>
+                  <h5>Bed {{bedinfo.bednumber}}</h5>
                 </b-col>
                 <b-col md="6" xs="12" style="text-align: left;">
-                  <h5>Name: นายสมชาย ใจดี</h5>
+                  <h5>Name: {{bedinfo.title}}{{bedinfo.name}} {{bedinfo.surname}}</h5>
                 </b-col>
                 <b-col md="6" xs="12" style="text-align: left;">
-                  <h5>Latest Vital: 10:12</h5>
+                  <h5>Latest Vital: {{bedinfo.max}}</h5>
                 </b-col>
                 <b-col md="6" xs="12" style="text-align: left;">
-                  <h5>Recorder: Tip</h5>
+                  <h5>Recorder: {{bedinfo.emptitle}}{{bedinfo.empname}} {{bedinfo.empsurname}}</h5>
                 </b-col>
                 <b-col md="6" xs="12" style="text-align: left;">
                   <h5>Painscore: 2</h5>
@@ -135,20 +135,20 @@
             Fall Risk
             <b-badge v-if="fallrisk > 0" pill variant="success">{{fallrisk}}</b-badge>
           </template>
-          <b-card bg-variant="light" text-variant="dark">
+          <b-card bg-variant="light" text-variant="dark" v-if="bedinfo != null && $route.params.an != null">
             <b-col>
               <b-row>
                 <b-col md="6" xs="12" style="text-align: left;">
-                  <h5>Bed 1</h5>
+                  <h5>Bed {{bedinfo.bednumber}}</h5>
                 </b-col>
                 <b-col md="6" xs="12" style="text-align: left;">
-                  <h5>Name: นายสมชาย ใจดี</h5>
+                  <h5>Name: {{bedinfo.title}}{{bedinfo.name}} {{bedinfo.surname}}</h5>
                 </b-col>
                 <b-col md="6" xs="12" style="text-align: left;">
-                  <h5>Latest Vital: 10:12</h5>
+                  <h5>Latest Vital: {{bedinfo.max}}</h5>
                 </b-col>
                 <b-col md="6" xs="12" style="text-align: left;">
-                  <h5>Recorder: Tip</h5>
+                  <h5>Recorder: {{bedinfo.emptitle}}{{bedinfo.empname}} {{bedinfo.empsurname}}</h5>
                 </b-col>
                 <b-col md="6" xs="12" style="text-align: left;">
                   <h5>Painscore: 2</h5>
@@ -251,6 +251,7 @@ export default {
   },
   data() {
     return {
+      bedinfo: null,
       checked1: false,
       checked2: false,
       checked3: false,
@@ -374,10 +375,11 @@ export default {
       this.checked6currentvalue = this.checked6;
     },
     saveNewVS() {
+      var instance = this;
       moment.locale("th");
       axios
         .post("https://nipa.herokuapp.com/api/vitalsign", {
-          an: "9688",
+          an: instance.$route.params.an,
           temp: parseInt(this.temp),
           pulse: parseInt(this.pulse),
           resp: parseInt(this.resp),
@@ -427,6 +429,16 @@ export default {
           console.log(error);
         });
     }
+  },
+  mounted() {
+    var instance = this;    
+    axios
+      .get("https://nipa.herokuapp.com/api/getLastestVS/" + instance.$route.params.an)
+      .then(function(response) {
+        console.log(response.data.data);
+        instance.bedinfo = response.data.data[0];
+        console.log(instance.bedinfo);
+      });
   }
 };
 </script>
