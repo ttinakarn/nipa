@@ -44,7 +44,7 @@
           </router-link>
         </div>
         <div v-else>
-          <router-link :to="{ name: 'bedinfo', params: {an: bed.an}}">
+          <router-link :to="{ name: 'bedinfo', params: {bednumber: bed.bednumber, an: bed.an}}">
             <b-button variant="secondary" class="button-size">
               <div>
                 <h1>BED {{bed.bednumber}}</h1>

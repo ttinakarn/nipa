@@ -22,7 +22,7 @@ export default new Router({
       component: Home
     },
     {
-      path: '/bedinfo/:an',
+      path: '/bedinfo/:bednumber/:an',
       name: 'bedinfo',
       component: BedInfo
     },

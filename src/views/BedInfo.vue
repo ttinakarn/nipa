@@ -8,29 +8,26 @@
     </b-navbar>
     <br/>
     <b-container>
-      <b-jumbotron header="BED 1">
+      <b-jumbotron :header="bednumber">
         <b-col>
-          <b-row>
+          <b-row v-if="bedinfo != null">
             <b-col lg="6" xs="12" style="text-align: left;">
-              <h5>HN: 199281</h5>
+              <h5 >HN: {{bedinfo.hn}}</h5>
             </b-col>
             <b-col lg="6" xs="12" style="text-align: left;">
-              <h5>AN: 933822</h5>
+              <h5>AN: {{bedinfo.an}}</h5>
             </b-col>
             <b-col lg="6" xs="12" style="text-align: left;">
-              <h5>Name: นายสมชาย ใจดี</h5> 
+              <h5>Name: {{bedinfo.title}}{{bedinfo.name}} {{bedinfo.surname}}</h5> 
             </b-col>
             <b-col lg="6" xs="12" style="text-align: left;">
               <h5>Age: 48 yrs</h5> 
             </b-col>
             <b-col lg="12" style="text-align: left;">
-              <h5>Admit Date: 15 พฤษภาคม 2562</h5> 
+              <h5>Admit Date: {{bedinfo.admitdate}}</h5> 
             </b-col>
             <b-col lg="12" style="text-align: left;">
-              <h5>Doctor: นพ.กรวิทย์ พฤษชัยมงคล</h5> 
-            </b-col>
-            <b-col lg="12" style="text-align: left;">
-              <h5>Remark: งดอาหาร 3 ชั่วโมง</h5> 
+              <h5 v-if="bedinfo.max != null">Remark: {{bedinfo.max}}</h5> 
             </b-col>
           </b-row>
         </b-col>
@@ -41,6 +38,28 @@
     </b-container>
   </div>
 </template>
+
+<script>
+import axios from "axios";
+export default {
+  data() {
+    return {
+      bedinfo: null,
+      bednumber: "BED " + this.$route.params.bednumber
+    };
+  },
+  mounted() {
+    var instance = this;    
+    axios
+      .get("https://nipa.herokuapp.com/api/getBedInfo/" + instance.$route.params.an)
+      .then(function(response) {
+        console.log(response.data.data);
+        instance.bedinfo = response.data.data[0];
+        console.log(instance.bedinfo.an);
+      });
+  }
+}
+</script>
 
 <style scoped>
 .topnav-centered {
