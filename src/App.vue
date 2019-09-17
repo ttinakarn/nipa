@@ -4,6 +4,15 @@
   </div>
 </template>
 
+<script>
+import moment from "moment";
+export default {
+  mounted(){
+    moment.locale("th");
+  }
+}
+</script>
+
 <style>
 @import url('https://fonts.googleapis.com/css?family=Days+One&display=swap');
 @import url('https://fonts.googleapis.com/css?family=Mitr:500,600&display=swap');

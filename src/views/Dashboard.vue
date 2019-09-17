@@ -29,7 +29,8 @@
 <script>
 import axios from "axios";
 import moment from "moment";
-import VSTable from "@/components/VSTable.vue"
+import VSTable from "@/components/VSTable.vue";
+import {condition} from "../condition.js";
 export default {
   components: {
     VSTable
@@ -131,22 +132,7 @@ export default {
           }
         }
       });
-
-    // localStorage.removeItem("condition");
-    if (localStorage.getItem("condition") == null) {
-      console.log("Retrieved data");
-      axios
-        .get("https://nipa.herokuapp.com/api/condition")
-        .then(function(response) {
-          console.log(response);
-          localStorage.setItem("condition", JSON.stringify(response.data.data));
-          console.log(localStorage.getItem("condition"));
-          // instance.condition = localStorage.getItem("condition");
-          // console.log(instance.condition);
-        });
-    }
-    instance.condition = JSON.parse(localStorage.getItem("condition"));
-    console.log(instance.condition);
+    instance.condition = condition.getCondition();
   }
 };
 </script>

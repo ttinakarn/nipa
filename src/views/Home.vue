@@ -45,10 +45,10 @@
         </div>
         <div v-else>
           <router-link :to="{ name: 'bedinfo', params: {bednumber: bed.bednumber, an: bed.an}}">
-            <b-button variant="secondary" class="button-size">
+            <b-button class="button-size button-color">
               <div>
-                <h1>BED {{bed.bednumber}}</h1>
-                <h5>Lastest Vital: {{bed.max}}</h5>
+                <h3>BED {{bed.bednumber}}</h3>
+                <h5>Lastest Vital:</h5><h3>{{moment(bed.max).format('LT')}}</h3> 
               </div>
             </b-button>
           </router-link>
@@ -60,6 +60,7 @@
 
 <script>
 import axios from "axios";
+import moment from "moment";
 export default {
   data() {
     return {
@@ -67,13 +68,13 @@ export default {
     };
   },
   mounted() {
+    // moment.locale("th");
     var instance = this;
     axios
       .get("https://nipa.herokuapp.com/api/bednumber")
       .then(function(response) {
-        console.log(response);
+        console.log(response.data.data);
         instance.beds = response.data.data;
-        // console.log(instance.beds);
       });
   }
 };
@@ -91,5 +92,11 @@ export default {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+}
+.button-color {
+  margin: 5px;
+  background-color: #7fdbd5;
+  color: #2c3e50;
+  border-color: #7fdbd5;
 }
 </style>

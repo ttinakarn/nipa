@@ -2,7 +2,7 @@
   <div>
     <b-navbar toggleable="sm" type="light" variant="light">
       <b-navbar-brand>
-        <router-link :to="{ name: 'bedinfo', params: {bednumber: $route.params.bednumber, an: $route.params.an}}">&lt; Back</router-link>
+        <router-link to="/home">&lt; Back</router-link>
       </b-navbar-brand>
       <b-navbar-brand class="topnav-centered">Add New Vital Sign</b-navbar-brand>
       <b-navbar-nav class="ml-auto">
@@ -25,7 +25,7 @@
     <b-container>
       <b-tabs content-class="mt-3" fill v-if="bedinfo != null && $route.params.an != null">
         <b-tab title="Vital Sign" active>
-          <b-card bg-variant="light" text-variant="dark" >
+          <b-card bg-variant="light" text-variant="dark">
             <b-col>
               <b-row>
                 <b-col md="6" xs="12" style="text-align: left;">
@@ -35,7 +35,7 @@
                   <h5>Name: {{bedinfo.title}}{{bedinfo.name}} {{bedinfo.surname}}</h5>
                 </b-col>
                 <b-col md="6" xs="12" style="text-align: left;">
-                  <h5>Latest Vital: {{bedinfo.max}}</h5>
+                  <h5>Latest Vital: {{moment(bedinfo.max).format('LT')}}</h5>
                 </b-col>
                 <b-col md="6" xs="12" style="text-align: left;">
                   <h5>Recorder: {{bedinfo.emptitle}}{{bedinfo.empname}} {{bedinfo.empsurname}}</h5>
@@ -51,21 +51,32 @@
             <b-col md="4" cols="6">
               <b-button block class="button-color">
                 <b-row>
-                  <MedInput subtitle="T" :latestVS="bedinfo.temp" :sendVSData.sync="temp"></MedInput>
+                  <MedInput
+                    subtitle="T"
+                    :latestVS="bedinfo.temp"
+                    :sendVSData.sync="temp"
+                    :text-color="{'text-danger' : bedinfo.temp < condition[0].mintemp || bedinfo.temp > condition[0].maxtemp}"
+                  ></MedInput>
                 </b-row>
               </b-button>
             </b-col>
             <b-col md="4" cols="6">
               <b-button block class="button-color">
                 <b-row>
-                  <MedInput subtitle="P" :latestVS="bedinfo.pulse" :sendVSData.sync="pulse"></MedInput>
+                  <MedInput
+                    subtitle="P"
+                    :latestVS="bedinfo.pulse"
+                    :sendVSData.sync="pulse"
+                    :text-color="{'text-danger' : bedinfo.pulse < condition[0].minpulse || bedinfo.pulse > condition[0].maxpulse}"
+                  ></MedInput>
                 </b-row>
               </b-button>
             </b-col>
             <b-col md="4" cols="6">
               <b-button block class="button-color">
                 <b-row>
-                  <MedInput subtitle="R" :latestVS="bedinfo.resp" :sendVSData.sync="resp"></MedInput>
+                  <MedInput subtitle="R" :latestVS="bedinfo.resp" :sendVSData.sync="resp"
+                  :text-color="{'text-danger' : bedinfo.resp < condition[0].minresp || bedinfo.resp > condition[0].maxresp}"></MedInput>
                 </b-row>
               </b-button>
             </b-col>
@@ -75,8 +86,10 @@
                   <h5>BP</h5>
                 </b-col>
                 <b-row>
-                  <MedInput cols="6" subtitle="SBP" :latestVS="bedinfo.sbp" :sendVSData.sync="sbp"></MedInput>
-                  <MedInput cols="6" subtitle="DBP" :latestVS="bedinfo.dbp" :sendVSData.sync="dbp"></MedInput>
+                  <MedInput cols="6" subtitle="SBP" :latestVS="bedinfo.sbp" :sendVSData.sync="sbp" 
+                  :text-color="{'text-danger' : bedinfo.sbp < condition[0].minsbp || bedinfo.sbp > condition[0].maxsbp}"></MedInput>
+                  <MedInput cols="6" subtitle="DBP" :latestVS="bedinfo.dbp" :sendVSData.sync="dbp"
+                  :text-color="{'text-danger' : bedinfo.dbp < condition[0].mindbp || bedinfo.dbp > condition[0].maxdbp}"></MedInput>
                 </b-row>
               </b-button>
             </b-col>
@@ -86,9 +99,22 @@
                   <h5>Coma Score</h5>
                 </b-col>
                 <b-row>
-                  <MedInput cols="4" subtitle="E" :latestVS="bedinfo.eye" :sendVSData.sync="eye"></MedInput>
-                  <MedInput cols="4" subtitle="V" :latestVS="bedinfo.verbal" :sendVSData.sync="verbal"></MedInput>
-                  <MedInput cols="4" subtitle="M" :latestVS="bedinfo.motor" :sendVSData.sync="motor"></MedInput>
+                  <MedInput cols="4" subtitle="E" :latestVS="bedinfo.eye" :sendVSData.sync="eye"
+                  :text-color="{'text-danger' : bedinfo.eye < condition[0].maxeye}"></MedInput>
+                  <MedInput
+                    cols="4"
+                    subtitle="V"
+                    :latestVS="bedinfo.verbal"
+                    :sendVSData.sync="verbal"
+                    :text-color="{'text-danger' : bedinfo.verbal < condition[0].maxverbal}"
+                  ></MedInput>
+                  <MedInput
+                    cols="4"
+                    subtitle="M"
+                    :latestVS="bedinfo.motor"
+                    :sendVSData.sync="motor"
+                    :text-color="{'text-danger' : bedinfo.motor < condition[0].maxmotor}"
+                  ></MedInput>
                 </b-row>
               </b-button>
             </b-col>
@@ -98,7 +124,7 @@
                   <MedInput
                     subtitle="O2 Sat"
                     :latestVS="bedinfo.o2sat"
-                    textColor="text-danger"
+                    :text-color="{'text-danger' : bedinfo.o2sat < condition[0].mino2sat}"
                     :sendVSData.sync="o2sat"
                   ></MedInput>
                 </b-row>
@@ -107,14 +133,20 @@
             <b-col md="4" cols="6">
               <b-button block class="button-color">
                 <b-row>
-                  <MedInput subtitle="Urine" :latestVS="bedinfo.urine" :sendVSData.sync="urine"></MedInput>
+                  <MedInput subtitle="Urine" :latestVS="bedinfo.urine" :sendVSData.sync="urine"
+                  :text-color="{'text-danger' : bedinfo.urine < condition[0].minurine}"
+                  ></MedInput>
                 </b-row>
               </b-button>
             </b-col>
             <b-col md="4" cols="6">
               <b-button block class="button-color">
                 <b-row>
-                  <MedInput subtitle="PainScore" :latestVS="bedinfo.painscore" :sendVSData.sync="painscore"></MedInput>
+                  <MedInput
+                    subtitle="PainScore"
+                    :latestVS="bedinfo.painscore"
+                    :sendVSData.sync="painscore"
+                  ></MedInput>
                 </b-row>
               </b-button>
             </b-col>
@@ -132,7 +164,11 @@
             Fall Risk
             <b-badge v-if="fallrisk > 0" pill variant="success">{{fallrisk}}</b-badge>
           </template>
-          <b-card bg-variant="light" text-variant="dark" v-if="bedinfo != null && $route.params.an != null">
+          <b-card
+            bg-variant="light"
+            text-variant="dark"
+            v-if="bedinfo != null && $route.params.an != null"
+          >
             <b-col>
               <b-row>
                 <b-col md="6" xs="12" style="text-align: left;">
@@ -142,7 +178,7 @@
                   <h5>Name: {{bedinfo.title}}{{bedinfo.name}} {{bedinfo.surname}}</h5>
                 </b-col>
                 <b-col md="6" xs="12" style="text-align: left;">
-                  <h5>Latest Vital: {{bedinfo.max}}</h5>
+                  <h5>Latest Vital: {{moment(bedinfo.max).format('LT')}}</h5>
                 </b-col>
                 <b-col md="6" xs="12" style="text-align: left;">
                   <h5>Recorder: {{bedinfo.emptitle}}{{bedinfo.empname}} {{bedinfo.empsurname}}</h5>
@@ -238,6 +274,8 @@ import MedInput from "@/components/MedInput.vue";
 import Radio from "@/components/RadioButton.vue";
 import axios from "axios";
 import moment from "moment";
+import { condition } from "../condition.js";
+
 export default {
   components: {
     MedInput,
@@ -271,7 +309,8 @@ export default {
       urine: "",
       painscore: "",
       fallrisk: 0,
-      remark: ""
+      remark: null,
+      condition: []
     };
   },
   methods: {
@@ -370,7 +409,6 @@ export default {
     },
     saveNewVS() {
       var instance = this;
-      moment.locale("th");
       axios
         .post("https://nipa.herokuapp.com/api/vitalsign", {
           an: instance.$route.params.an,
@@ -388,9 +426,9 @@ export default {
           fallrisk: parseInt(this.fallrisk),
           remark: this.remark,
           empid: "213049",
-          date: moment().format("YYYY-MM-DD LTS")
+          date: moment().format()
         })
-        .then((response) => {
+        .then(response => {
           this.$bvModal
             .msgBoxOk("Data was submitted successfully", {
               title: "Confirmation",
@@ -409,30 +447,33 @@ export default {
             });
           console.log(response);
         })
-        .catch((error) => {
-          this.$bvModal
-            .msgBoxOk(error.message, {
-              title: "Can't Save",
-              size: "sm",
-              buttonSize: "sm",
-              okVariant: "danger",
-              headerClass: "p-2 border-bottom-0",
-              footerClass: "p-2 border-top-0",
-              centered: true
-            })
+        .catch(error => {
+          this.$bvModal.msgBoxOk(error.message, {
+            title: "Can't Save",
+            size: "sm",
+            buttonSize: "sm",
+            okVariant: "danger",
+            headerClass: "p-2 border-bottom-0",
+            footerClass: "p-2 border-top-0",
+            centered: true
+          });
           console.log(error);
         });
     }
   },
   mounted() {
-    var instance = this;    
+    var instance = this;
     axios
-      .get("https://nipa.herokuapp.com/api/getLastestVS/" + instance.$route.params.an)
+      .get(
+        "https://nipa.herokuapp.com/api/getLastestVS/" +
+          instance.$route.params.an
+      )
       .then(function(response) {
         console.log(response.data.data);
         instance.bedinfo = response.data.data[0];
         console.log(instance.bedinfo);
       });
+    instance.condition = condition.getCondition();
   }
 };
 </script>

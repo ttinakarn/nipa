@@ -24,7 +24,7 @@
               <h5>Age: 48 yrs</h5> 
             </b-col>
             <b-col lg="12" style="text-align: left;">
-              <h5>Admit Date: {{bedinfo.admitdate}}</h5> 
+              <h5>Admit Date: {{moment(bedinfo.admitdate).format('LL')}}</h5> 
             </b-col>
             <b-col lg="12" style="text-align: left;">
               <h5 v-if="bedinfo.max != null">Remark: {{bedinfo.max}}</h5> 
