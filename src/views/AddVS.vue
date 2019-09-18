@@ -1,5 +1,10 @@
 <template>
   <div>
+    <loading
+      :active.sync="isLoading"
+      :can-cancel="false"
+      :is-full-page="true"
+    ></loading>
     <b-navbar toggleable="sm" type="light" variant="light">
       <b-navbar-brand>
         <router-link to="/home">&lt; Back</router-link>
@@ -275,14 +280,18 @@ import Radio from "@/components/RadioButton.vue";
 import axios from "axios";
 import moment from "moment";
 import { condition } from "../condition.js";
+import Loading from "vue-loading-overlay";
+import "vue-loading-overlay/dist/vue-loading.css";
 
 export default {
   components: {
     MedInput,
-    Radio
+    Radio,
+    Loading
   },
   data() {
     return {
+      isLoading: false,
       bedinfo: null,
       checked1: false,
       checked2: false,
@@ -409,6 +418,7 @@ export default {
     },
     saveNewVS() {
       var instance = this;
+      instance.isLoading = true;
       axios
         .post("https://nipa.herokuapp.com/api/vitalsign", {
           an: instance.$route.params.an,
@@ -429,6 +439,7 @@ export default {
           date: moment().format()
         })
         .then(response => {
+          instance.isLoading = false;
           this.$bvModal
             .msgBoxOk("Data was submitted successfully", {
               title: "Confirmation",
