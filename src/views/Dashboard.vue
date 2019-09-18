@@ -30,7 +30,7 @@
 import axios from "axios";
 import moment from "moment";
 import VSTable from "@/components/VSTable.vue";
-import {condition} from "../condition.js";
+import { condition } from "../condition.js";
 export default {
   components: {
     VSTable
@@ -45,58 +45,6 @@ export default {
     };
   },
   methods: {
-    rowCondition(
-      temp,
-      pulse,
-      sbp,
-      dbp,
-      o2sat,
-      eye,
-      verbal,
-      motor,
-      urine,
-      painscore,
-      fallrisk
-    ) {
-      if (
-        temp >= this.condition[3].mintemp ||
-        pulse >= this.condition[3].minpulse ||
-        sbp >= this.condition[3].minsbp ||
-        dbp >= this.condition[3].mindbp ||
-        o2sat <= this.condition[3].mino2sat ||
-        eye <= this.condition[3].maxeye ||
-        verbal <= this.condition[3].maxverbal ||
-        motor <= this.condition[3].maxmotor ||
-        urine <= this.condition[3].maxurine ||
-        painscore >= this.condition[3].minpainscore ||
-        fallrisk == this.condition[3].maxfallrisk
-      ) {
-        return "danger";
-      } else if (
-        (temp >= this.condition[2].mintemp &&
-          temp <= this.condition[2].maxtemp) ||
-        (pulse >= this.condition[2].minpulse &&
-          pulse <= this.condition[2].maxpulse) ||
-        ((sbp >= this.condition[2].minsbp || sbp <= this.condition[2].maxsbp) &&
-          (dbp >= this.condition[2].mindbp ||
-            dbp <= this.condition[2].maxdbp) &&
-          o2sat < this.condition[2].mino2sat) ||
-        eye == this.condition[2].maxeye ||
-        verbal == this.condition[2].minverbal ||
-        verbal == this.condition[2].maxverbal ||
-        motor == this.condition[2].minmotor ||
-        motor == this.condition[2].maxmotor ||
-        urine <= this.condition[2].maxurine ||
-        (painscore >= this.condition[2].minpainscore &&
-          painscore <= this.conditon[2].maxpainscore) ||
-        fallrisk == this.condition[2].minfallrisk ||
-        fallrisk == this.condition[2].maxfallrisk
-      ) {
-        return "warning";
-      } else {
-        return "normal";
-      }
-    },
     updateCurrentTime() {
       moment.locale("th");
       this.time = moment().format("LTS");
@@ -108,13 +56,14 @@ export default {
   },
   mounted() {
     var instance = this;
+    instance.condition = condition.getCondition();
     axios
       .get("https://nipa.herokuapp.com/api/vitalsign")
       .then(function(response) {
         console.log("vital sign data: " + response);
         instance.vitalsigns = response.data.data;
         for (var i = 0; i < response.data.data.length; i++) {
-          var zone = instance.rowCondition(
+          var zone = condition.checkCondition(
             instance.vitalsigns[i].temp,
             instance.vitalsigns[i].pulse,
             instance.vitalsigns[i].sbp,
@@ -132,7 +81,6 @@ export default {
           }
         }
       });
-    instance.condition = condition.getCondition();
   }
 };
 </script>

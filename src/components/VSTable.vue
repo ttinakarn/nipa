@@ -81,7 +81,7 @@
 
 <script>
 import axios from "axios";
-import {condition} from "../condition.js";
+import { condition } from "../condition.js";
 export default {
   props: ["firstcol", "vs", "show"],
   data() {
@@ -103,47 +103,21 @@ export default {
       painscore,
       fallrisk
     ) {
-      if (
-        temp >= this.condition[3].mintemp ||
-        pulse >= this.condition[3].minpulse ||
-        sbp >= this.condition[3].minsbp ||
-        dbp >= this.condition[3].mindbp ||
-        o2sat <= this.condition[3].mino2sat ||
-        eye <= this.condition[3].maxeye ||
-        verbal <= this.condition[3].maxverbal ||
-        motor <= this.condition[3].maxmotor ||
-        urine <= this.condition[3].maxurine ||
-        painscore >= this.condition[3].minpainscore ||
-        fallrisk == this.condition[3].maxfallrisk
-      ) {
-        return "danger";
-      } else if (
-        (temp >= this.condition[2].mintemp &&
-          temp <= this.condition[2].maxtemp) ||
-        (pulse >= this.condition[2].minpulse &&
-          pulse <= this.condition[2].maxpulse) ||
-        ((sbp >= this.condition[2].minsbp || sbp <= this.condition[2].maxsbp) &&
-          (dbp >= this.condition[2].mindbp ||
-            dbp <= this.condition[2].maxdbp) &&
-          o2sat < this.condition[2].mino2sat) ||
-        eye == this.condition[2].maxeye ||
-        verbal == this.condition[2].minverbal ||
-        verbal == this.condition[2].maxverbal ||
-        motor == this.condition[2].minmotor ||
-        motor == this.condition[2].maxmotor ||
-        urine <= this.condition[2].maxurine ||
-        (painscore >= this.condition[2].minpainscore &&
-          painscore <= this.conditon[2].maxpainscore) ||
-        fallrisk == this.condition[2].minfallrisk ||
-        fallrisk == this.condition[2].maxfallrisk
-      ) {
-        return "warning";
-      } else {
-        return "normal";
-      }
+      return condition.checkCondition(
+        temp,
+        pulse,
+        sbp,
+        dbp,
+        o2sat,
+        eye,
+        verbal,
+        motor,
+        urine,
+        painscore,
+        fallrisk
+      );
     }
   },
-
   mounted() {
     var instance = this;
     instance.condition = condition.getCondition();
