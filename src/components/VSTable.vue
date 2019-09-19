@@ -30,11 +30,11 @@
       </tr>
       <tr
         v-for="data in vs"
-        :key="data.bednumber"
+        :key="data.date"
         :class="rowCondition(data.temp, data.pulse, data.sbp, data.dbp, data.o2sat, data.eye, data.verbal, data.motor, data.urine, data.painscore, data.fallrisk)"
       >
         <td v-if="firstcol == 'Bed'">{{data.bednumber}}</td>
-        <td v-else>{{data.date}}</td>
+        <td v-else>{{moment(data.date).format('lll')}}</td>
         <td
           :class="{'text-danger font-weight-bold' : data.temp < condition[0].mintemp || data.temp > condition[0].maxtemp}"
         >{{data.temp}}</td>
