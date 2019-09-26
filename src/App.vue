@@ -6,7 +6,9 @@
 
 <script>
 import moment from "moment";
+import { store } from "../src/store/store.js"
 export default {
+  store,
   mounted(){
     moment.locale("th");
   }

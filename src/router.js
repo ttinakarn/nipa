@@ -6,6 +6,7 @@ import BedInfo from './views/BedInfo.vue'
 import AddVS from './views/AddVS.vue'
 import Dashboard from './views/Dashboard.vue'
 import VitalSignGraph from './views/VitalSignGraph.vue'
+import Quiz from './views/Quiz.vue'
 
 Vue.use(Router)
 
@@ -40,6 +41,11 @@ export default new Router({
       path: '/graph/:an',
       name: 'graph',
       component: VitalSignGraph
+    },
+    {
+      path: '/quiz',
+      name: 'quiz',
+      component: Quiz
     }
   ]
 })
