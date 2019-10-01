@@ -2,7 +2,7 @@
   <div>
     <table class="table table-bordered" style="text-align:center">
       <tr class="header">
-        <td rowspan="2">{{firstcol}}</td>
+    <td rowspan="2">{{firstcol}}</td>      
         <td colspan="4">Vital Sign</td>
         <td rowspan="2">O2Sat</td>
         <td colspan="3">Coma Score</td>
@@ -16,7 +16,7 @@
           <br />Risk
         </td>
         <td rowspan="2">Remark</td>
-        <td rowspan="2">Recorder</td>
+        <td rowspan="2" v-if="name == true">Recorder</td>
         <td rowspan="2" v-if="show == true">View</td>
       </tr>
       <tr class="header">
@@ -35,7 +35,8 @@
       >
         <td v-if="firstcol == 'Bed'">{{data.bednumber}}</td>
         <td v-else>{{moment(data.date).format('lll')}}</td>
-        <td
+        <td v-if="updated == true" class="invalid">{{data.temp}}</td>
+        <td v-else
           :class="{'text-danger font-weight-bold' : data.temp < condition[0].mintemp || data.temp > condition[0].maxtemp}"
         >{{data.temp}}</td>
         <td
@@ -68,7 +69,7 @@
         <td>{{data.painscore}}</td>
         <td>{{data.fallrisk}}</td>
         <td>{{data.remark}}</td>
-        <td>{{data.name}}</td>
+        <td v-if="name == true">{{data.name}}</td>
         <td v-if="show == true">
           <b-button size="sm" style="background: #7FDBD5; border: #7FDBD5;">
             <router-link :to="{ name: 'graph', params: {an: data.an}}" style="color: #2c3e50;">View</router-link>
@@ -82,11 +83,13 @@
 <script>
 import axios from "axios";
 import { condition } from "../condition.js";
+
 export default {
-  props: ["firstcol", "vs", "show"],
+  props: ["firstcol", "vs", "show", "name"],
   data() {
     return {
-      condition: []
+      condition: [],
+      updated: true
     };
   },
   methods: {
@@ -124,3 +127,15 @@ export default {
   }
 };
 </script>
+
+<style>
+@keyframes invalid {
+  from { background-color: white; }
+  to { background-color: inherit; }
+}
+.invalid {
+  animation-name: invalid;
+  animation-duration: 1s;
+  animation-iteration-count: 20;
+}
+</style>

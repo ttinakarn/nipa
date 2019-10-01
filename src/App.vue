@@ -6,9 +6,7 @@
 
 <script>
 import moment from "moment";
-import { store } from "../src/store/store.js"
 export default {
-  store,
   mounted(){
     moment.locale("th");
   }
@@ -22,7 +20,6 @@ export default {
   font-family: 'Days One', 'Mitr';
 }
 #app {
-  
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
