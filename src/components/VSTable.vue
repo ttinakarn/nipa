@@ -35,10 +35,11 @@
       >
         <td v-if="firstcol == 'Bed'">{{data.bednumber}}</td>
         <td v-else>{{moment(data.date).format('lll')}}</td>
-        <td v-if="updated == true" class="invalid">{{data.temp}}</td>
-        <td v-else
-          :class="{'text-danger font-weight-bold' : data.temp < condition[0].mintemp || data.temp > condition[0].maxtemp}"
-        >{{data.temp}}</td>
+             
+        <td v-if="data.bednumber == bednumber && i == 'temp' && (data.temp < condition[0].mintemp || data.temp > condition[0].maxtemp)" class="text-danger font-weight-bold invalid">{{data.temp}}</td>
+        <td v-else-if="data.temp < condition[0].mintemp || data.temp > condition[0].maxtemp" class="text-danger font-weight-bold">{{data.temp}}</td>
+        <td v-else-if="data.bednumber == bednumber && i == 'temp'" class="invalid">{{data.temp}}</td>
+        <td v-else>{{data.temp}}</td>
         <td
           :class="{'text-danger font-weight-bold' : data.pulse < condition[0].minpulse || data.pulse > condition[0].maxpulse }"
         >{{data.pulse}}</td>
@@ -89,7 +90,10 @@ export default {
   data() {
     return {
       condition: [],
-      updated: true
+      updated: this.$store.state.updated,
+      status: this.$store.state.status,
+      bednumber: this.$store.state.bednumber,
+      i: this.$store.state.i
     };
   },
   methods: {
@@ -123,7 +127,7 @@ export default {
   },
   mounted() {
     var instance = this;
-    instance.condition = condition.getCondition();
+    instance.condition = condition.getCondition();    
   }
 };
 </script>

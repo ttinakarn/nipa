@@ -459,6 +459,7 @@ export default {
           console.log(response);
         })
         .catch(error => {
+          instance.isLoading = false;
           this.$bvModal.msgBoxOk(error.message, {
             title: "Can't Save",
             size: "sm",

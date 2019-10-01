@@ -30,6 +30,7 @@ export const condition = {
     var condition = JSON.parse(localStorage.getItem("condition"));
     if (
       temp >= condition[3].mintemp ||
+      temp <= condition[0].mintemp ||
       pulse >= condition[3].minpulse ||
       sbp >= condition[3].minsbp ||
       dbp >= condition[3].mindbp ||

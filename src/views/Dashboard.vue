@@ -92,10 +92,8 @@ export default {
           for (var i = 0; i < instance.summary.length; i++) {
             for (var k = 1; k < instance.column.length; k++) {
               if (instance.summary[i][instance.column[k]] == null) {
-                console.log("i", i);
                 instance.count = instance.vitalsigns.length;
                 for (var j = 0; j < instance.count; j++) {
-                  console.log("j", j);
                   if (
                     instance.summary[i][instance.column[0]] ==
                       instance.vitalsigns[j][instance.column[0]] &&
@@ -134,11 +132,16 @@ export default {
   created() {
     this.time = moment().format("LTS");
     setInterval(() => this.updateCurrentTime(), 1 * 1000);
+    console.log("Users--->", this.$store.state.updated);
   },
   mounted() {
     this.getData();
     this.socket.on("dataUpdated", data => {
-      this.getData();
+      this.summary = [];
+      this.normal = [];
+      this.alerted = [];
+      this.getData() ;
+      console.log(data);      
     });
   }
 };
