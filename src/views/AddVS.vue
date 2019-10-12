@@ -319,7 +319,8 @@ export default {
       painscore: "",
       fallrisk: 0,
       remark: null,
-      condition: []
+      condition: [],
+      bednumber: 0
     };
   },
   methods: {
@@ -419,6 +420,9 @@ export default {
     saveNewVS() {
       var instance = this;
       instance.isLoading = true;
+      instance.bednumber = instance.bedinfo.bednumber
+      console.log("bed", instance.bednumber);
+      
       axios
         .post("https://nipa.herokuapp.com/api/vitalsign", {
           an: instance.$route.params.an,
@@ -436,7 +440,8 @@ export default {
           fallrisk: parseInt(this.fallrisk),
           remark: this.remark,
           empid: "213049",
-          date: moment().format()
+          date: moment().format(),
+          bednumber: instance.bednumber
         })
         .then(response => {
           instance.isLoading = false;

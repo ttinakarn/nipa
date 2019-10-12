@@ -16,9 +16,9 @@
 
     <br />
     <div style="margin: 10px">
-      <VSTable firstcol="Bed" :vs="alerted" :show="false" :name="false"></VSTable>
-      <VSTable firstcol="Bed" :vs="normal" :show="false" :name="false"></VSTable>
-      <!-- <VSTable firstcol="Bed" :vs="vitalsigns" :show="true"></VSTable> -->
+      <VSTable firstcol="Bed" :vs="alerted" :show="true" :name="false" :header="true"></VSTable>
+      <VSTable firstcol="Bed" :vs="normal" :show="true" :name="false" :header="false"></VSTable>
+      <!-- <VSTable firstcol="Bed" :vs="vs" :show="false"></VSTable> -->
     </div>
   </div>
 </template>
@@ -63,8 +63,9 @@ export default {
       condition: [],
       time: null,
       messages: [],
-      socket: io("192.168.11.11:8080"),
-      count: 0
+      socket: io("https://nipa.herokuapp.com/"),
+      count: 0,
+      vs: []
     };
   },
   methods: {
@@ -80,6 +81,9 @@ export default {
         .then(function(response) {
           // console.log("vital sign data: ", response);
           instance.vitalsigns = response.data.data;
+          instance.vs = response.data.data;
+          console.log("vs", instance.vs);
+          
           for (var i = 0; i < response.data.data.length; i++) {
             if (
               i == 0 ||
@@ -132,7 +136,7 @@ export default {
   created() {
     this.time = moment().format("LTS");
     setInterval(() => this.updateCurrentTime(), 1 * 1000);
-    console.log("Users--->", this.$store.state.updated);
+    // console.log("Bednumber", this.$store.state.bednumber);
   },
   mounted() {
     this.getData();
@@ -140,8 +144,15 @@ export default {
       this.summary = [];
       this.normal = [];
       this.alerted = [];
+      this.$store.commit('setbednumber', data.bednumber);
+      for(var i in data.status){
+        this.$store.commit('set'+Object.keys(data.status[i])[0], data.status[i][Object.keys(data.status[i])[0]]);
+        // console.log('set'+Object.keys(data.status[i])[0], data.status[i][Object.keys(data.status[i])[0]]);
+      }
+      // this.$store.commit('set', data.pulse);
+      // console.log("Bednumber", this.$store.state.bednumber);
       this.getData() ;
-      console.log(data);      
+      // console.log(data);      
     });
   }
 };
