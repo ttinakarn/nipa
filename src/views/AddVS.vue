@@ -61,6 +61,8 @@
                     :latestVS="bedinfo.temp"
                     :sendVSData.sync="temp"
                     :text-color="{'text-danger' : bedinfo.temp < condition[0].mintemp || bedinfo.temp > condition[0].maxtemp}"
+                    min=25
+                    max=44
                   ></MedInput>
                 </b-row>
               </b-button>
@@ -73,6 +75,8 @@
                     :latestVS="bedinfo.pulse"
                     :sendVSData.sync="pulse"
                     :text-color="{'text-danger' : bedinfo.pulse < condition[0].minpulse || bedinfo.pulse > condition[0].maxpulse}"
+                    min=30
+                    max=250
                   ></MedInput>
                 </b-row>
               </b-button>
@@ -131,6 +135,8 @@
                     :latestVS="bedinfo.o2sat"
                     :text-color="{'text-danger' : bedinfo.o2sat < condition[0].mino2sat}"
                     :sendVSData.sync="o2sat"
+                    min=64
+                    max=100
                   ></MedInput>
                 </b-row>
               </b-button>

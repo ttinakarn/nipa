@@ -10,7 +10,7 @@
     </b-row>
     <b-row>
       <b-col>
-        <b-form-input v-if="subtitle != 'Remark'" v-model="value" @keyup="$emit('update:sendVSData', value);" type="number" placeholder="N/A"></b-form-input>
+        <b-form-input v-if="subtitle != 'Remark'" v-model="value" @keyup="$emit('update:sendVSData', value);" type="number" placeholder="N/A" :max="max" :min="min"></b-form-input>
         <b-form-input v-else v-model="value" @keyup="$emit('update:sendVSData', value);" placeholder="N/A"></b-form-input>
       </b-col>
     </b-row>
@@ -18,12 +18,17 @@
 </template>
 
 <script>
+import { between } from 'vuelidate/lib/validators'
 export default {
-  data(){
-    return{
-      value: null
-    }
+  data() {
+    return {
+      value: null,
+      age : 0
+    };
   },
-  props: ['subtitle', 'latestVS', 'textColor', 'cols']
+  props: ["subtitle", "latestVS", "textColor", "cols", "max", "min"],
+  validations: {
+    
+  }
 };
 </script>

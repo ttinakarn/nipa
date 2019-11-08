@@ -17,7 +17,7 @@
         </td>
         <td rowspan="2">Remark</td>
         <td rowspan="2" v-if="name == true">Recorder</td>
-        <td rowspan="2" v-if="show == true">View</td>
+        <td rowspan="2" v-if="show == true" style="width:100px">View</td>
       </tr>
       <tr class="header" v-if="header == true">
         <td style="width:60px">T</td>
@@ -34,7 +34,8 @@
         :class="rowCondition(data.temp, data.pulse, data.sbp, data.dbp, data.o2sat, data.eye, data.verbal, data.motor, data.urine, data.painscore, data.fallrisk)"
       >
         <td v-if="firstcol == 'Bed'" style="width:60px">{{data.bednumber}}</td>
-        <td v-else style="width:60px">{{moment(data.date).format('lll')}}</td>
+        <td v-else style="width:250px">{{moment(data.date).format('lll')}}</td>
+
         <!-- <VSColumn :dataBednumber='data.bednumber' :bednumber="bednumber" :column="temp" condition="data.temp < condition[0].mintemp || data.temp > condition[0].maxtemp" :dataColumn="data.temp"></VSColumn> -->
         <td
           v-if="data.bednumber == bednumber && temp == true && (data.temp < condition[0].mintemp || data.temp > condition[0].maxtemp)"
@@ -48,6 +49,7 @@
         >{{data.temp}}</td>
         <td v-else-if="data.bednumber == bednumber && temp == true" class="invalid" style="width:60px">{{data.temp}}</td>
         <td v-else style="width:60px">{{data.temp}}</td>
+
         <!-- <td
           :class="{'text-danger font-weight-bold' : data.pulse < condition[0].minpulse || data.pulse > condition[0].maxpulse }"
         >{{data.pulse}}</td>-->
@@ -63,6 +65,7 @@
         >{{data.pulse}}</td>
         <td v-else-if="data.bednumber == bednumber && pulse == true" class="invalid" style="width:60px">{{data.pulse}}</td>
         <td v-else style="width:60px">{{data.pulse}}</td>
+
         <!-- <td
           :class="{'text-danger font-weight-bold' : data.resp < condition[0].minresp || data.resp > condition[0].maxresp }"
         >{{data.resp}}</td>-->
@@ -78,6 +81,7 @@
         >{{data.resp}}</td>
         <td v-else-if="data.bednumber == bednumber && resp == true" class="invalid" style="width:60px">{{data.resp}}</td>
         <td v-else style="width:60px">{{data.resp}}</td>
+
         <!-- <td>
           <span
             :class="{'text-danger font-weight-bold' : data.sbp < condition[0].minsbp || data.sbp > condition[0].maxsbp }"
@@ -105,6 +109,7 @@
             :class="{'text-danger font-weight-bold' : data.dbp < condition[0].mindbp || data.dbp > condition[0].maxdbp }"
           >{{data.dbp}}</span>
         </td>
+
         <!-- <td
           :class="{'text-danger font-weight-bold' : data.o2sat < condition[0].mino2sat }"
         >{{data.o2sat}}</td> -->
@@ -118,6 +123,7 @@
         >{{data.o2sat}}</td>
         <td v-else-if="data.bednumber == bednumber && o2sat == true" class="invalid" style="width:100px">{{data.o2sat}}</td>
         <td v-else style="width:100px">{{data.o2sat}}</td>
+
         <!-- <td :class="{'text-danger font-weight-bold' : data.eye < condition[0].maxeye }">{{data.eye}}</td> -->
         <td
           v-if="data.bednumber == bednumber && eye == true && (data.eye < condition[0].maxeye)"
@@ -129,6 +135,7 @@
         >{{data.eye}}</td>
         <td v-else-if="data.bednumber == bednumber && eye == true" class="invalid" style="width:50px">{{data.eye}}</td>
         <td v-else style="width:50px">{{data.eye}}</td>
+
         <!-- <td
           :class="{'text-danger font-weight-bold' : data.verbal < condition[0].maxverbal }"
         >{{data.verbal}}</td> -->
@@ -142,6 +149,7 @@
         >{{data.verbal}}</td>
         <td v-else-if="data.bednumber == bednumber && verbal == true" class="invalid" style="width:50px">{{data.verbal}}</td>
         <td v-else style="width:50px">{{data.verbal}}</td>
+
         <!-- <td
           :class="{'text-danger font-weight-bold' : data.motor < condition[0].maxmotor }"
         >{{data.motor}}</td> -->
@@ -155,6 +163,7 @@
         >{{data.motor}}</td>
         <td v-else-if="data.bednumber == bednumber && motor == true" class="invalid" style="width:50px">{{data.motor}}</td>
         <td v-else style="width:50px">{{data.motor}}</td>
+
         <!-- <td
           :class="{'text-danger font-weight-bold' : data.urine < condition[0].minurine }"
         >{{data.urine}}</td> -->
@@ -168,6 +177,7 @@
         >{{data.urine}}</td>
         <td v-else-if="data.bednumber == bednumber && urine == true" class="invalid" style="width:100px">{{data.urine}}</td>
         <td v-else style="width:100px">{{data.urine}}</td>
+
         <!-- <td>{{data.painscore}}</td> -->
         <!-- <td
           v-if="data.bednumber == bednumber && painscore == true"
@@ -188,6 +198,7 @@
         >{{data.painscore}}</td>
         <td v-else-if="data.bednumber == bednumber && painscore == true" class="invalid" style="width:100px">{{data.painscore}}</td>
         <td v-else style="width:100px">{{data.painscore}}</td>
+
         <!-- <td>{{data.fallrisk}}</td> -->
         <!-- <td
           v-if="data.bednumber == bednumber && fallrisk == true"
@@ -208,6 +219,7 @@
         >{{data.fallrisk}}</td>
         <td v-else-if="data.bednumber == bednumber && fallrisk == true" class="invalid" style="width:100px">{{data.fallrisk}}</td>
         <td v-else style="width:100px">{{data.fallrisk}}</td>
+
         <!-- <td>{{data.remark}}</td> -->
         <td
           v-if="data.bednumber == bednumber && remark == true"
@@ -219,7 +231,7 @@
           {{data.remark}}
         </td>
         <td v-if="name == true">{{data.name}}</td>
-        <td v-if="show == true">
+        <td v-if="show == true" style="width:100px">
           <b-button size="sm" style="background: #7FDBD5; border: #7FDBD5;">
             <router-link :to="{ name: 'graph', params: {an: data.an}}" style="color: #2c3e50;">View</router-link>
           </b-button>
@@ -243,7 +255,7 @@ export default {
   },
   data() {
     return {
-      condition: []
+      condition: [],
     };
   },
   methods: {
