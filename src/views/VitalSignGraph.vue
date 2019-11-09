@@ -18,17 +18,41 @@
 
     <br />
     <b-card bg-variant="light" text-variant="dark">
-      <b-col>
-        <b-row>
-          <b-col md="6" xs="12" style="text-align: left;">
-            <h5>Bed</h5>
+      <b-row align-v="center">
+        <b-col sm="10">
+          <b-row>
+            <b-col cols="6" style="text-align: left;">
+              <h5>Bed {{bedinfo.bednumber}}</h5>
+            </b-col>
+            <b-col cols="6" style="text-align: left;">
+              <h5>Name:</h5>
+            </b-col>
+            <b-col cols="6" style="text-align: left;">
+              <h5>HN:</h5>
+            </b-col>
+            <b-col cols="6" style="text-align: left;">
+              <h5>AN: {{bedinfo.an}}</h5>
+            </b-col>
+          </b-row>
+        </b-col>
+        <b-col sm="2">
+          <b-col style="text-align: right;">
+            <b-button style="background: #7FDBD5; border: #7FDBD5;" @click="showdata = !showdata">
+              <span v-if="showdata == false" class="text-dark">View data</span>
+              <span v-else class="text-dark">Hide data</span>
+            </b-button>
           </b-col>
-          <b-col md="6" xs="12" style="text-align: left;">
-            <h5>Name:</h5>
-          </b-col>
-        </b-row>
-      </b-col>
-      <b-tabs content-class="mt-3" align="center" v-model="tabIndex" v-if="temp.length != 0">
+        </b-col>
+      </b-row>
+
+      <b-tabs
+        content-class="mt-3"
+        align="center"
+        justified
+        active-nav-item-class="font-weight-bold text-danger"
+        v-model="tabIndex"
+        v-if="temp.length != 0"
+      >
         <b-tab title="Temperature" active>
           <div v-if="tabIndex == 0">
             <chart label="Temperate" :x="temp" :y="tempdate"></chart>
@@ -36,30 +60,31 @@
         </b-tab>
         <b-tab title="Pulse">
           <div v-if="tabIndex == 1">
-              <chart label="pulse" :x="pulse" :y="pulsedate"></chart>
-            </div>
+            <chart label="Pulse" :x="pulse" :y="pulsedate"></chart>
+          </div>
         </b-tab>
         <b-tab title="Respiration">
           <div v-if="tabIndex == 2">
-              <chart label="Respiration" :x="resp" :y="respdate"></chart>
-            </div>
+            <chart label="Respiration" :x="resp" :y="respdate"></chart>
+          </div>
         </b-tab>
         <b-tab title="SBP">
           <div v-if="tabIndex == 3">
-              <chart label="SBP" :x="sbp" :y="sbpdate"></chart>
-            </div>
+            <chart label="SBP" :x="sbp" :y="sbpdate"></chart>
+          </div>
         </b-tab>
         <b-tab title="DBP">
-           <div v-if="tabIndex == 4">
-              <chart label="DBP" :x="dbp" :y="dbpdate"></chart>
-            </div>
+          <div v-if="tabIndex == 4">
+            <chart label="DBP" :x="dbp" :y="dbpdate"></chart>
+          </div>
         </b-tab>
       </b-tabs>
     </b-card>
-    <div></div>
+    
     <div style="margin: 10px">
       <br />
       <VSTable
+        v-if="showdata == true"
         firstcol="Date&Time"
         :vs="vitalsigns"
         :show="false"
@@ -83,8 +108,10 @@ export default {
   },
   data() {
     return {
+      bedinfo: null,
       vitalsigns: [],
       time: null,
+      showdata: false,
       temp: [],
       tempdate: [],
       pulse: [],
@@ -95,7 +122,6 @@ export default {
       sbpdate: [],
       dbp: [],
       dbpdate: [],
-      namelist: ["temp", "pulse", "resp", "sbp", "dbp"],
       tabIndex: 0
     };
   },
@@ -109,35 +135,46 @@ export default {
       )
       .then(function(response) {
         console.log("vital sign data: ", response.data.data);
+        instance.bedinfo = response.data.data[0];
         instance.vitalsigns = response.data.data;
         for (var i = 0; i < response.data.data.length; i++) {
           if (response.data.data[i].temp != null) {
             instance.temp.push(response.data.data[i].temp);
-            instance.tempdate.push(moment(response.data.data[i].date).format('lll'));
+            instance.tempdate.push(
+              moment(response.data.data[i].date).format("lll")
+            );
           }
         }
         for (var i = 0; i < response.data.data.length; i++) {
           if (response.data.data[i].pulse != null) {
             instance.pulse.push(response.data.data[i].pulse);
-            instance.pulsedate.push(moment(response.data.data[i].date).format('lll'));
+            instance.pulsedate.push(
+              moment(response.data.data[i].date).format("lll")
+            );
           }
         }
         for (var i = 0; i < response.data.data.length; i++) {
           if (response.data.data[i].resp != null) {
             instance.resp.push(response.data.data[i].resp);
-            instance.respdate.push(moment(response.data.data[i].date).format('lll'));
+            instance.respdate.push(
+              moment(response.data.data[i].date).format("lll")
+            );
           }
         }
         for (var i = 0; i < response.data.data.length; i++) {
           if (response.data.data[i].sbp != null) {
             instance.sbp.push(response.data.data[i].sbp);
-            instance.sbpdate.push(moment(response.data.data[i].date).format('lll'));
+            instance.sbpdate.push(
+              moment(response.data.data[i].date).format("lll")
+            );
           }
         }
         for (var i = 0; i < response.data.data.length; i++) {
           if (response.data.data[i].dbp != null) {
             instance.dbp.push(response.data.data[i].dbp);
-            instance.dbpdate.push(moment(response.data.data[i].date).format('lll'));
+            instance.dbpdate.push(
+              moment(response.data.data[i].date).format("lll")
+            );
           }
         }
         console.log("temp", instance.temp);

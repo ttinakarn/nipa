@@ -14,8 +14,9 @@ export default {
             label: this.label,
             fill: false,
             data: this.x,
-            borderColor: "rgba(50, 115, 220, 0.5)",
-            backgroundColor: "rgba(50, 115, 220, 0.1)",
+            borderColor: "rgba(75, 192, 192)",
+            backgroundColor: "rgba(75, 192, 192)",
+            // backgroundColor: "rgba(242, 113, 115, 1)",
             id: "0",
             lineTension: 0
           }
