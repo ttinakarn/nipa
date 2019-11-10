@@ -19,12 +19,10 @@ export const store = new Vuex.Store({
         urine: false,
         painscore: false,
         fallrisk: false,
-        remark: false
+        remark: false,
+        submitstatus: null
     },
     mutations: {
-        // setUpdate(state, data){
-        //   state.updated = data  
-        // },
         setbednumber(state, data){
             state.bednumber = data
         },
@@ -66,6 +64,9 @@ export const store = new Vuex.Store({
         },
         setremark(state, data){
             state.remark = data
+        },
+        setsubmitstatus(state, data){
+            state.submitstatus = data
         }
     },
     getters: {
@@ -83,6 +84,7 @@ export const store = new Vuex.Store({
         urine: state=>state.urine,
         painscore: state=>state.painscore,
         fallrisk: state=>state.fallrisk,
-        remark: state=>state.remark
+        remark: state=>state.remark,
+        submitstatus: state=>state.submitstatus
     }
 });

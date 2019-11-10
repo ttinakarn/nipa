@@ -1,10 +1,6 @@
 <template>
   <div>
-    <loading
-      :active.sync="isLoading"
-      :can-cancel="false"
-      :is-full-page="true"
-    ></loading>
+    <loading :active.sync="isLoading" :can-cancel="false" :is-full-page="true"></loading>
     <b-navbar toggleable="sm" type="light" variant="light">
       <b-navbar-brand>
         <router-link to="/home">&lt; Back</router-link>
@@ -61,8 +57,8 @@
                     :latestVS="bedinfo.temp"
                     :sendVSData.sync="temp"
                     :text-color="{'text-danger' : bedinfo.temp < condition[0].mintemp || bedinfo.temp > condition[0].maxtemp}"
-                    min=25
-                    max=44
+                    min="25"
+                    max="44"
                   ></MedInput>
                 </b-row>
               </b-button>
@@ -75,8 +71,8 @@
                     :latestVS="bedinfo.pulse"
                     :sendVSData.sync="pulse"
                     :text-color="{'text-danger' : bedinfo.pulse < condition[0].minpulse || bedinfo.pulse > condition[0].maxpulse}"
-                    min=30
-                    max=250
+                    min="30"
+                    max="250"
                   ></MedInput>
                 </b-row>
               </b-button>
@@ -84,8 +80,14 @@
             <b-col md="4" cols="6">
               <b-button block class="button-color">
                 <b-row>
-                  <MedInput subtitle="R" :latestVS="bedinfo.resp" :sendVSData.sync="resp"
-                  :text-color="{'text-danger' : bedinfo.resp < condition[0].minresp || bedinfo.resp > condition[0].maxresp}"></MedInput>
+                  <MedInput
+                    subtitle="R"
+                    :latestVS="bedinfo.resp"
+                    :sendVSData.sync="resp"
+                    :text-color="{'text-danger' : bedinfo.resp < condition[0].minresp || bedinfo.resp > condition[0].maxresp}"
+                    min="20"
+                    max="24"
+                  ></MedInput>
                 </b-row>
               </b-button>
             </b-col>
@@ -95,10 +97,24 @@
                   <h5>BP</h5>
                 </b-col>
                 <b-row>
-                  <MedInput cols="6" subtitle="SBP" :latestVS="bedinfo.sbp" :sendVSData.sync="sbp" 
-                  :text-color="{'text-danger' : bedinfo.sbp < condition[0].minsbp || bedinfo.sbp > condition[0].maxsbp}"></MedInput>
-                  <MedInput cols="6" subtitle="DBP" :latestVS="bedinfo.dbp" :sendVSData.sync="dbp"
-                  :text-color="{'text-danger' : bedinfo.dbp < condition[0].mindbp || bedinfo.dbp > condition[0].maxdbp}"></MedInput>
+                  <MedInput
+                    cols="6"
+                    subtitle="SBP"
+                    :latestVS="bedinfo.sbp"
+                    :sendVSData.sync="sbp"
+                    :text-color="{'text-danger' : bedinfo.sbp < condition[0].minsbp || bedinfo.sbp > condition[0].maxsbp}"
+                    min="90"
+                    max="140"
+                  ></MedInput>
+                  <MedInput
+                    cols="6"
+                    subtitle="DBP"
+                    :latestVS="bedinfo.dbp"
+                    :sendVSData.sync="dbp"
+                    :text-color="{'text-danger' : bedinfo.dbp < condition[0].mindbp || bedinfo.dbp > condition[0].maxdbp}"
+                    min="60"
+                    max="90"
+                  ></MedInput>
                 </b-row>
               </b-button>
             </b-col>
@@ -108,14 +124,23 @@
                   <h5>Coma Score</h5>
                 </b-col>
                 <b-row>
-                  <MedInput cols="4" subtitle="E" :latestVS="bedinfo.eye" :sendVSData.sync="eye"
-                  :text-color="{'text-danger' : bedinfo.eye < condition[0].maxeye}"></MedInput>
+                  <MedInput
+                    cols="4"
+                    subtitle="E"
+                    :latestVS="bedinfo.eye"
+                    :sendVSData.sync="eye"
+                    :text-color="{'text-danger' : bedinfo.eye < condition[0].maxeye}"
+                    min="1"
+                    max="4"
+                  ></MedInput>
                   <MedInput
                     cols="4"
                     subtitle="V"
                     :latestVS="bedinfo.verbal"
                     :sendVSData.sync="verbal"
                     :text-color="{'text-danger' : bedinfo.verbal < condition[0].maxverbal}"
+                    min="1"
+                    max="5"
                   ></MedInput>
                   <MedInput
                     cols="4"
@@ -123,6 +148,8 @@
                     :latestVS="bedinfo.motor"
                     :sendVSData.sync="motor"
                     :text-color="{'text-danger' : bedinfo.motor < condition[0].maxmotor}"
+                    min="1"
+                    max="6"
                   ></MedInput>
                 </b-row>
               </b-button>
@@ -135,8 +162,8 @@
                     :latestVS="bedinfo.o2sat"
                     :text-color="{'text-danger' : bedinfo.o2sat < condition[0].mino2sat}"
                     :sendVSData.sync="o2sat"
-                    min=64
-                    max=100
+                    min="64"
+                    max="100"
                   ></MedInput>
                 </b-row>
               </b-button>
@@ -144,8 +171,13 @@
             <b-col md="4" cols="6">
               <b-button block class="button-color">
                 <b-row>
-                  <MedInput subtitle="Urine" :latestVS="bedinfo.urine" :sendVSData.sync="urine"
-                  :text-color="{'text-danger' : bedinfo.urine < condition[0].minurine}"
+                  <MedInput
+                    subtitle="Urine"
+                    :latestVS="bedinfo.urine"
+                    :sendVSData.sync="urine"
+                    :text-color="{'text-danger' : bedinfo.urine < condition[0].minurine}"
+                    min="30"
+                    max="100"
                   ></MedInput>
                 </b-row>
               </b-button>
@@ -157,6 +189,8 @@
                     subtitle="PainScore"
                     :latestVS="bedinfo.painscore"
                     :sendVSData.sync="painscore"
+                    min="1"
+                    max="10"
                   ></MedInput>
                 </b-row>
               </b-button>
@@ -287,6 +321,7 @@ import axios from "axios";
 import moment from "moment";
 import { condition } from "../condition.js";
 import Loading from "vue-loading-overlay";
+import { mapState } from "vuex";
 import "vue-loading-overlay/dist/vue-loading.css";
 
 export default {
@@ -329,6 +364,7 @@ export default {
       bednumber: 0
     };
   },
+  computed: mapState(["submitstatus"]),
   methods: {
     // History of falling immeditely
     calchecked1: function() {
@@ -426,62 +462,74 @@ export default {
     saveNewVS() {
       var instance = this;
       instance.isLoading = true;
-      instance.bednumber = instance.bedinfo.bednumber
+      instance.bednumber = instance.bedinfo.bednumber;
       console.log("bed", instance.bednumber);
-      
-      axios
-        .post("https://nipa.herokuapp.com/api/vitalsign", {
-          an: instance.$route.params.an,
-          temp: parseInt(this.temp),
-          pulse: parseInt(this.pulse),
-          resp: parseInt(this.resp),
-          sbp: parseInt(this.sbp),
-          dbp: parseInt(this.dbp),
-          eye: parseInt(this.eye),
-          verbal: parseInt(this.verbal),
-          motor: parseInt(this.motor),
-          o2sat: parseInt(this.o2sat),
-          urine: parseInt(this.urine),
-          painscore: parseInt(this.painscore),
-          fallrisk: parseInt(this.fallrisk),
-          remark: this.remark,
-          empid: "213049",
-          date: moment().format(),
-          bednumber: instance.bednumber
-        })
-        .then(response => {
-          instance.isLoading = false;
-          this.$bvModal
-            .msgBoxOk("Data was submitted successfully", {
-              title: "Confirmation",
+      if (this.$store.getters.submitstatus == "FAIL") {
+        instance.isLoading = false;
+        this.$bvModal.msgBoxOk("The number is out of range", {
+          title: "Can't Save",
+          size: "sm",
+          buttonSize: "sm",
+          okVariant: "danger",
+          headerClass: "p-2 border-bottom-0",
+          footerClass: "p-2 border-top-0",
+          centered: true
+        });
+      } else {
+        axios
+          .post("https://nipa.herokuapp.com/api/vitalsign", {
+            an: instance.$route.params.an,
+            temp: parseInt(this.temp),
+            pulse: parseInt(this.pulse),
+            resp: parseInt(this.resp),
+            sbp: parseInt(this.sbp),
+            dbp: parseInt(this.dbp),
+            eye: parseInt(this.eye),
+            verbal: parseInt(this.verbal),
+            motor: parseInt(this.motor),
+            o2sat: parseInt(this.o2sat),
+            urine: parseInt(this.urine),
+            painscore: parseInt(this.painscore),
+            fallrisk: parseInt(this.fallrisk),
+            remark: this.remark,
+            empid: "213049",
+            date: moment().format(),
+            bednumber: instance.bednumber
+          })
+          .then(response => {
+            instance.isLoading = false;
+            this.$bvModal
+              .msgBoxOk("Data was submitted successfully", {
+                title: "Confirmation",
+                size: "sm",
+                buttonSize: "sm",
+                okVariant: "success",
+                headerClass: "p-2 border-bottom-0",
+                footerClass: "p-2 border-top-0",
+                centered: true
+              })
+              .then(value => {
+                this.$router.push("/home");
+              })
+              .catch(err => {
+                // An error occurred
+              });
+            console.log(response);
+          })
+          .catch(error => {
+            instance.isLoading = false;
+            this.$bvModal.msgBoxOk(error.message, {
+              title: "Can't Save",
               size: "sm",
               buttonSize: "sm",
-              okVariant: "success",
+              okVariant: "danger",
               headerClass: "p-2 border-bottom-0",
               footerClass: "p-2 border-top-0",
               centered: true
-            })
-            .then(value => {
-              this.$router.push("/home");
-            })
-            .catch(err => {
-              // An error occurred
             });
-          console.log(response);
-        })
-        .catch(error => {
-          instance.isLoading = false;
-          this.$bvModal.msgBoxOk(error.message, {
-            title: "Can't Save",
-            size: "sm",
-            buttonSize: "sm",
-            okVariant: "danger",
-            headerClass: "p-2 border-bottom-0",
-            footerClass: "p-2 border-top-0",
-            centered: true
+            console.log(error);
           });
-          console.log(error);
-        });
+      }
     }
   },
   mounted() {
