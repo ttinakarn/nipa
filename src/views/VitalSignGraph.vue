@@ -49,31 +49,31 @@
         content-class="mt-3"
         align="center"
         justified
-        active-nav-item-class="font-weight-bold text-danger"
+        active-nav-item-class="font-weight-bold text-info"
         v-model="tabIndex"
         v-if="temp.length != 0"
       >
-        <b-tab title="Temperature" active>
+        <b-tab title="Temperature" active title-link-class="text-secondary">
           <div v-if="tabIndex == 0">
             <chart label="Temperate" :x="temp" :y="tempdate"></chart>
           </div>
         </b-tab>
-        <b-tab title="Pulse">
+        <b-tab title="Pulse" title-link-class="text-secondary">
           <div v-if="tabIndex == 1">
             <chart label="Pulse" :x="pulse" :y="pulsedate"></chart>
           </div>
         </b-tab>
-        <b-tab title="Respiration">
+        <b-tab title="Respiration" title-link-class="text-secondary">
           <div v-if="tabIndex == 2">
             <chart label="Respiration" :x="resp" :y="respdate"></chart>
           </div>
         </b-tab>
-        <b-tab title="SBP">
+        <b-tab title="SBP" title-link-class="text-secondary">
           <div v-if="tabIndex == 3">
             <chart label="SBP" :x="sbp" :y="sbpdate"></chart>
           </div>
         </b-tab>
-        <b-tab title="DBP">
+        <b-tab title="DBP" title-link-class="text-secondary">
           <div v-if="tabIndex == 4">
             <chart label="DBP" :x="dbp" :y="dbpdate"></chart>
           </div>
@@ -193,3 +193,9 @@ export default {
   }
 };
 </script>
+
+<style scoped>
+.text-blue {
+  color: rgba(75, 192, 192);
+}
+</style>
