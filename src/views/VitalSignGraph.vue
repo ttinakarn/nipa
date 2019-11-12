@@ -17,7 +17,7 @@
     </b-navbar>
 
     <br />
-    <b-card bg-variant="light" text-variant="dark" v-if="temp.length != 0">
+    <b-card bg-variant="light" text-variant="dark" v-if="temp.length != 0" class="hide">
       <b-row align-v="center">
         <b-col sm="10">
           <b-row>
@@ -64,16 +64,22 @@
         </b-tab>
       </b-tabs>
     </b-card>
-    <div style="margin: 10px">
-      <VSTable
-        v-if="showdata == true"
-        firstcol="Date&Time"
-        :vs="vitalsigns"
-        :show="false"
-        firstcolsize="width:200px"
-        :header="true"
-        :name="true"
-      ></VSTable>
+    <div style="margin: 10px" v-if="showdata == true">
+      <b-row align-h="end" style="margin: 10px" class="hide">
+        <b-button style="background: #7FDBD5; border: #7FDBD5;" @click="print()">
+          <span class="text-dark">Print</span>
+        </b-button>
+      </b-row>
+      <div class="print">
+        <VSTable
+          firstcol="Date&Time"
+          :vs="vitalsigns"
+          :show="false"
+          firstcolsize="width:200px"
+          :header="true"
+          :name="true"
+        ></VSTable>
+      </div>
     </div>
   </div>
 </template>
@@ -137,6 +143,9 @@ export default {
     updateCurrentTime() {
       moment.locale("th");
       this.time = moment().format("LTS");
+    },
+    print() {
+      window.print();
     }
   },
   created() {
@@ -149,5 +158,14 @@ export default {
 <style scoped>
 .text-blue {
   color: rgba(75, 192, 192);
+}
+
+@media print {
+  .hide {
+    display: none;
+  }
+  .print {
+    display: block;
+  }
 }
 </style>
