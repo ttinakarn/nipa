@@ -14,7 +14,7 @@
           <b-form-input
             v-if="subtitle != 'Remark'"
             type="number"
-            v-model.number.lazy="$v.value.$model"
+            v-model.lazy="$v.value.$model"
             @keyup="$emit('update:sendVSData', value);"
             :class="{'is-invalid' : $v.value.$error, 'is-valid' : $v.value.$invalid }"
             placeholder="N/A"
@@ -28,7 +28,7 @@
           <div class="invalid-feedback">
             <span
               v-if="!$v.value.between"
-            >Must be between {{$v.value.$params.between.min}} and {{$v.value.$params.between.max}}</span>
+            >The number should be between {{$v.value.$params.between.min}} and {{$v.value.$params.between.max}}</span>
           </div>
         </b-form>
       </b-col>
@@ -39,7 +39,7 @@
 <script>
 import { between } from "vuelidate/lib/validators";
 export default {
-  props: ["subtitle", "latestVS", "textColor", "cols", "max", "min"],
+  props: ["subtitle", "latestVS", "textColor", "cols", "max", "min", "description"],
   data() {
     return {
       value: null
@@ -56,9 +56,14 @@ export default {
     submitForm() {
       this.$v.$touch();
       if (this.$v.$invalid) {
-        this.$store.commit("setsubmitstatus", "FAIL");
-      } else {
-        this.$store.commit("setsubmitstatus", "SUCCESS");
+        this.$store.commit("setsubmitstatus" + this.description, false);
+        console.log(this.value);
+      } 
+      else if(this.value == null){
+        this.$store.commit("setsubmitstatus" + this.description, null);
+      }
+      else {
+        this.$store.commit("setsubmitstatus" + this.description, true);
       }
     }
   }

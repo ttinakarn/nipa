@@ -9,6 +9,7 @@
       <b-navbar-nav class="ml-auto">
         <b-navbar-brand class="text-success" right>
           <span @click="saveNewVS">Save</span>
+
           <b-modal
             id="saveNewVS"
             title="Confirmation"
@@ -26,6 +27,7 @@
     <b-container>
       <b-tabs content-class="mt-3" fill v-if="bedinfo != null && $route.params.an != null">
         <b-tab title="Vital Sign" active>
+          {{submitstatus}}
           <b-card bg-variant="light" text-variant="dark">
             <b-col>
               <b-row>
@@ -47,154 +49,180 @@
               </b-row>
             </b-col>
           </b-card>
+
           <br />
+
           <b-row>
             <b-col md="4" cols="6">
               <b-button block class="button-color">
                 <b-row>
                   <MedInput
                     subtitle="T"
+                    description="temp"
                     :latestVS="bedinfo.temp"
                     :sendVSData.sync="temp"
                     :text-color="{'text-danger' : bedinfo.temp < condition[0].mintemp || bedinfo.temp > condition[0].maxtemp}"
-                    min="25"
-                    max="44"
+                    min="35"
+                    max="42"
                   ></MedInput>
                 </b-row>
               </b-button>
             </b-col>
+
             <b-col md="4" cols="6">
               <b-button block class="button-color">
                 <b-row>
                   <MedInput
                     subtitle="P"
+                    description="pulse"
                     :latestVS="bedinfo.pulse"
                     :sendVSData.sync="pulse"
                     :text-color="{'text-danger' : bedinfo.pulse < condition[0].minpulse || bedinfo.pulse > condition[0].maxpulse}"
-                    min="30"
-                    max="250"
+                    min="40"
+                    max="150"
                   ></MedInput>
                 </b-row>
               </b-button>
             </b-col>
+
             <b-col md="4" cols="6">
               <b-button block class="button-color">
                 <b-row>
                   <MedInput
                     subtitle="R"
+                    description="resp"
                     :latestVS="bedinfo.resp"
                     :sendVSData.sync="resp"
                     :text-color="{'text-danger' : bedinfo.resp < condition[0].minresp || bedinfo.resp > condition[0].maxresp}"
-                    min="20"
-                    max="24"
+                    min="8"
+                    max="35"
                   ></MedInput>
                 </b-row>
               </b-button>
             </b-col>
+
             <b-col md="6" xs="12">
               <b-button block class="button-color">
                 <b-col cols="12" align="center">
                   <h5>BP</h5>
                 </b-col>
+
                 <b-row>
                   <MedInput
                     cols="6"
                     subtitle="SBP"
+                    description="sbp"
                     :latestVS="bedinfo.sbp"
                     :sendVSData.sync="sbp"
                     :text-color="{'text-danger' : bedinfo.sbp < condition[0].minsbp || bedinfo.sbp > condition[0].maxsbp}"
-                    min="90"
-                    max="140"
+                    min="80"
+                    max="200"
                   ></MedInput>
+
                   <MedInput
                     cols="6"
                     subtitle="DBP"
+                    description="dbp"
                     :latestVS="bedinfo.dbp"
                     :sendVSData.sync="dbp"
                     :text-color="{'text-danger' : bedinfo.dbp < condition[0].mindbp || bedinfo.dbp > condition[0].maxdbp}"
-                    min="60"
-                    max="90"
+                    min="50"
+                    max="230"
                   ></MedInput>
                 </b-row>
               </b-button>
             </b-col>
+
             <b-col md="6" xs="12">
               <b-button block class="button-color">
                 <b-col cols="12" align="center">
                   <h5>Coma Score</h5>
                 </b-col>
+
                 <b-row>
                   <MedInput
                     cols="4"
                     subtitle="E"
+                    description="eye"
                     :latestVS="bedinfo.eye"
                     :sendVSData.sync="eye"
                     :text-color="{'text-danger' : bedinfo.eye < condition[0].maxeye}"
-                    min="1"
+                    min="0"
                     max="4"
                   ></MedInput>
+
                   <MedInput
                     cols="4"
                     subtitle="V"
+                    description="verbal"
                     :latestVS="bedinfo.verbal"
                     :sendVSData.sync="verbal"
                     :text-color="{'text-danger' : bedinfo.verbal < condition[0].maxverbal}"
-                    min="1"
+                    min="0"
                     max="5"
                   ></MedInput>
+
                   <MedInput
                     cols="4"
                     subtitle="M"
+                    description="motor"
                     :latestVS="bedinfo.motor"
                     :sendVSData.sync="motor"
                     :text-color="{'text-danger' : bedinfo.motor < condition[0].maxmotor}"
-                    min="1"
+                    min="0"
                     max="6"
                   ></MedInput>
                 </b-row>
               </b-button>
             </b-col>
+
             <b-col md="4" cols="6">
               <b-button block class="button-color">
                 <b-row>
                   <MedInput
                     subtitle="O2 Sat"
+                    description="o2sat"
                     :latestVS="bedinfo.o2sat"
                     :text-color="{'text-danger' : bedinfo.o2sat < condition[0].mino2sat}"
                     :sendVSData.sync="o2sat"
-                    min="64"
+                    min="80"
                     max="100"
                   ></MedInput>
                 </b-row>
               </b-button>
             </b-col>
+
             <b-col md="4" cols="6">
               <b-button block class="button-color">
                 <b-row>
                   <MedInput
                     subtitle="Urine"
+                    description="urine"
                     :latestVS="bedinfo.urine"
                     :sendVSData.sync="urine"
                     :text-color="{'text-danger' : bedinfo.urine < condition[0].minurine}"
-                    min="30"
-                    max="100"
+                    min="0"
+                    max="1000"
                   ></MedInput>
                 </b-row>
               </b-button>
             </b-col>
+
             <b-col md="4" cols="6">
               <b-button block class="button-color">
                 <b-row>
                   <MedInput
                     subtitle="PainScore"
+                    description="painscore"
                     :latestVS="bedinfo.painscore"
                     :sendVSData.sync="painscore"
-                    min="1"
+                    min="0"
                     max="10"
                   ></MedInput>
                 </b-row>
               </b-button>
             </b-col>
+
             <b-col cols="12">
               <b-button block class="button-color">
                 <b-row>
@@ -204,11 +232,13 @@
             </b-col>
           </b-row>
         </b-tab>
+
         <b-tab>
           <template slot="title">
             Fall Risk
             <b-badge v-if="fallrisk > 0" pill variant="success">{{fallrisk}}</b-badge>
           </template>
+
           <b-card
             bg-variant="light"
             text-variant="dark"
@@ -234,7 +264,9 @@
               </b-row>
             </b-col>
           </b-card>
+
           <br />
+
           <b-row>
             <b-col md="4" xs="12">
               <b-button
@@ -248,6 +280,7 @@
                 <br />History of falling immeditely
               </b-button>
             </b-col>
+
             <b-col md="4" xs="12">
               <b-button
                 :pressed.sync="checked2"
@@ -260,6 +293,7 @@
                 <br />Secondary diagnosis
               </b-button>
             </b-col>
+
             <b-col md="4" xs="12">
               <b-button
                 :pressed.sync="checked3"
@@ -272,9 +306,11 @@
                 <br />IV / Heparin lock
               </b-button>
             </b-col>
+
             <b-col cols="12">
               <h5 align="left">Ambulatory aid</h5>
             </b-col>
+
             <Radio
               md="4"
               xs="12"
@@ -282,17 +318,25 @@
               v-model="checked4"
               @score="calchecked4"
             ></Radio>
+
             <Radio md="4" xs="12" title="Crutches / Cane" v-model="checked4" @score="calchecked4"></Radio>
+
             <Radio md="4" xs="12" title="Fracture" v-model="checked4" @score="calchecked4"></Radio>
+
             <b-col cols="12">
               <h5 align="left">Gate / Transfering</h5>
             </b-col>
+
             <Radio md="4" xs="12" title="Normal" v-model="checked5" @score="calchecked5"></Radio>
+
             <Radio md="4" xs="12" title="Weak" v-model="checked5" @score="calchecked5"></Radio>
+
             <Radio md="4" xs="12" title="Impaired" v-model="checked5" @score="calchecked5"></Radio>
+
             <b-col cols="12">
               <h5 align="left">Mental State</h5>
             </b-col>
+
             <Radio
               md="6"
               xs="12"
@@ -300,6 +344,7 @@
               v-model="checked6"
               @score="calchecked6"
             ></Radio>
+
             <Radio
               md="6"
               xs="12"
@@ -347,17 +392,17 @@ export default {
       checked5currentvalue: "",
       checked6count: 0,
       checked6currentvalue: "",
-      temp: "",
-      pulse: "",
-      resp: "",
-      sbp: "",
-      dbp: "",
-      eye: "",
-      verbal: "",
-      motor: "",
-      o2sat: "",
-      urine: "",
-      painscore: "",
+      temp: null,
+      pulse: null,
+      resp: null,
+      sbp: null,
+      dbp: null,
+      eye: null,
+      verbal: null,
+      motor: null,
+      o2sat: null,
+      urine: null,
+      painscore: null,
       fallrisk: 0,
       remark: null,
       condition: [],
@@ -464,9 +509,45 @@ export default {
       instance.isLoading = true;
       instance.bednumber = instance.bedinfo.bednumber;
       console.log("bed", instance.bednumber);
-      if (this.$store.getters.submitstatus == "FAIL") {
+      if (
+        this.$store.getters.submitstatustemp == null &&
+        this.$store.getters.submitstatuspulse == null &&
+        this.$store.getters.submitstatusresp == null &&
+        this.$store.getters.submitstatussbp == null &&
+        this.$store.getters.submitstatusdbp == null &&
+        this.$store.getters.submitstatuseye == null &&
+        this.$store.getters.submitstatusverbal == null &&
+        this.$store.getters.submitstatusmotor == null &&
+        this.$store.getters.submitstatuso2sat == null &&
+        this.$store.getters.submitstatusurine == null &&
+        this.$store.getters.submitstatuspainscore == null &&
+        this.fallrisk == 0
+      ) {
         instance.isLoading = false;
-        this.$bvModal.msgBoxOk("The number is out of range", {
+        this.$bvModal.msgBoxOk("Please fill out the form.", {
+          title: "Can't Save",
+          size: "sm",
+          buttonSize: "sm",
+          okVariant: "danger",
+          headerClass: "p-2 border-bottom-0",
+          footerClass: "p-2 border-top-0",
+          centered: true
+        });
+      } else if (
+        this.$store.getters.submitstatustemp == false ||
+        this.$store.getters.submitstatuspulse == false ||
+        this.$store.getters.submitstatusresp == false ||
+        this.$store.getters.submitstatussbp == false ||
+        this.$store.getters.submitstatusdbp == false ||
+        this.$store.getters.submitstatuseye == false ||
+        this.$store.getters.submitstatusverbal == false ||
+        this.$store.getters.submitstatusmotor == false ||
+        this.$store.getters.submitstatuso2sat == false ||
+        this.$store.getters.submitstatusurine == false ||
+        this.$store.getters.submitstatuspainscore == false
+      ) {
+        instance.isLoading = false;
+        this.$bvModal.msgBoxOk("Invalid input", {
           title: "Can't Save",
           size: "sm",
           buttonSize: "sm",
@@ -516,19 +597,29 @@ export default {
               });
             console.log(response);
           })
-          .catch(error => {
-            instance.isLoading = false;
-            this.$bvModal.msgBoxOk(error.message, {
-              title: "Can't Save",
-              size: "sm",
-              buttonSize: "sm",
-              okVariant: "danger",
-              headerClass: "p-2 border-bottom-0",
-              footerClass: "p-2 border-top-0",
-              centered: true
-            });
-            console.log(error);
+        .catch(error => {
+          instance.isLoading = false;
+          this.$bvModal.msgBoxOk(error.message, {
+            title: "Can't Save",
+            size: "sm",
+            buttonSize: "sm",
+            okVariant: "danger",
+            headerClass: "p-2 border-bottom-0",
+            footerClass: "p-2 border-top-0",
+            centered: true
           });
+          console.log(error);
+        });
+        // instance.isLoading = false;
+        // this.$bvModal.msgBoxOk("success", {
+        //   title: "saved",
+        //   size: "sm",
+        //   buttonSize: "sm",
+        //   okVariant: "success",
+        //   headerClass: "p-2 border-bottom-0",
+        //   footerClass: "p-2 border-top-0",
+        //   centered: true
+        // });
       }
     }
   },

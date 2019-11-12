@@ -17,7 +17,7 @@
     </b-navbar>
 
     <br />
-    <b-card bg-variant="light" text-variant="dark">
+    <b-card bg-variant="light" text-variant="dark" v-if="temp.length != 0">
       <b-row align-v="center">
         <b-col sm="10">
           <b-row>
@@ -25,10 +25,10 @@
               <h5>Bed {{bedinfo.bednumber}}</h5>
             </b-col>
             <b-col cols="6" style="text-align: left;">
-              <h5>Name:</h5>
+              <h5>Name: {{bedinfo.title}}{{bedinfo.patientname}} {{bedinfo.patientsurname}}</h5>
             </b-col>
             <b-col cols="6" style="text-align: left;">
-              <h5>HN:</h5>
+              <h5>HN: {{bedinfo.hn}}</h5>
             </b-col>
             <b-col cols="6" style="text-align: left;">
               <h5>AN: {{bedinfo.an}}</h5>
@@ -51,7 +51,6 @@
         justified
         active-nav-item-class="font-weight-bold text-info"
         v-model="tabIndex"
-        v-if="temp.length != 0"
       >
         <b-tab title="Temperature" active title-link-class="text-secondary">
           <div v-if="tabIndex == 0">

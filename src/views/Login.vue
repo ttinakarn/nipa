@@ -9,7 +9,7 @@
       </b-row>
       <b-row class="my-1 justify-content-center">
         <b-col>
-          <b-form-input placeholder="Password"></b-form-input>
+          <b-form-input placeholder="Password" type="password"></b-form-input>
         </b-col>
       </b-row>
       <b-button size="lg" style="background: #7FDBD5; border: #7FDBD5;">

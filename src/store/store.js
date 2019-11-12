@@ -5,7 +5,6 @@ Vue.use(Vuex)
 
 export const store = new Vuex.Store({
     state: {
-        // updated: false,
         bednumber: 0,
         temp: false,
         pulse: false,
@@ -20,7 +19,18 @@ export const store = new Vuex.Store({
         painscore: false,
         fallrisk: false,
         remark: false,
-        submitstatus: null
+        submitstatus: null,
+        submitstatustemp: null,
+        submitstatuspulse: null,
+        submitstatusresp: null,
+        submitstatussbp: null,
+        submitstatusdbp: null,
+        submitstatuso2sat: null,
+        submitstatuseye: null,
+        submitstatusverbal: null,
+        submitstatusmotor: null,
+        submitstatusurine: null,
+        submitstatuspainscore: null
     },
     mutations: {
         setbednumber(state, data){
@@ -67,10 +77,42 @@ export const store = new Vuex.Store({
         },
         setsubmitstatus(state, data){
             state.submitstatus = data
-        }
+        },
+        setsubmitstatustemp(state, data){
+            state.submitstatustemp = data
+        },
+        setsubmitstatuspulse(state, data){
+            state.submitstatuspulse = data
+        },
+        setsubmitstatusresp(state, data){
+            state.submitstatusresp = data
+        },
+        setsubmitstatussbp(state, data){
+            state.submitstatussbp = data
+        },
+        setsubmitstatusdbp(state, data){
+            state.submitstatusdbp = data
+        },
+        setsubmitstatuso2sat(state, data){
+            state.submitstatuso2sat = data
+        },
+        setsubmitstatuseye(state, data){
+            state.submitstatuseye = data
+        },
+        setsubmitstatusverbal(state, data){
+            state.submitstatusverbal = data
+        },
+        setsubmitstatusmotor(state, data){
+            state.submitstatusmotor = data
+        },
+        setsubmitstatusurine(state, data){
+            state.submitstatusurine = data
+        },
+        setsubmitstatuspainscore(state, data){
+            state.submitstatuspainscore = data
+        }        
     },
     getters: {
-        // updated: state=>status.updated,
         bednumber: state=>state.bednumber,
         temp: state=>state.temp,
         pulse: state=>state.pulse,
@@ -85,6 +127,17 @@ export const store = new Vuex.Store({
         painscore: state=>state.painscore,
         fallrisk: state=>state.fallrisk,
         remark: state=>state.remark,
-        submitstatus: state=>state.submitstatus
+        submitstatus: state=>state.submitstatus,
+        submitstatustemp: state=>state.submitstatustemp,
+        submitstatuspulse: state=>state.submitstatuspulse,
+        submitstatusresp: state=>state.submitstatusresp,
+        submitstatussbp: state=>state.submitstatussbp,
+        submitstatusdbp: state=>state.submitstatusdbp,
+        submitstatuso2sat: state=>state.submitstatuso2sat,
+        submitstatuseye: state=>state.submitstatuseye,
+        submitstatusverbal: state=>state.submitstatusverbal,
+        submitstatusmotor: state=>state.submitstatusmotor,
+        submitstatusurine: state=>state.submitstatusurine,
+        submitstatuspainscore: state=>state.submitstatuspainscore
     }
 });
