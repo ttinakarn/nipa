@@ -62,26 +62,9 @@
             <chart label="Pulse" :x="pulse" :y="pulsedate"></chart>
           </div>
         </b-tab>
-        <b-tab title="Respiration" title-link-class="text-secondary">
-          <div v-if="tabIndex == 2">
-            <chart label="Respiration" :x="resp" :y="respdate"></chart>
-          </div>
-        </b-tab>
-        <b-tab title="SBP" title-link-class="text-secondary">
-          <div v-if="tabIndex == 3">
-            <chart label="SBP" :x="sbp" :y="sbpdate"></chart>
-          </div>
-        </b-tab>
-        <b-tab title="DBP" title-link-class="text-secondary">
-          <div v-if="tabIndex == 4">
-            <chart label="DBP" :x="dbp" :y="dbpdate"></chart>
-          </div>
-        </b-tab>
       </b-tabs>
     </b-card>
-    
     <div style="margin: 10px">
-      <br />
       <VSTable
         v-if="showdata == true"
         firstcol="Date&Time"
@@ -115,12 +98,6 @@ export default {
       tempdate: [],
       pulse: [],
       pulsedate: [],
-      resp: [],
-      respdate: [],
-      sbp: [],
-      sbpdate: [],
-      dbp: [],
-      dbpdate: [],
       tabIndex: 0
     };
   },
@@ -148,30 +125,6 @@ export default {
           if (response.data.data[i].pulse != null) {
             instance.pulse.push(response.data.data[i].pulse);
             instance.pulsedate.push(
-              moment(response.data.data[i].date).format("lll")
-            );
-          }
-        }
-        for (var i = 0; i < response.data.data.length; i++) {
-          if (response.data.data[i].resp != null) {
-            instance.resp.push(response.data.data[i].resp);
-            instance.respdate.push(
-              moment(response.data.data[i].date).format("lll")
-            );
-          }
-        }
-        for (var i = 0; i < response.data.data.length; i++) {
-          if (response.data.data[i].sbp != null) {
-            instance.sbp.push(response.data.data[i].sbp);
-            instance.sbpdate.push(
-              moment(response.data.data[i].date).format("lll")
-            );
-          }
-        }
-        for (var i = 0; i < response.data.data.length; i++) {
-          if (response.data.data[i].dbp != null) {
-            instance.dbp.push(response.data.data[i].dbp);
-            instance.dbpdate.push(
               moment(response.data.data[i].date).format("lll")
             );
           }
