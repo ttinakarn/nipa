@@ -7,7 +7,13 @@
       @click="updateActivePlan"
       v-on:click="calfallrisk"
     >
-      <img :src="icon" class="responsive" />
+      <img v-if="title == 'Bed Rest / Nurse assist'" src="../assets/asleep.png" class="responsive" />
+      <img v-if="title == 'Crutches / Cane' || title == 'Weak'" src="../assets/disabled.png" class="responsive" />
+      <img v-if="title == 'Fracture'" src="../assets/injured.png" class="responsive" />
+      <img v-if="title == 'Normal'" src="../assets/walk.png" class="responsive" />
+      <img v-if="title == 'Impaired'" src="../assets/handicap.png" class="responsive" />
+      <img v-if="title == 'Oriented own ability'" src="../assets/empathy.png" class="responsive" />
+      <img v-if="title == 'Forget limitations'" src="../assets/apathy.png" class="responsive" />
       <br />
       {{title}}
     </b-button>
@@ -21,7 +27,8 @@ export default {
     return {
       score: 0,
       currentvalue: "",
-      count: 0
+      count: 0,
+      imgPath: this.icon
     };
   },
   model: {

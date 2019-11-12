@@ -276,7 +276,7 @@
                 :class="{'bg-dark' : this.checked1 != false}"
                 v-on:click="calchecked1"
               >
-                <img alt="Vue logo" src="../assets/falling-man.png" class="responsive" />
+                <img alt="Vue logo" src="../assets/accident.png" class="responsive" />
                 <br />History of falling immeditely
               </b-button>
             </b-col>
