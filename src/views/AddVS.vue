@@ -236,7 +236,9 @@
         <b-tab>
           <template slot="title">
             Fall Risk
-            <b-badge v-if="fallrisk > 0" pill variant="success">{{fallrisk}}</b-badge>
+            <b-badge v-if="fallrisk > 0 && fallrisk <= 3" pill variant="success">{{fallrisk}}</b-badge>
+            <b-badge v-if="fallrisk == 4 || fallrisk == 5" pill variant="warning">{{fallrisk}}</b-badge>
+            <b-badge v-if="fallrisk > 5" pill variant="danger">{{fallrisk}}</b-badge>
           </template>
 
           <b-card
