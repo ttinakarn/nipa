@@ -17,7 +17,7 @@
     </b-navbar>
 
     <br />
-    <b-card bg-variant="light" text-variant="dark" v-if="temp.length != 0" class="hide">
+    <b-card bg-variant="light" text-variant="dark" v-if="temp.length != 0">
       <b-row align-v="center">
         <b-col sm="10">
           <b-row>
@@ -35,7 +35,7 @@
             </b-col>
           </b-row>
         </b-col>
-        <b-col sm="2">
+        <b-col sm="2" class="hide">
           <b-col style="text-align: right;">
             <b-button style="background: #7FDBD5; border: #7FDBD5;" @click="showdata = !showdata">
               <span v-if="showdata == false" class="text-dark">View data</span>
@@ -51,6 +51,7 @@
         justified
         active-nav-item-class="font-weight-bold text-info"
         v-model="tabIndex"
+        class="hide"
       >
         <b-tab title="Temperature" active title-link-class="text-secondary">
           <div v-if="tabIndex == 0">
@@ -70,7 +71,7 @@
           <span class="text-dark">Print</span>
         </b-button>
       </b-row>
-      <div class="print">
+      <div>
         <VSTable
           firstcol="Date&Time"
           :vs="vitalsigns"
@@ -163,9 +164,6 @@ export default {
 @media print {
   .hide {
     display: none;
-  }
-  .print {
-    display: block;
   }
 }
 </style>
