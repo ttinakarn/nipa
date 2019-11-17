@@ -7,6 +7,7 @@ import AddVS from './views/AddVS.vue'
 import Dashboard from './views/Dashboard.vue'
 import VitalSignGraph from './views/VitalSignGraph.vue'
 import TV from './views/TV.vue'
+import Condition from './views/Condition.vue'
 
 Vue.use(Router)
 
@@ -46,6 +47,11 @@ export default new Router({
       path: '/tv',
       name: 'tv',
       component: TV
+    },
+    {
+      path: '/condition',
+      name: 'condition',
+      component: Condition
     }
   ]
 })
