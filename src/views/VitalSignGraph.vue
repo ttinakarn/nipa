@@ -114,7 +114,7 @@ export default {
 
     axios
       .get(
-        "https://nipa.herokuapp.com/api/vitalsign/" + instance.$route.params.an
+        "https://nipaapi.herokuapp.com/api/vitalsign/" + instance.$route.params.an
       )
       .then(function(response) {
         console.log("vital sign data: ", response.data.data);

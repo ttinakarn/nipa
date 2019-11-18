@@ -560,7 +560,7 @@ export default {
         });
       } else {
         axios
-          .post("https://nipa.herokuapp.com/api/vitalsign", {
+          .post("https://nipaapi.herokuapp.com/api/vitalsign", {
             an: instance.$route.params.an,
             temp: parseInt(this.temp),
             pulse: parseInt(this.pulse),
@@ -629,7 +629,7 @@ export default {
     var instance = this;
     axios
       .get(
-        "https://nipa.herokuapp.com/api/getLastestVS/" +
+        "https://nipaapi.herokuapp.com/api/getLastestVS/" +
           instance.$route.params.an
       )
       .then(function(response) {

@@ -71,7 +71,7 @@ export default {
     // moment.locale("th");
     var instance = this;
     axios
-      .get("https://nipa.herokuapp.com/api/bednumber")
+      .get("https://nipaapi.herokuapp.com/api/bednumber")
       .then(function(response) {
         console.log(response.data.data);
         instance.beds = response.data.data;

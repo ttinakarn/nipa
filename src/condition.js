@@ -4,7 +4,7 @@ if (localStorage.getItem("condition") == null) {
   var instance = this;
   console.log("Retrieved data");
   axios
-    .get("https://nipa.herokuapp.com/api/condition")
+    .get("https://nipaapi.herokuapp.com/api/condition")
     .then(function (response) {
       console.log(response);
       localStorage.setItem("condition", JSON.stringify(response.data.data));

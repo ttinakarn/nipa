@@ -63,7 +63,7 @@ export default {
       condition: [],
       time: null,
       messages: [],
-      socket: io("https://nipa.herokuapp.com/"),
+      socket: io("https://nipaapi.herokuapp.com/"),
       count: 0,
       vs: []
     };
@@ -77,7 +77,7 @@ export default {
       var instance = this;
       instance.condition = condition.getCondition();
       axios
-        .get("https://nipa.herokuapp.com/api/vitalsign")
+        .get("https://nipaapi.herokuapp.com/api/vitalsign")
         .then(function(response) {
           // console.log("vital sign data: ", response);
           instance.vitalsigns = response.data.data;
