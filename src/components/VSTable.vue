@@ -193,7 +193,7 @@
           class="text-danger font-weight-bold invalid" style="width:100px"
         >{{data.painscore}}</td>
         <td
-          v-else-if="data.painscore > condition[1].maxpainscore"
+          v-else-if="data.painscore > condition[0].maxpainscore"
           class="text-danger font-weight-bold" style="width:100px"
         >{{data.painscore}}</td>
         <td v-else-if="data.bednumber == bednumber && painscore == true" class="invalid" style="width:100px">{{data.painscore}}</td>
