@@ -1,21 +1,6 @@
 <template>
   <div>
-    <b-navbar toggleable="sm" type="light" variant="light">
-      <b-navbar-brand>
-        <router-link to="/dashboard" style="color: #2c3e50;">
-          <img src="../assets/logo-main.png" alt="HospitalLogo" height="60" />
-        </router-link>
-      </b-navbar-brand>
-      <b-navbar-brand class="topnav-centered">
-        <span>{{time}}</span>
-      </b-navbar-brand>
-      <b-navbar-nav class="ml-auto">
-        <b-navbar-brand class="text-danger" right>
-          <img src="../assets/logo.png" alt="NiPALogo" height="60" />
-        </b-navbar-brand>
-      </b-navbar-nav>
-    </b-navbar>
-
+    <navbar />
     <br />
     <b-card bg-variant="light" text-variant="dark" v-if="temp.length != 0">
       <b-row align-v="center">
@@ -90,16 +75,17 @@ import axios from "axios";
 import moment from "moment";
 import chart from "@/components/Chart.vue";
 import VSTable from "@/components/VSTable.vue";
+import navbar from "@/components/NavbarHome.vue"
 export default {
   components: {
     chart,
-    VSTable
+    VSTable,
+    navbar
   },
   data() {
     return {
       bedinfo: null,
       vitalsigns: [],
-      time: null,
       showdata: false,
       temp: [],
       tempdate: [],
@@ -141,17 +127,9 @@ export default {
       });
   },
   methods: {
-    updateCurrentTime() {
-      moment.locale("th");
-      this.time = moment().format("LTS");
-    },
     print() {
       window.print();
     }
-  },
-  created() {
-    this.time = moment().format("LTS");
-    setInterval(() => this.updateCurrentTime(), 1 * 1000);
   }
 };
 </script>

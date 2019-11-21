@@ -1,22 +1,16 @@
 <template>
   <div>
-    <b-navbar toggleable="sm" type="light" variant="light">
-      <b-navbar-brand>
-        <img src="../assets/logo-main.png" alt="HospitalLogo" height="60" />
-      </b-navbar-brand>
-      <b-navbar-brand class="topnav-centered">
-        <span>{{time}}</span>
-      </b-navbar-brand>
-      <b-navbar-nav class="ml-auto">
-        <b-navbar-brand class="text-danger" right>
-          <img src="../assets/logo.png" alt="NiPALogo" height="60" />
-        </b-navbar-brand>
-      </b-navbar-nav>
-    </b-navbar>
-
+    <navbar />
     <br />
     <div style="margin: 10px">
-      <VSTable firstcol="Bed" :vs="alerted" :show="false" :name="false" :header="true" firstcolsize="width:60px"></VSTable>
+      <VSTable
+        firstcol="Bed"
+        :vs="alerted"
+        :show="false"
+        :name="false"
+        :header="true"
+        firstcolsize="width:60px"
+      ></VSTable>
       <VSTable firstcol="Bed" :vs="normal" :show="false" :name="false" :header="false"></VSTable>
       <!-- <VSTable firstcol="Bed" :vs="vs" :show="false"></VSTable> -->
     </div>
@@ -29,14 +23,15 @@
 
 <script>
 import axios from "axios";
-import moment from "moment";
 import VSTable from "@/components/VSTable.vue";
 import { condition } from "../condition.js";
 import io from "socket.io-client";
+import navbar from "@/components/NavbarHome.vue"
 
 export default {
   components: {
-    VSTable
+    VSTable,
+    navbar
   },
   data() {
     return {
@@ -61,7 +56,6 @@ export default {
       alerted: [],
       normal: [],
       condition: [],
-      time: null,
       messages: [],
       socket: io("https://nipaapi.herokuapp.com/"),
       count: 0,
@@ -69,10 +63,6 @@ export default {
     };
   },
   methods: {
-    updateCurrentTime() {
-      moment.locale("th");
-      this.time = moment().format("LTS");
-    },
     getData() {
       var instance = this;
       instance.condition = condition.getCondition();
@@ -83,7 +73,7 @@ export default {
           instance.vitalsigns = response.data.data;
           instance.vs = response.data.data;
           console.log("vs", instance.vs);
-          
+
           for (var i = 0; i < response.data.data.length; i++) {
             if (
               i == 0 ||
@@ -103,7 +93,8 @@ export default {
                       instance.vitalsigns[j][instance.column[0]] &&
                     instance.vitalsigns[j][instance.column[k]] != null
                   ) {
-                    instance.summary[i][instance.column[k]] = instance.vitalsigns[j][instance.column[k]];
+                    instance.summary[i][instance.column[k]] =
+                      instance.vitalsigns[j][instance.column[k]];
                     instance.count = j;
                   }
                 }
@@ -133,26 +124,24 @@ export default {
         });
     }
   },
-  created() {
-    this.time = moment().format("LTS");
-    setInterval(() => this.updateCurrentTime(), 1 * 1000);
-    // console.log("Bednumber", this.$store.state.bednumber);
-  },
   mounted() {
     this.getData();
     this.socket.on("dataUpdated", data => {
       this.summary = [];
       this.normal = [];
       this.alerted = [];
-      this.$store.commit('setbednumber', data.bednumber);
-      for(var i in data.status){
-        this.$store.commit('set'+Object.keys(data.status[i])[0], data.status[i][Object.keys(data.status[i])[0]]);
+      this.$store.commit("setbednumber", data.bednumber);
+      for (var i in data.status) {
+        this.$store.commit(
+          "set" + Object.keys(data.status[i])[0],
+          data.status[i][Object.keys(data.status[i])[0]]
+        );
         // console.log('set'+Object.keys(data.status[i])[0], data.status[i][Object.keys(data.status[i])[0]]);
       }
       // this.$store.commit('set', data.pulse);
       // console.log("Bednumber", this.$store.state.bednumber);
-      this.getData() ;
-      // console.log(data);      
+      this.getData();
+      // console.log(data);
     });
   }
 };

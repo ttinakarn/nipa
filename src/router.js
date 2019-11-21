@@ -8,6 +8,7 @@ import Dashboard from './views/Dashboard.vue'
 import VitalSignGraph from './views/VitalSignGraph.vue'
 import TV from './views/TV.vue'
 import Condition from './views/Condition.vue'
+import Index from './views/Index.vue'
 
 Vue.use(Router)
 
@@ -52,6 +53,11 @@ export default new Router({
       path: '/condition',
       name: 'condition',
       component: Condition
+    },
+    {
+      path: '/index',
+      name: 'index',
+      component: Index
     }
   ]
 })

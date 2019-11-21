@@ -1,20 +1,6 @@
 <template>
   <div>
-    <b-navbar toggleable="sm" type="light" variant="light">
-      <b-navbar-brand>
-        <router-link to="/dashboard" style="color: #2c3e50;">
-          <img src="../assets/logo-main.png" alt="HospitalLogo" height="60" />
-        </router-link>
-      </b-navbar-brand>
-      <b-navbar-brand class="topnav-centered">
-        <span>{{time}}</span>
-      </b-navbar-brand>
-      <b-navbar-nav class="ml-auto">
-        <b-navbar-brand class="text-danger" right>
-          <img src="../assets/logo.png" alt="NiPALogo" height="60" />
-        </b-navbar-brand>
-      </b-navbar-nav>
-    </b-navbar>
+    <navbar />
 
     <br />
     <b-button v-b-modal.addcondition style="background: #7FDBD5; border: #7FDBD5;">
@@ -248,24 +234,10 @@
 </template>
 
 <script>
-import moment from "moment";
-
+import navbar from "@/components/NavbarHome.vue";
 export default {
-  data() {
-    return {
-      time: null
-    };
-  },
-  methods: {
-    updateCurrentTime() {
-      moment.locale("th");
-      this.time = moment().format("LTS");
-    }
-  },
-  created() {
-    this.time = moment().format("LTS");
-    setInterval(() => this.updateCurrentTime(), 1 * 1000);
-    // console.log("Bednumber", this.$store.state.bednumber);
+  components: {
+    navbar
   }
 };
 </script>
