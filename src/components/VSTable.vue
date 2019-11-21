@@ -31,7 +31,7 @@
       <tr
         v-for="data in vs"
         :key="data.date"
-        :class="rowCondition(data.temp, data.pulse, data.sbp, data.dbp, data.o2sat, data.eye, data.verbal, data.motor, data.urine, data.painscore, data.fallrisk)"
+        :class="rowCondition(data.temp, data.pulse, data.resp, data.sbp, data.dbp, data.o2sat, data.eye, data.verbal, data.motor, data.urine, data.painscore, data.fallrisk)"
       >
         <td v-if="firstcol == 'Bed'" style="width:60px">{{data.bednumber}}</td>
         <td v-else style="width:250px">{{moment(data.date).format('lll')}}</td>
@@ -189,7 +189,7 @@
           {{data.painscore}}
         </td> -->
         <td
-          v-if="data.bednumber == bednumber && painscore == true && (data.painscore > condition[1].maxpainscore)"
+          v-if="data.bednumber == bednumber && painscore == true && (data.painscore > condition[0].maxpainscore)"
           class="text-danger font-weight-bold invalid" style="width:100px"
         >{{data.painscore}}</td>
         <td
@@ -262,6 +262,7 @@ export default {
     rowCondition(
       temp,
       pulse,
+      resp,
       sbp,
       dbp,
       o2sat,
@@ -275,6 +276,7 @@ export default {
       return condition.checkCondition(
         temp,
         pulse,
+        resp,
         sbp,
         dbp,
         o2sat,
@@ -324,6 +326,6 @@ export default {
 .invalid {
   animation-name: invalid;
   animation-duration: 1s;
-  animation-iteration-count: 20;
+  animation-iteration-count: 60;
 }
 </style>

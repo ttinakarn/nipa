@@ -1,7 +1,7 @@
 <template>
   <div>
     <navbar />
-    <br />
+
     <b-card bg-variant="light" text-variant="dark" v-if="temp.length != 0">
       <b-row align-v="center">
         <b-col sm="10">
@@ -122,8 +122,6 @@ export default {
             );
           }
         }
-        console.log("temp", instance.temp);
-        // console.log("tempdate", instance.tempdate);
       });
   },
   methods: {

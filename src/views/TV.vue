@@ -1,7 +1,7 @@
 <template>
   <div>
     <navbar />
-    <br />
+
     <div style="margin: 10px">
       <VSTable
         firstcol="Bed"
@@ -105,6 +105,7 @@ export default {
             var zone = condition.checkCondition(
               instance.summary[i].temp,
               instance.summary[i].pulse,
+              instance.summary[i].resp,
               instance.summary[i].sbp,
               instance.summary[i].dbp,
               instance.summary[i].o2sat,

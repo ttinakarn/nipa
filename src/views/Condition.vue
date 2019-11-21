@@ -1,8 +1,7 @@
 <template>
   <div>
     <navbar />
-
-    <br />
+    
     <b-button v-b-modal.addcondition style="background: #7FDBD5; border: #7FDBD5;">
       <span class="text-dark">Add new rule</span>
     </b-button>

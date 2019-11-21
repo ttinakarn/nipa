@@ -216,6 +216,7 @@
                     description="painscore"
                     :latestVS="bedinfo.painscore"
                     :sendVSData.sync="painscore"
+                    :text-color="{'text-danger' : bedinfo.painscore > condition[0].maxpainscore}"
                     min="0"
                     max="10"
                   ></MedInput>
@@ -546,7 +547,8 @@ export default {
         this.$store.getters.submitstatusmotor == false ||
         this.$store.getters.submitstatuso2sat == false ||
         this.$store.getters.submitstatusurine == false ||
-        this.$store.getters.submitstatuspainscore == false
+        this.$store.getters.submitstatuspainscore == false ||
+        this.fallrisk == 0
       ) {
         instance.isLoading = false;
         this.$bvModal.msgBoxOk("Invalid input", {

@@ -9,6 +9,7 @@ import VitalSignGraph from './views/VitalSignGraph.vue'
 import TV from './views/TV.vue'
 import Condition from './views/Condition.vue'
 import Index from './views/Index.vue'
+import Patient from './views/PatientForm.vue'
 
 Vue.use(Router)
 
@@ -58,6 +59,11 @@ export default new Router({
       path: '/index',
       name: 'index',
       component: Index
+    },
+    {
+      path: '/patient',
+      name: 'patient',
+      component: Patient
     }
   ]
 })

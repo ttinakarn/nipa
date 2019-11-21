@@ -1,7 +1,7 @@
 <template>
   <div>
     <navbar />
-    <br />
+    
     <div class="display-4">Welcome Tip</div>
     <br />
     <router-link to="/dashboard">
@@ -13,12 +13,15 @@
       </b-button>
     </router-link>
 
-    <b-button class="button-color">
-      <div>
-        <img src="../assets/profile.png" class="responsive" />
-        <h4>Patient's information</h4>
-      </div>
-    </b-button>
+    <router-link to="/patient">
+      <b-button class="button-color">
+        <div>
+          <img src="../assets/profile.png" class="responsive" />
+          <h4>Patient's information</h4>
+        </div>
+      </b-button>
+    </router-link>
+
     <router-link to="/condition">
       <b-button class="button-color">
         <div>

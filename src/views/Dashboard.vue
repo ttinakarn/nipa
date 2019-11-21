@@ -1,7 +1,7 @@
 <template>
   <div>
     <navbar />
-    <br />
+    
     <div style="margin: 10px">
       <VSTable firstcol="Bed" :vs="alerted" :show="true" :name="false" :header="true"></VSTable>
       <VSTable firstcol="Bed" :vs="normal" :show="true" :name="false" :header="false"></VSTable>
@@ -59,6 +59,8 @@ export default {
     getData() {
       var instance = this;
       instance.condition = condition.getCondition();
+      console.log(instance.condition);
+      
       axios
         .get("https://nipaapi.herokuapp.com/api/vitalsign")
         .then(function(response) {
@@ -98,6 +100,7 @@ export default {
             var zone = condition.checkCondition(
               instance.summary[i].temp,
               instance.summary[i].pulse,
+              instance.summary[i].resp,
               instance.summary[i].sbp,
               instance.summary[i].dbp,
               instance.summary[i].o2sat,

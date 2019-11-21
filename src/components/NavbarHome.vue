@@ -1,4 +1,5 @@
 <template>
+  <div>
     <b-navbar toggleable="sm" type="light" style="background-color: #e9ecef;">
       <b-navbar-brand>
         <img src="../assets/logo-main.png" alt="HospitalLogo" height="50" style="margin-right: 5px" />
@@ -9,11 +10,19 @@
         <span>{{time}}</span>
       </b-navbar-brand>
       <b-navbar-nav class="ml-auto">
+        <img src="../assets/logo.png" alt="NiPALogo" height="60" />
         <b-navbar-brand right>
           <b-dropdown size="sm" variant="link" toggle-class="text-decoration-none" no-caret right>
             <template v-slot:button-content>
-              <img src="../assets/logo.png" alt="NiPALogo" height="60" />
+              <img src="../assets/more.png" alt="Menu" height="40" />
             </template>
+
+            <b-dropdown-item>
+              <router-link to="/index" class="text-dark">Home</router-link>
+            </b-dropdown-item>
+
+            <b-dropdown-divider></b-dropdown-divider>
+
             <b-dropdown-item>
               <router-link to="/dashboard" class="text-dark">Dashboard</router-link>
             </b-dropdown-item>
@@ -23,16 +32,19 @@
             </b-dropdown-item>
 
             <b-dropdown-divider></b-dropdown-divider>
+
             <b-dropdown-item>
-              <router-link to="#" class="text-dark">Patient's Information</router-link>
+              <router-link to="/patient" class="text-dark">Patient's Information</router-link>
             </b-dropdown-item>
 
             <b-dropdown-divider></b-dropdown-divider>
+
             <b-dropdown-item>
               <router-link to="/condition" class="text-dark">Condition and rules</router-link>
             </b-dropdown-item>
 
             <b-dropdown-divider></b-dropdown-divider>
+
             <b-dropdown-item>
               <router-link to="/" class="text-danger">Logout</router-link>
             </b-dropdown-item>
@@ -40,6 +52,8 @@
         </b-navbar-brand>
       </b-navbar-nav>
     </b-navbar>
+    <br />
+  </div>
 </template>
 
 <script>
