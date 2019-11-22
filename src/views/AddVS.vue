@@ -24,10 +24,18 @@
       </b-navbar-nav>
     </b-navbar>
     <br />
+
     <b-container>
+      <br />
       <b-tabs content-class="mt-3" fill v-if="bedinfo != null && $route.params.an != null">
-        <b-tab title="Vital Sign" active>
-          {{submitstatus}}
+        <b-tab>
+          <template slot="title">
+            Vital Sign
+            <!-- <b-badge v-if="fallrisk > 0 && fallrisk <= 3" pill variant="success">{{fallrisk}}</b-badge>
+            <b-badge v-if="fallrisk == 4 || fallrisk == 5" pill variant="warning">{{fallrisk}}</b-badge>
+            <b-badge v-if="fallrisk > 5" pill variant="danger">{{fallrisk}}</b-badge>-->
+            <b-badge v-if="sosscore > 0" pill class="text-dark button-color">{{sosscore}}</b-badge>
+          </template>
           <b-card bg-variant="light" text-variant="dark">
             <b-col>
               <b-row>
@@ -409,11 +417,63 @@ export default {
       fallrisk: 0,
       remark: null,
       condition: [],
-      bednumber: 0
+      bednumber: 0,
+      sostemp: 0,
+      sospulse: 0
+      // sosscore: 0
     };
   },
-  computed: mapState(["submitstatus"]),
+
+  //   computed: {
+  //   localComputed () { /* ... */ },
+  //   // mix this into the outer object with the object spread operator
+  //  mapState({
+  //     sosscore
+  //   })
+  // }
+  computed: mapState({
+    sosscore: state => state.sosscore
+  }),
+
   methods: {
+    calsosscore: function() {
+      console.log("clicked", this.temp, typeof this.temp);
+
+      if (this.temp == null || this.temp === "") {
+        this.sostemp = 0;
+      } else {
+        if (this.temp <= 35 || this.temp >= 38.5) {
+          this.sostemp = 2;
+        } else if (
+          (this.temp >= 35.1 && this.temp <= 36) ||
+          (this.temp >= 38.1 && this.temp <= 38.4)
+        ) {
+          this.sostemp = 1;
+        } else {
+          this.sostemp = 0;
+        }
+      }
+
+      if (this.pulse == null || this.pulse === "") {
+        this.sospulse = 0;
+      } else {
+        if (this.pulse <= 40 || this.pulse >= 140) {
+          this.sospulse = 3;
+        } else if (this.pulse >= 121 && this.pulse <= 139) {
+          this.sospulse = 2;
+        } else if (
+          (this.pulse >= 41 && this.pulse <= 50) ||
+          (this.pulse >= 100 && this.pulse <= 120)
+        ) {
+          this.sospulse = 1;
+        } else {
+          this.sospulse = 0;
+        }
+      }
+
+      // this.sosscore = this.sostemp+this.sospulse;
+    },
+
     // History of falling immeditely
     calchecked1: function() {
       if (this.checked1 == true) {
@@ -547,8 +607,7 @@ export default {
         this.$store.getters.submitstatusmotor == false ||
         this.$store.getters.submitstatuso2sat == false ||
         this.$store.getters.submitstatusurine == false ||
-        this.$store.getters.submitstatuspainscore == false ||
-        this.fallrisk == 0
+        this.$store.getters.submitstatuspainscore == false
       ) {
         instance.isLoading = false;
         this.$bvModal.msgBoxOk("Invalid input", {
@@ -601,19 +660,19 @@ export default {
               });
             console.log(response);
           })
-        .catch(error => {
-          instance.isLoading = false;
-          this.$bvModal.msgBoxOk(error.message, {
-            title: "Can't Save",
-            size: "sm",
-            buttonSize: "sm",
-            okVariant: "danger",
-            headerClass: "p-2 border-bottom-0",
-            footerClass: "p-2 border-top-0",
-            centered: true
+          .catch(error => {
+            instance.isLoading = false;
+            this.$bvModal.msgBoxOk(error.message, {
+              title: "Can't Save",
+              size: "sm",
+              buttonSize: "sm",
+              okVariant: "danger",
+              headerClass: "p-2 border-bottom-0",
+              footerClass: "p-2 border-top-0",
+              centered: true
+            });
+            console.log(error);
           });
-          console.log(error);
-        });
         // instance.isLoading = false;
         // this.$bvModal.msgBoxOk("success", {
         //   title: "saved",

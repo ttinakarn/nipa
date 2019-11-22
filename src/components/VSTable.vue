@@ -4,6 +4,7 @@
       <tr class="header" v-if="header == true">
         <td rowspan="2" style="width:60px">{{firstcol}}</td>
         <td colspan="4" style="width:300px">Vital Sign</td>
+        <td rowspan="2" style="width:100px">Sos Score</td>
         <td rowspan="2" style="width:100px">O2Sat</td>
         <td colspan="3" style="width:150px">Coma Score</td>
         <td rowspan="2" style="width:100px">Urine</td>
@@ -109,7 +110,7 @@
             :class="{'text-danger font-weight-bold' : data.dbp < condition[0].mindbp || data.dbp > condition[0].maxdbp }"
           >{{data.dbp}}</span>
         </td>
-
+        <td></td>
         <!-- <td
           :class="{'text-danger font-weight-bold' : data.o2sat < condition[0].mino2sat }"
         >{{data.o2sat}}</td> -->

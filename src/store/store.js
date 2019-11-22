@@ -30,7 +30,12 @@ export const store = new Vuex.Store({
         submitstatusverbal: null,
         submitstatusmotor: null,
         submitstatusurine: null,
-        submitstatuspainscore: null
+        submitstatuspainscore: null,
+        sosscore: 0,
+        sostemp: 0,
+        sospulse: 0,
+        sosresp: 0,
+        sossbp: 0
     },
     mutations: {
         setbednumber(state, data){
@@ -110,7 +115,22 @@ export const store = new Vuex.Store({
         },
         setsubmitstatuspainscore(state, data){
             state.submitstatuspainscore = data
-        }        
+        },
+        setsosscore(state, data){
+            state.sosscore = data
+        },
+        setsostemp(state, data){
+            state.sostemp = data
+        },
+        setsospulse(state, data){
+            state.sospulse = data
+        },
+        setsosresp(state, data){
+            state.sosresp = data
+        },
+        setsossbp(state, data){
+            state.sossbp = data
+        }
     },
     getters: {
         bednumber: state=>state.bednumber,
@@ -138,6 +158,11 @@ export const store = new Vuex.Store({
         submitstatusverbal: state=>state.submitstatusverbal,
         submitstatusmotor: state=>state.submitstatusmotor,
         submitstatusurine: state=>state.submitstatusurine,
-        submitstatuspainscore: state=>state.submitstatuspainscore
+        submitstatuspainscore: state=>state.submitstatuspainscore,
+        sosscore: state=>state.sosscore,
+        sostemp: state=>state.sostemp,
+        sospulse: state=>state.sospulse,
+        sosresp: state=>state.sosresp,
+        sossbp: state=>state.sossbp
     }
 });
