@@ -13,7 +13,7 @@
       </b-button>
     </router-link>
 
-    <router-link to="/patient">
+    <router-link to="/patients">
       <b-button class="button-color">
         <div>
           <img src="../assets/profile.png" class="responsive" />

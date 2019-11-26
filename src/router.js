@@ -10,6 +10,7 @@ import TV from './views/TV.vue'
 import Condition from './views/Condition.vue'
 import Index from './views/Index.vue'
 import Patient from './views/PatientForm.vue'
+import PatientList from './views/PatientList.vue'
 
 Vue.use(Router)
 
@@ -61,7 +62,12 @@ export default new Router({
       component: Index
     },
     {
-      path: '/patient',
+      path: '/patients',
+      name: 'patients',
+      component: PatientList
+    },
+    {
+      path: '/patient/:an',
       name: 'patient',
       component: Patient
     }
