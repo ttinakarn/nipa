@@ -59,7 +59,7 @@
       <div>
         <VSTable
           firstcol="Date&Time"
-          :vs="vitalsigns"
+          :summaryvs="vitalsigns"
           :show="false"
           firstcolsize="width:200px"
           :header="true"

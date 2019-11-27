@@ -425,44 +425,6 @@ export default {
     sosscore: state => state.sosscore
   }),
   methods: {
-    calsosscore: function() {
-      console.log("clicked", this.temp, typeof this.temp);
-
-      if (this.temp == null || this.temp === "") {
-        this.sostemp = 0;
-      } else {
-        if (this.temp <= 35 || this.temp >= 38.5) {
-          this.sostemp = 2;
-        } else if (
-          (this.temp >= 35.1 && this.temp <= 36) ||
-          (this.temp >= 38.1 && this.temp <= 38.4)
-        ) {
-          this.sostemp = 1;
-        } else {
-          this.sostemp = 0;
-        }
-      }
-
-      if (this.pulse == null || this.pulse === "") {
-        this.sospulse = 0;
-      } else {
-        if (this.pulse <= 40 || this.pulse >= 140) {
-          this.sospulse = 3;
-        } else if (this.pulse >= 121 && this.pulse <= 139) {
-          this.sospulse = 2;
-        } else if (
-          (this.pulse >= 41 && this.pulse <= 50) ||
-          (this.pulse >= 100 && this.pulse <= 120)
-        ) {
-          this.sospulse = 1;
-        } else {
-          this.sospulse = 0;
-        }
-      }
-
-      // this.sosscore = this.sostemp+this.sospulse;
-    },
-
     // History of falling immeditely
     calchecked1: function() {
       if (this.checked1 == true) {
@@ -612,7 +574,7 @@ export default {
         axios
           .post("https://nipaapi.herokuapp.com/api/vitalsign", {
             an: instance.$route.params.an,
-            temp: parseInt(this.temp),
+            temp: this.temp,
             pulse: parseInt(this.pulse),
             resp: parseInt(this.resp),
             sbp: parseInt(this.sbp),
@@ -663,16 +625,6 @@ export default {
             });
             console.log(error);
           });
-        // instance.isLoading = false;
-        // this.$bvModal.msgBoxOk("success", {
-        //   title: "saved",
-        //   size: "sm",
-        //   buttonSize: "sm",
-        //   okVariant: "success",
-        //   headerClass: "p-2 border-bottom-0",
-        //   footerClass: "p-2 border-top-0",
-        //   centered: true
-        // });
       }
     }
   },

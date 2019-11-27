@@ -34,7 +34,7 @@
             <b-dropdown-divider></b-dropdown-divider>
 
             <b-dropdown-item>
-              <router-link to="/patient" class="text-dark">Patient's Information</router-link>
+              <router-link to="/patients" class="text-dark">Patient's Information</router-link>
             </b-dropdown-item>
 
             <b-dropdown-divider></b-dropdown-divider>

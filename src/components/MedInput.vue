@@ -171,7 +171,7 @@ export default {
       if (this.$v.$invalid) {
         this.$store.commit("setsubmitstatus" + this.description, false);
         console.log(this.value);
-      } else if (this.value == null) {
+      } else if (this.value === null) {
         this.$store.commit("setsubmitstatus" + this.description, null);
       } else {
         this.$store.commit("setsubmitstatus" + this.description, true);

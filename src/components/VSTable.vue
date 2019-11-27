@@ -30,7 +30,7 @@
         <td style="width:50px">M</td>
       </tr>
       <tr
-        v-for="data in vs"
+        v-for="data in summaryvs"
         :key="data.date"
         :class="rowCondition(data.temp, data.pulse, data.resp, data.sbp, data.dbp, data.o2sat, data.eye, data.verbal, data.motor, data.urine, data.painscore, data.fallrisk)"
       >
@@ -203,16 +203,16 @@ import { log } from "util";
 import VSColumn from "../components/VSColumn.vue";
 
 export default {
-  props: ["firstcol", "vs", "show", "name", "header"],
+  props: ["firstcol", "summaryvs", "show", "name", "header"],
   components: {
     VSColumn
   },
   data() {
     return {
-      condition: [],
+      condition: []
     };
   },
-  methods: {
+  methods: {    
     rowCondition(
       temp,
       pulse,
@@ -263,7 +263,6 @@ export default {
   mounted() {
     var instance = this;
     instance.condition = condition.getCondition();
-    // console.log("Bednumber", this.bednumber);
   }
 };
 </script>

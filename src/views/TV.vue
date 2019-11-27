@@ -11,8 +11,7 @@
         :header="true"
         firstcolsize="width:60px"
       ></VSTable>
-      <VSTable firstcol="Bed" :vs="normal" :show="false" :name="false" :header="false"></VSTable>
-      <!-- <VSTable firstcol="Bed" :vs="vs" :show="false"></VSTable> -->
+      <VSTable firstcol="Bed" :summaryvs="normal" :show="false" :name="false" :header="false"></VSTable>
     </div>
   </div>
 </template>

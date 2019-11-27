@@ -73,6 +73,7 @@ export default {
   },
   mounted() {
     // moment.locale("th");
+    this.$store.commit("setsosscore", 0);
     var instance = this;
     axios
       .get("https://nipaapi.herokuapp.com/api/bednumber")
