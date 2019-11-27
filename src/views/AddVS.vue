@@ -231,10 +231,17 @@
               </b-button>
             </b-col>
 
-            <b-col cols="12">
+            <b-col cols="6">
               <b-button block class="button-color">
                 <b-row>
-                  <MedInput subtitle="Remark" :sendVSData.sync="remark"></MedInput>
+                  <MedInput subtitle="Remark" description="remark" :sendVSData.sync="remark"></MedInput>
+                </b-row>
+              </b-button>
+            </b-col>
+            <b-col cols="6">
+              <b-button block class="button-color">
+                <b-row>
+                  <MedInput subtitle="Action" description="remark" :sendVSData.sync="action"></MedInput>
                 </b-row>
               </b-button>
             </b-col>
@@ -415,6 +422,7 @@ export default {
       painscore: null,
       fallrisk: 0,
       remark: null,
+      action: null,
       condition: [],
       bednumber: 0,
       sostemp: 0,
@@ -535,6 +543,8 @@ export default {
         this.$store.getters.submitstatuso2sat == null &&
         this.$store.getters.submitstatusurine == null &&
         this.$store.getters.submitstatuspainscore == null &&
+        this.$store.getters.submitstatusremark == null &&
+        this.$store.getters.submitstatusaction == null &&
         this.fallrisk == 0
       ) {
         instance.isLoading = false;
@@ -558,7 +568,9 @@ export default {
         this.$store.getters.submitstatusmotor == false ||
         this.$store.getters.submitstatuso2sat == false ||
         this.$store.getters.submitstatusurine == false ||
-        this.$store.getters.submitstatuspainscore == false
+        this.$store.getters.submitstatuspainscore == false ||
+        this.$store.getters.submitstatusremark == false ||
+        this.$store.getters.submitstatusaction == false
       ) {
         instance.isLoading = false;
         this.$bvModal.msgBoxOk("Invalid input", {
@@ -587,6 +599,7 @@ export default {
             painscore: parseInt(this.painscore),
             fallrisk: parseInt(this.fallrisk),
             remark: this.remark,
+            action: this.action,
             empid: "213049",
             date: moment().format(),
             bednumber: instance.bednumber,

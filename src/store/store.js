@@ -20,6 +20,7 @@ export const store = new Vuex.Store({
         painscore: false,
         fallrisk: false,
         remark: false,
+        action: false,
         submitstatus: null,
         submitstatustemp: null,
         submitstatuspulse: null,
@@ -32,6 +33,8 @@ export const store = new Vuex.Store({
         submitstatusmotor: null,
         submitstatusurine: null,
         submitstatuspainscore: null,
+        submitstatusremark: null,
+        submitstatusaction: null,
         sosscore: 0,
         sostemp: 0,
         sospulse: 0,
@@ -84,6 +87,9 @@ export const store = new Vuex.Store({
         setremark(state, data){
             state.remark = data
         },
+        setaction(state, data){
+            state.action = data
+        },
         setsubmitstatus(state, data){
             state.submitstatus = data
         },
@@ -120,6 +126,12 @@ export const store = new Vuex.Store({
         setsubmitstatuspainscore(state, data){
             state.submitstatuspainscore = data
         },
+        setsubmitstatusremark(state, data){
+            state.submitstatusremark = data
+        },
+        setsubmitstatusaction(state, data){
+            state.submitstatusaction = data
+        },
         setsosscore(state, data){
             state.sosscore = data
         },
@@ -152,6 +164,7 @@ export const store = new Vuex.Store({
         painscore: state=>state.painscore,
         fallrisk: state=>state.fallrisk,
         remark: state=>state.remark,
+        action: state=>state.action,
         submitstatus: state=>state.submitstatus,
         submitstatustemp: state=>state.submitstatustemp,
         submitstatuspulse: state=>state.submitstatuspulse,
@@ -164,6 +177,8 @@ export const store = new Vuex.Store({
         submitstatusmotor: state=>state.submitstatusmotor,
         submitstatusurine: state=>state.submitstatusurine,
         submitstatuspainscore: state=>state.submitstatuspainscore,
+        submitstatusremark: state=>state.submitstatusremark,
+        submitstatusaction: state=>state.submitstatusaction,
         sosscore: state=>state.sosscore,
         sostemp: state=>state.sostemp,
         sospulse: state=>state.sospulse,

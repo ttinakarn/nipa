@@ -5,7 +5,7 @@
     <div style="margin: 10px">
       <VSTable
         firstcol="Bed"
-        :vs="alerted"
+        :summaryvs="alerted"
         :show="false"
         :name="false"
         :header="true"
@@ -25,7 +25,7 @@ import axios from "axios";
 import VSTable from "@/components/VSTable.vue";
 import { condition } from "../condition.js";
 import io from "socket.io-client";
-import navbar from "@/components/NavbarHome.vue"
+import navbar from "@/components/NavbarHome.vue";
 
 export default {
   components: {
@@ -54,24 +54,30 @@ export default {
       summary: [],
       alerted: [],
       normal: [],
-      condition: [],
+      condition: null,
       messages: [],
       socket: io("https://nipaapi.herokuapp.com/"),
       count: 0,
-      vs: []
+      sos: null
     };
   },
   methods: {
     getData() {
       var instance = this;
       instance.condition = condition.getCondition();
+      console.log(instance.condition);
+      axios
+        .get("https://nipaapi.herokuapp.com/api/score")
+        .then(function(response) {
+          instance.sos = response.data.data;
+          console.log(instance.sos);
+        });
+
       axios
         .get("https://nipaapi.herokuapp.com/api/vitalsign")
         .then(function(response) {
-          // console.log("vital sign data: ", response);
           instance.vitalsigns = response.data.data;
-          instance.vs = response.data.data;
-          console.log("vs", instance.vs);
+          console.log("vs", instance.vitalsigns);
 
           for (var i = 0; i < response.data.data.length; i++) {
             if (
@@ -100,6 +106,108 @@ export default {
               }
             }
           }
+
+          for (var i = 0; i < instance.summary.length; i++) {
+            instance.summary[i].sos = 0;
+            if (instance.summary[i].temp <= instance.sos[0].max) {
+              instance.summary[i].sos += instance.sos[0].score;
+            } else if (
+              instance.summary[i].temp >= instance.sos[1].min &&
+              instance.summary[i].temp <= instance.sos[1].max
+            ) {
+              instance.summary[i].sos += instance.sos[1].score;
+            } else if (
+              instance.summary[i].temp >= instance.sos[2].min &&
+              instance.summary[i].temp <= instance.sos[2].max
+            ) {
+              instance.summary[i].sos += instance.sos[2].score;
+            } else if (
+              instance.summary[i].temp >= instance.sos[3].min &&
+              instance.summary[i].temp <= instance.sos[3].max
+            ) {
+              instance.summary[i].sos += instance.sos[2].score;
+            } else if (instance.summary[i].temp >= instance.sos[4].min) {
+              instance.summary[i].sos += instance.sos[4].score;
+            }
+
+            if (instance.summary[i].pulse <= parseInt(instance.sos[5].max)) {
+              instance.summary[i].sos += instance.sos[5].score;
+            } else if (
+              instance.summary[i].pulse >= parseInt(instance.sos[6].min) &&
+              instance.summary[i].pulse <= parseInt(instance.sos[6].max)
+            ) {
+              instance.summary[i].sos += instance.sos[6].score;
+            } else if (
+              instance.summary[i].pulse >= parseInt(instance.sos[7].min) &&
+              instance.summary[i].pulse <= parseInt(instance.sos[7].max)
+            ) {
+              instance.summary[i].sos += instance.sos[7].score;
+            } else if (
+              instance.summary[i].pulse >= parseInt(instance.sos[8].min) &&
+              instance.summary[i].pulse <= parseInt(instance.sos[8].max)
+            ) {
+              instance.summary[i].sos += instance.sos[8].score;
+            } else if (
+              instance.summary[i].pulse >= parseInt(instance.sos[9].min) &&
+              instance.summary[i].pulse <= parseInt(instance.sos[9].max)
+            ) {
+              instance.summary[i].sos += instance.sos[9].score;
+            } else if (
+              instance.summary[i].pulse >= parseInt(instance.sos[10].min)
+            ) {
+              instance.summary[i].sos += instance.sos[10].score;
+            }
+
+            if (instance.summary[i].resp <= parseInt(instance.sos[17].max)) {
+              instance.summary[i].sos += instance.sos[17].score;
+            } else if (
+              instance.summary[i].resp >= parseInt(instance.sos[18].min) &&
+              instance.summary[i].resp <= parseInt(instance.sos[18].max)
+            ) {
+              instance.summary[i].sos += instance.sos[18].score;
+            } else if (
+              instance.summary[i].resp >= parseInt(instance.sos[19].min) &&
+              instance.summary[i].resp <= parseInt(instance.sos[19].max)
+            ) {
+              instance.summary[i].sos += instance.sos[19].score;
+            } else if (
+              instance.summary[i].resp >= parseInt(instance.sos[20].min) &&
+              instance.summary[i].resp <= parseInt(instance.sos[20].max)
+            ) {
+              instance.summary[i].sos += instance.sos[20].score;
+            } else if (
+              instance.summary[i].resp >= parseInt(instance.sos[21].min)
+            ) {
+              instance.summary[i].sos += instance.sos[21].score;
+            }
+
+            if (instance.summary[i].sbp <= parseInt(instance.sos[11].max)) {
+              instance.summary[i].sos += instance.sos[11].score
+            } else if (
+              instance.summary[i].sbp >= parseInt(instance.sos[12].min) &&
+              instance.summary[i].sbp <= parseInt(instance.sos[12].max)
+            ) {
+              instance.summary[i].sos += instance.sos[12].score
+            } else if (
+              instance.summary[i].sbp >= parseInt(instance.sos[13].min) &&
+              instance.summary[i].sbp <= parseInt(instance.sos[13].max)
+            ) {
+              instance.summary[i].sos += instance.sos[13].score
+            } else if (
+              instance.summary[i].sbp >= parseInt(instance.sos[14].min) &&
+              instance.summary[i].sbp <= parseInt(instance.sos[14].max)
+            ) {
+              instance.summary[i].sos += instance.sos[14].score
+            } else if (
+              instance.summary[i].sbp >= parseInt(instance.sos[15].min) &&
+              instance.summary[i].sbp <= parseInt(instance.sos[15].max)
+            ) {
+              instance.summary[i].sos += instance.sos[15].score
+            } else if (instance.summary[i].sbp >= parseInt(instance.sos[16].min)) {
+              instance.summary[i].sos += instance.sos[16].score
+            }
+          }
+
           for (var i = 0; i < instance.summary.length; i++) {
             var zone = condition.checkCondition(
               instance.summary[i].temp,

@@ -17,6 +17,7 @@
           <br />Risk
         </td>
         <td rowspan="2">Remark</td>
+        <td rowspan="2">Action</td>
         <td rowspan="2" v-if="name == true">Recorder</td>
         <td rowspan="2" v-if="show == true" style="width:100px">View</td>
       </tr>
@@ -184,6 +185,17 @@
         <td v-else>
           {{data.remark}}
         </td>
+        
+        <td
+          v-if="data.bednumber == bednumber && action == true"
+          class="invalid"
+        >
+          {{data.action}}
+        </td>
+        <td v-else>
+          {{data.action}}
+        </td>
+
         <td v-if="name == true">{{data.name}}</td>
         <td v-if="show == true" style="width:100px">
           <b-button size="sm" style="background: #7FDBD5; border: #7FDBD5;">
@@ -258,7 +270,8 @@ export default {
     "urine",
     "painscore",
     "fallrisk",
-    "remark"
+    "remark",
+    "action"
   ]),
   mounted() {
     var instance = this;
