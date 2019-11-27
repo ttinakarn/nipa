@@ -3,8 +3,12 @@
     <navbar />
     <div class="container">
       <h1>Patient List</h1>
-    
-      <table class="table table-bordered table-hover">
+
+      <div v-if="patients == null">
+        <b-spinner variant="info" label="Loading..."></b-spinner>
+      </div>
+
+      <table class="table table-bordered table-hover" v-if="patients != null">
         <thead class="thead-light">
           <tr>
             <th scope="col">Bed Number</th>
@@ -44,7 +48,7 @@ export default {
   },
   data() {
     return {
-       patients: null
+      patients: null
     };
   },
   mounted() {

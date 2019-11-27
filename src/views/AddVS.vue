@@ -24,16 +24,15 @@
       </b-navbar-nav>
     </b-navbar>
     <br />
-
+<div v-if="bedinfo == null">
+        <b-spinner variant="info" label="Loading..."></b-spinner>
+      </div>
     <b-container>
       <br />
       <b-tabs content-class="mt-3" fill v-if="bedinfo != null && $route.params.an != null">
         <b-tab>
           <template slot="title">
             Vital Sign
-            <!-- <b-badge v-if="fallrisk > 0 && fallrisk <= 3" pill variant="success">{{fallrisk}}</b-badge>
-            <b-badge v-if="fallrisk == 4 || fallrisk == 5" pill variant="warning">{{fallrisk}}</b-badge>
-            <b-badge v-if="fallrisk > 5" pill variant="danger">{{fallrisk}}</b-badge>-->
             <b-badge v-if="sosscore > 0" pill class="text-dark button-color">{{sosscore}}</b-badge>
           </template>
           <b-card bg-variant="light" text-variant="dark">
@@ -420,21 +419,11 @@ export default {
       bednumber: 0,
       sostemp: 0,
       sospulse: 0
-      // sosscore: 0
     };
   },
-
-  //   computed: {
-  //   localComputed () { /* ... */ },
-  //   // mix this into the outer object with the object spread operator
-  //  mapState({
-  //     sosscore
-  //   })
-  // }
   computed: mapState({
     sosscore: state => state.sosscore
   }),
-
   methods: {
     calsosscore: function() {
       console.log("clicked", this.temp, typeof this.temp);
@@ -638,7 +627,8 @@ export default {
             remark: this.remark,
             empid: "213049",
             date: moment().format(),
-            bednumber: instance.bednumber
+            bednumber: instance.bednumber,
+            sos: parseInt(this.$store.getters.sosscore)
           })
           .then(response => {
             instance.isLoading = false;

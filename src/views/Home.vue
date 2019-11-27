@@ -11,6 +11,9 @@
     <br />
     <div class="display-4">Welcome Tip</div>
     <br />
+    <div v-if="beds == null">
+      <b-spinner variant="info" label="Loading..."></b-spinner>
+    </div>
     <b-row>
       <b-col lg="3" sm="4" xs="12" v-for="bed in beds" :key="bed.bednumber">
         <div v-if="bed.status == 'normal'">
@@ -48,7 +51,8 @@
             <b-button class="button-size button-color">
               <div>
                 <h3>BED {{bed.bednumber}}</h3>
-                <h5>Lastest Vital:</h5><h3>{{moment(bed.max).format('LT')}}</h3> 
+                <h5>Lastest Vital:</h5>
+                <h3>{{moment(bed.max).format('LT')}}</h3>
               </div>
             </b-button>
           </router-link>
@@ -64,7 +68,7 @@ import moment from "moment";
 export default {
   data() {
     return {
-      beds: []
+      beds: null
     };
   },
   mounted() {

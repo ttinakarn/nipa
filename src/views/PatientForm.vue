@@ -68,10 +68,13 @@
           <b-form-input type="date" :value="patientinfo[0].dischargedate"></b-form-input>
         </b-col>
       </b-row>
+      <div class="text-center">
+        <b-button style="background: #7FDBD5; border: #7FDBD5; margin: 5px;" class="text-dark">Save</b-button>
+        <router-link to="/patients">
+          <b-button style="background: #6c757d; border: #6c757d; margin: 5px;">Cancel</b-button>
+        </router-link>
+      </div>
     </div>
-    <b-button style="background: #7FDBD5; border: #7FDBD5; margin: 5px;" class="text-dark">Save</b-button>
-    <router-link to="/patients"><b-button style="background: #6c757d; border: #6c757d; margin: 5px;">Cancel</b-button></router-link>
-    
   </div>
 </template>
 
@@ -98,7 +101,7 @@ export default {
       )
       .then(function(response) {
         console.log(response.data.data);
-        instance.patientinfo = response.data.data
+        instance.patientinfo = response.data.data;
       });
   }
 };
