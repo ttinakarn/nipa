@@ -51,8 +51,8 @@
             <b-button class="button-size button-color">
               <div>
                 <h3>BED {{bed.bednumber}}</h3>
-                <h5>Lastest Vital:</h5>
-                <h3>{{moment(bed.max).format('LT')}}</h3>
+                <h5 v-if="bed.max != null">Lastest Vital:</h5>
+                <h3 v-if="bed.max != null">{{moment(bed.max).format('LT')}}</h3>
               </div>
             </b-button>
           </router-link>
@@ -81,6 +81,7 @@ export default {
         console.log(response.data.data);
         instance.beds = response.data.data;
       });
+    // console.log(instance.beds[0].max);
   }
 };
 </script>
