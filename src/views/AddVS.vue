@@ -653,7 +653,6 @@ export default {
         if(response.data.data[0] == undefined){
           instance.lastestvs = response.data.data;
           console.log("response.data.data");
-          console.log(instance.lastestvs.length);
         }
         else{
           instance.lastestvs = response.data.data[0];
