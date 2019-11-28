@@ -9,8 +9,11 @@ import VitalSignGraph from './views/VitalSignGraph.vue'
 import TV from './views/TV.vue'
 import Condition from './views/Condition.vue'
 import Index from './views/Index.vue'
-import Patient from './views/PatientForm.vue'
+import PatientForm from './views/PatientForm.vue'
 import PatientList from './views/PatientList.vue'
+import Patients from './views/Patients.vue'
+import Admit from './views/Admit.vue'
+import AdmitDetail from './views/AdmitDetail.vue'
 
 Vue.use(Router)
 
@@ -62,14 +65,29 @@ export default new Router({
       component: Index
     },
     {
-      path: '/patients',
-      name: 'patients',
+      path: '/patientslist',
+      name: 'patientslist',
       component: PatientList
     },
     {
       path: '/patient/:an',
       name: 'patient',
-      component: Patient
+      component: PatientForm
+    },
+    {
+      path: '/patients',
+      name: 'patients',
+      component: Patients
+    },
+    {
+      path: '/admit/:hn',
+      name: 'admit',
+      component: Admit
+    },
+    {
+      path: '/admitdetail/:an',
+      name: 'admitdetail',
+      component: AdmitDetail
     }
   ]
 })

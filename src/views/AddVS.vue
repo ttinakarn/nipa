@@ -24,12 +24,13 @@
       </b-navbar-nav>
     </b-navbar>
     <br />
-<div v-if="bedinfo == null">
-        <b-spinner variant="info" label="Loading..."></b-spinner>
-      </div>
+    <div v-if="bedinfo == null && $route.params.an == null">
+      <b-spinner variant="info" label="Loading..."></b-spinner>
+    </div>
     <b-container>
       <br />
       <b-tabs content-class="mt-3" fill v-if="bedinfo != null && $route.params.an != null">
+      <!-- <b-tabs content-class="mt-3" fill> -->
         <b-tab>
           <template slot="title">
             Vital Sign
@@ -45,13 +46,13 @@
                   <h5>Name: {{bedinfo.title}}{{bedinfo.name}} {{bedinfo.surname}}</h5>
                 </b-col>
                 <b-col md="6" xs="12" style="text-align: left;">
-                  <h5>Latest Vital: {{moment(bedinfo.max).format('LT')}}</h5>
+                  <h5>Latest Vital: {{moment(lastestvs.max).format('LT')}}</h5>
                 </b-col>
                 <b-col md="6" xs="12" style="text-align: left;">
-                  <h5>Recorder: {{bedinfo.emptitle}}{{bedinfo.empname}} {{bedinfo.empsurname}}</h5>
+                  <h5>Recorder: {{lastestvs.emptitle}}{{lastestvs.empname}} {{lastestvs.empsurname}}</h5>
                 </b-col>
                 <b-col md="6" xs="12" style="text-align: left;">
-                  <h5>Fall Risk: {{bedinfo.fallrisk}}</h5>
+                  <h5>Fall Risk: {{lastestvs.fallrisk}}</h5>
                 </b-col>
               </b-row>
             </b-col>
@@ -82,9 +83,9 @@
                   <MedInput
                     subtitle="P"
                     description="pulse"
-                    :latestVS="bedinfo.pulse"
+                    :latestVS="lastestvs.pulse"
                     :sendVSData.sync="pulse"
-                    :text-color="{'text-danger' : bedinfo.pulse < condition[0].minpulse || bedinfo.pulse > condition[0].maxpulse}"
+                    :text-color="{'text-danger' : lastestvs.pulse < condition[0].minpulse || lastestvs.pulse > condition[0].maxpulse}"
                     min="40"
                     max="150"
                   ></MedInput>
@@ -98,9 +99,9 @@
                   <MedInput
                     subtitle="R"
                     description="resp"
-                    :latestVS="bedinfo.resp"
+                    :latestVS="lastestvs.resp"
                     :sendVSData.sync="resp"
-                    :text-color="{'text-danger' : bedinfo.resp < condition[0].minresp || bedinfo.resp > condition[0].maxresp}"
+                    :text-color="{'text-danger' : lastestvs.resp < condition[0].minresp || lastestvs.resp > condition[0].maxresp}"
                     min="8"
                     max="35"
                   ></MedInput>
@@ -119,9 +120,9 @@
                     cols="6"
                     subtitle="SBP"
                     description="sbp"
-                    :latestVS="bedinfo.sbp"
+                    :latestVS="lastestvs.sbp"
                     :sendVSData.sync="sbp"
-                    :text-color="{'text-danger' : bedinfo.sbp < condition[0].minsbp || bedinfo.sbp > condition[0].maxsbp}"
+                    :text-color="{'text-danger' : lastestvs.sbp < condition[0].minsbp || lastestvs.sbp > condition[0].maxsbp}"
                     min="80"
                     max="200"
                   ></MedInput>
@@ -130,9 +131,9 @@
                     cols="6"
                     subtitle="DBP"
                     description="dbp"
-                    :latestVS="bedinfo.dbp"
+                    :latestVS="lastestvs.dbp"
                     :sendVSData.sync="dbp"
-                    :text-color="{'text-danger' : bedinfo.dbp < condition[0].mindbp || bedinfo.dbp > condition[0].maxdbp}"
+                    :text-color="{'text-danger' : lastestvs.dbp < condition[0].mindbp || lastestvs.dbp > condition[0].maxdbp}"
                     min="50"
                     max="230"
                   ></MedInput>
@@ -151,9 +152,9 @@
                     cols="4"
                     subtitle="E"
                     description="eye"
-                    :latestVS="bedinfo.eye"
+                    :latestVS="lastestvs.eye"
                     :sendVSData.sync="eye"
-                    :text-color="{'text-danger' : bedinfo.eye < condition[0].maxeye}"
+                    :text-color="{'text-danger' : lastestvs.eye < condition[0].maxeye}"
                     min="0"
                     max="4"
                   ></MedInput>
@@ -162,9 +163,9 @@
                     cols="4"
                     subtitle="V"
                     description="verbal"
-                    :latestVS="bedinfo.verbal"
+                    :latestVS="lastestvs.verbal"
                     :sendVSData.sync="verbal"
-                    :text-color="{'text-danger' : bedinfo.verbal < condition[0].maxverbal}"
+                    :text-color="{'text-danger' : lastestvs.verbal < condition[0].maxverbal}"
                     min="0"
                     max="5"
                   ></MedInput>
@@ -173,9 +174,9 @@
                     cols="4"
                     subtitle="M"
                     description="motor"
-                    :latestVS="bedinfo.motor"
+                    :latestVS="lastestvs.motor"
                     :sendVSData.sync="motor"
-                    :text-color="{'text-danger' : bedinfo.motor < condition[0].maxmotor}"
+                    :text-color="{'text-danger' : lastestvs.motor < condition[0].maxmotor}"
                     min="0"
                     max="6"
                   ></MedInput>
@@ -189,8 +190,8 @@
                   <MedInput
                     subtitle="O2 Sat"
                     description="o2sat"
-                    :latestVS="bedinfo.o2sat"
-                    :text-color="{'text-danger' : bedinfo.o2sat < condition[0].mino2sat}"
+                    :latestVS="lastestvs.o2sat"
+                    :text-color="{'text-danger' : lastestvs.o2sat < condition[0].mino2sat}"
                     :sendVSData.sync="o2sat"
                     min="80"
                     max="100"
@@ -205,9 +206,9 @@
                   <MedInput
                     subtitle="Urine"
                     description="urine"
-                    :latestVS="bedinfo.urine"
+                    :latestVS="lastestvs.urine"
                     :sendVSData.sync="urine"
-                    :text-color="{'text-danger' : bedinfo.urine < condition[0].minurine}"
+                    :text-color="{'text-danger' : lastestvs.urine < condition[0].minurine}"
                     min="0"
                     max="1000"
                   ></MedInput>
@@ -221,9 +222,9 @@
                   <MedInput
                     subtitle="PainScore"
                     description="painscore"
-                    :latestVS="bedinfo.painscore"
+                    :latestVS="lastestvs.painscore"
                     :sendVSData.sync="painscore"
-                    :text-color="{'text-danger' : bedinfo.painscore > condition[0].maxpainscore}"
+                    :text-color="{'text-danger' : lastestvs.painscore > condition[0].maxpainscore}"
                     min="0"
                     max="10"
                   ></MedInput>
@@ -243,7 +244,7 @@
                 <b-row>
                   <MedInput subtitle="Action" description="remark" :sendVSData.sync="action"></MedInput>
                 </b-row>
-              </b-button>
+              </b-button> 
             </b-col>
           </b-row>
         </b-tab>
@@ -270,13 +271,13 @@
                   <h5>Name: {{bedinfo.title}}{{bedinfo.name}} {{bedinfo.surname}}</h5>
                 </b-col>
                 <b-col md="6" xs="12" style="text-align: left;">
-                  <h5>Latest Vital: {{moment(bedinfo.max).format('LT')}}</h5>
+                  <h5>Latest Vital: {{moment(lastestvs.max).format('LT')}}</h5>
                 </b-col>
                 <b-col md="6" xs="12" style="text-align: left;">
-                  <h5>Recorder: {{bedinfo.emptitle}}{{bedinfo.empname}} {{bedinfo.empsurname}}</h5>
+                  <h5>Recorder: {{lastestvs.emptitle}}{{lastestvs.empname}} {{lastestvs.empsurname}}</h5>
                 </b-col>
                 <b-col md="6" xs="12" style="text-align: left;">
-                  <h5>Fall Risk: {{bedinfo.fallrisk}}</h5>
+                  <h5>Fall Risk: {{lastestvs.fallrisk}}</h5>
                 </b-col>
               </b-row>
             </b-col>
@@ -396,6 +397,7 @@ export default {
     return {
       isLoading: false,
       bedinfo: null,
+      lastestvs: null,
       checked1: false,
       checked2: false,
       checked3: false,
@@ -648,13 +650,26 @@ export default {
         "https://nipaapi.herokuapp.com/api/getLastestVS/" +
           instance.$route.params.an
       )
+      .then(function(response) {        
+        if(response.data.data[0] == undefined){
+          instance.lastestvs = response.data.data;
+          console.log("response.data.data");
+        }
+        else{
+          instance.lastestvs = response.data.data[0];
+          console.log("response.data.data[0]");
+        }
+      });
+    instance.condition = condition.getCondition();
+    axios
+      .get("https://nipaapi.herokuapp.com/api/getBedInfo/" + instance.$route.params.an)
       .then(function(response) {
         console.log(response.data.data);
         instance.bedinfo = response.data.data[0];
-        console.log(instance.bedinfo);
+        // console.log(instance.bedinfo.an);
       });
-    instance.condition = condition.getCondition();
   }
+  
 };
 </script>
 

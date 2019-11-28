@@ -4,7 +4,7 @@
       <b-col align="left">
         <h5>{{subtitle}}</h5>
       </b-col>
-      <b-col align="right">
+      <b-col align="right" v-if="latestVS != null">
         <h5 :class="textColor">{{latestVS}}</h5>
       </b-col>
     </b-row>
