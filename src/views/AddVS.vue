@@ -24,7 +24,7 @@
       </b-navbar-nav>
     </b-navbar>
     <br />
-    <div v-if="bedinfo == null && $route.params.an == null">
+    <div v-if="bedinfo == null">
       <b-spinner variant="info" label="Loading..."></b-spinner>
     </div>
     <b-container>

@@ -7,7 +7,7 @@
       <b-navbar-brand class="topnav-centered">Patient's Information</b-navbar-brand>
     </b-navbar>
     <br/>
-    <div v-if="bedinfo == null && $route.params.an == null">
+    <div v-if="bedinfo == null">
       <b-spinner variant="info" label="Loading..."></b-spinner>
     </div>
     <b-container v-if="bedinfo != null && $route.params.an != null">
