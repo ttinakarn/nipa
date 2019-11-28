@@ -14,6 +14,7 @@ import PatientList from './views/PatientList.vue'
 import Patients from './views/Patients.vue'
 import Admit from './views/Admit.vue'
 import AdmitDetail from './views/AdmitDetail.vue'
+import AddPatient from './views/AddPatient.vue'
 
 Vue.use(Router)
 
@@ -73,6 +74,11 @@ export default new Router({
       path: '/patient/:an',
       name: 'patient',
       component: PatientForm
+    },
+    {
+      path: '/addpatient',
+      name: 'addpatient',
+      component: AddPatient
     },
     {
       path: '/patients',

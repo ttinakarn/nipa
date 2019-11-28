@@ -2,7 +2,16 @@
   <div>
     <navbar />
     <div class="container">
-      <h1>Patient List</h1>
+      <b-row align-h="end">
+        <b-col cols="4">
+          <h1>Patient List</h1>
+        </b-col>
+        <b-col cols="4">
+          <b-button style="background: #7FDBD5; border: #7FDBD5;">
+            <router-link to="/addpatient" style="color: #2c3e50;">Add new patient</router-link>
+          </b-button>
+        </b-col>
+      </b-row>
 
       <div v-if="patients == null">
         <b-spinner variant="info" label="Loading..."></b-spinner>
