@@ -1,8 +1,7 @@
 <template>
   <div>
     <navbar />
-
-    <div style="margin: 10px" v-if="condition != null">
+    <div style="margin: 10px" v-if="condition != null && summary != null">
       <VSTable firstcol="Bed" :summaryvs="alerted" :show="true" :name="false" :header="true"></VSTable>
       <VSTable firstcol="Bed" :summaryvs="normal" :show="true" :name="false" :header="false"></VSTable>
     </div>
