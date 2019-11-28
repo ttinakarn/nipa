@@ -30,7 +30,6 @@
     <b-container>
       <br />
       <b-tabs content-class="mt-3" fill v-if="bedinfo != null && $route.params.an != null">
-      <!-- <b-tabs content-class="mt-3" fill> -->
         <b-tab>
           <template slot="title">
             Vital Sign
@@ -45,7 +44,7 @@
                 <b-col md="6" xs="12" style="text-align: left;">
                   <h5>Name: {{bedinfo.title}}{{bedinfo.name}} {{bedinfo.surname}}</h5>
                 </b-col>
-                <b-col md="6" xs="12" style="text-align: left;">
+                <b-col md="6" xs="12" style="text-align: left;" v-if="lastestvs.length != 0">
                   <h5>Latest Vital: {{moment(lastestvs.max).format('LT')}}</h5>
                 </b-col>
                 <b-col md="6" xs="12" style="text-align: left;">
@@ -67,9 +66,9 @@
                   <MedInput
                     subtitle="T"
                     description="temp"
-                    :latestVS="bedinfo.temp"
+                    :latestVS="lastestvs.temp"
                     :sendVSData.sync="temp"
-                    :text-color="{'text-danger' : bedinfo.temp < condition[0].mintemp || bedinfo.temp > condition[0].maxtemp}"
+                    :text-color="{'text-danger' : lastestvs.temp < condition[0].mintemp || lastestvs.temp > condition[0].maxtemp}"
                     min="35"
                     max="42"
                   ></MedInput>
@@ -654,10 +653,11 @@ export default {
         if(response.data.data[0] == undefined){
           instance.lastestvs = response.data.data;
           console.log("response.data.data");
+          console.log(instance.lastestvs.length);
         }
         else{
           instance.lastestvs = response.data.data[0];
-          console.log("response.data.data[0]");
+          console.log(instance.lastestvs);
         }
       });
     instance.condition = condition.getCondition();
@@ -666,7 +666,6 @@ export default {
       .then(function(response) {
         console.log(response.data.data);
         instance.bedinfo = response.data.data[0];
-        // console.log(instance.bedinfo.an);
       });
   }
   
