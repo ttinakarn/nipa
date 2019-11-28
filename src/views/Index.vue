@@ -16,7 +16,7 @@
         </router-link>
       </b-col>
       <b-col lg="6">
-        <router-link to="/patients">
+        <router-link to="/patientslist">
           <b-button class="button-color">
             <div>
               <img src="../assets/profile.png" class="responsive" />
