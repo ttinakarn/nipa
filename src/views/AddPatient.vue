@@ -165,7 +165,7 @@ export default {
           .then(response => {
             instance.isLoading = false;
             this.$bvModal
-              .msgBoxOk("Data was submitted successfully", {
+              .msgBoxOk("Successfully added new patient", {
                 title: "Confirmation",
                 size: "sm",
                 buttonSize: "sm",
