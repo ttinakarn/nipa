@@ -24,7 +24,7 @@
             <th scope="col">AN</th>
             <th scope="col">HN</th>
             <th scope="col">Name</th>
-            <!-- <th scope="col">View</th> -->
+            <th scope="col">View</th>
           </tr>
         </thead>
         <tbody>
@@ -33,14 +33,14 @@
             <td>{{patient.an}}</td>
             <td>{{patient.hn}}</td>
             <td>{{patient.title}}{{patient.name}} {{patient.surname}}</td>
-            <!-- <td>
+            <td>
               <b-button size="sm" style="background: #7FDBD5; border: #7FDBD5;">
                 <router-link
                   :to="{ name: 'patient', params: {an: patient.an}}"
                   style="color: #2c3e50;"
                 >View</router-link>
               </b-button>
-            </td> -->
+            </td>
           </tr>
         </tbody>
       </table>

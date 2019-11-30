@@ -11,22 +11,20 @@
           </b-col>
           <b-col cols="3">
             <b-form-input type="number" v-model="bednumber" @keyup="checkbed()" />
-            <b-form-text
-              text-variant="danger"
-              v-if="available == true"
-            >Bed {{bednumber}} is not available</b-form-text>
+            <b-form-invalid-feedback :state="available">Bed {{bednumber}} is not available</b-form-invalid-feedback>
+            
           </b-col>
           <b-col cols="1">
             <label for="text">HN</label>
           </b-col>
           <b-col cols="3">
-            <b-form-input type="number" v-model="hn"/>
+            <b-form-input type="number" v-model="hn" :state="hn != null"/>
           </b-col>
           <b-col cols="1">
             <label for="text">AN</label>
           </b-col>
           <b-col cols="3">
-            <b-form-input type="number" v-model="an"/>
+            <b-form-input type="number" v-model="an" :state="an != null"/>
           </b-col>
         </b-row>
         <hr />
@@ -35,19 +33,19 @@
             <label for="text">Title</label>
           </b-col>
           <b-col cols="2">
-            <b-form-input type="text" v-model="title" />
+            <b-form-input type="text" v-model="title" :state="title != null"/>
           </b-col>
           <b-col cols="1">
             <label for="text">Name</label>
           </b-col>
           <b-col cols="3">
-            <b-form-input type="text" v-model="name" />
+            <b-form-input type="text" v-model="name" :state="name != null"/>
           </b-col>
           <b-col cols="1">
             <label for="text">Surname</label>
           </b-col>
           <b-col cols="4">
-            <b-form-input type="text" v-model="surname" />
+            <b-form-input type="text" v-model="surname" :state="surname != null"/>
           </b-col>
         </b-row>
         <b-row class="m-3">
@@ -55,13 +53,13 @@
             <label for="text">Birthday</label>
           </b-col>
           <b-col cols="4">
-            <b-form-input type="date" v-model="dob" />
+            <b-form-input type="date" v-model="dob" :state="dob != null"/>
           </b-col>
           <b-col cols="2">
             <label for="text">Admit Date</label>
           </b-col>
           <b-col cols="4">
-            <b-form-input type="date" v-model="admitdate" />
+            <b-form-input type="date" v-model="admitdate" :state="admitdate != null"/>
           </b-col>
         </b-row>
         <div class="text-center">
@@ -102,7 +100,7 @@ export default {
       surname: null,
       dob: null,
       admitdate: null,
-      available: false
+      available: true
     };
   },
   mounted() {
@@ -129,7 +127,7 @@ export default {
       //     this.admitdate
       //   );
       if (
-        this.available == true ||
+        this.available == false ||
         this.bednumber == null ||
         this.hn == null ||
         this.an == null ||
@@ -141,7 +139,7 @@ export default {
       ) {
         instance.isLoading = false;
         this.$bvModal.msgBoxOk("Please complete the form", {
-          title: "Can't admit new patient",
+          title: "Can't add new patient",
           size: "sm",
           buttonSize: "sm",
           okVariant: "danger",
@@ -165,7 +163,7 @@ export default {
             instance.isLoading = false;
             this.$bvModal
               .msgBoxOk("Successfully added new patient", {
-                title: "Confirmation",
+                title: "Data saved",
                 size: "sm",
                 buttonSize: "sm",
                 okVariant: "success",
@@ -184,7 +182,7 @@ export default {
           .catch(error => {
             instance.isLoading = false;
             this.$bvModal.msgBoxOk(error.message, {
-              title: "Can't admit new patient",
+              title: "Can't add new patient",
               size: "sm",
               buttonSize: "sm",
               okVariant: "danger",
@@ -198,17 +196,17 @@ export default {
     },
     checkbed() {
       var instance = this;
-      instance.available = false;
+      instance.available = true;
       for (var i = 0; i < instance.beds.length; i++) {
         if (instance.bednumber == instance.beds[i].bednumber) {
-          instance.available = true;
+          instance.available = false;
         }
       }
       console.log("Bed "+ instance.bednumber + " is not availiable", instance.available);
     },
     cancel(){
-      this.$bvModal.msgBoxConfirm('Please confirm that you want to delete everything.', {
-          title: 'Please Confirm',
+      this.$bvModal.msgBoxConfirm("You haven't add new patient yet. Are you sure cancel this?", {
+          title: 'Confirmation Discard Changes',
           size: 'sm',
           buttonSize: 'sm',
           okVariant: 'danger',

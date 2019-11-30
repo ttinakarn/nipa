@@ -6,8 +6,8 @@
 
       <!-- <div v-if="patients == null">
       <b-spinner variant="info" label="Loading..."></b-spinner>
-      </div>-->
-      <!-- <table class="table table-bordered table-hover" v-if="patients != null"> -->
+      </div>
+      <table class="table table-bordered table-hover" v-if="patients != null"> -->
       <table class="table table-bordered table-hover">
         <thead class="thead-light">
           <tr>

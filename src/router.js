@@ -9,7 +9,7 @@ import VitalSignGraph from './views/VitalSignGraph.vue'
 import TV from './views/TV.vue'
 import Condition from './views/Condition.vue'
 import Index from './views/Index.vue'
-import PatientForm from './views/PatientForm.vue'
+import EditPatient from './views/EditPatient.vue'
 import PatientList from './views/PatientList.vue'
 import Patients from './views/Patients.vue'
 import Admit from './views/Admit.vue'
@@ -73,7 +73,7 @@ export default new Router({
     {
       path: '/patient/:an',
       name: 'patient',
-      component: PatientForm
+      component: EditPatient
     },
     {
       path: '/addpatient',
