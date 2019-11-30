@@ -166,11 +166,11 @@
         <td v-else style="width:100px">{{data.painscore}}</td>
 
         <td
-          v-if="data.bednumber == bednumber && fallrisk == true && (data.fallrisk > condition[1].maxfallrisk)"
+          v-if="data.bednumber == bednumber && fallrisk == true && (data.fallrisk > condition[0].maxfallrisk)"
           class="text-danger font-weight-bold invalid" style="width:100px"
         >{{data.fallrisk}}</td>
         <td
-          v-else-if="data.fallrisk > condition[1].maxfallrisk"
+          v-else-if="data.fallrisk > condition[0].maxfallrisk"
           class="text-danger font-weight-bold" style="width:100px"
         >{{data.fallrisk}}</td>
         <td v-else-if="data.bednumber == bednumber && fallrisk == true" class="invalid" style="width:100px">{{data.fallrisk}}</td>
