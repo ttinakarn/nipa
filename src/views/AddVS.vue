@@ -33,12 +33,9 @@
         <b-tab>
           <template slot="title" >
           
-             Vital Sign 
-            <!-- <div v-if="sosscore > 0"> -->
+             Vital Sign
               <b-badge v-if="sosscore <= 3 && sosscore != 0" pill class="text-dark button-color" style="font-size: 16px">SOS: {{sosscore}}</b-badge>
-              
               <b-badge v-else-if="sosscore > 3" pill variant="danger" style="font-size: 16px">SOS: {{sosscore}}</b-badge>
-            <!-- </div> -->
           </template>
           <b-card bg-variant="light" text-variant="dark">
             <b-col>

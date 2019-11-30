@@ -66,7 +66,7 @@ export default {
       .get("https://nipaapi.herokuapp.com/api/patient")
       .then(function(response) {
         instance.patients = response.data.data;
-        console.log(instance.patients);
+        console.log("Patients", instance.patients);
       });
   }
 };
