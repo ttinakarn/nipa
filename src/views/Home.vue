@@ -78,10 +78,9 @@ export default {
     axios
       .get("https://nipaapi.herokuapp.com/api/bednumber")
       .then(function(response) {
-        console.log(response.data.data);
         instance.beds = response.data.data;
+        console.log("Beds", instance.beds);
       });
-    // console.log(instance.beds[0].max);
   }
 };
 </script>

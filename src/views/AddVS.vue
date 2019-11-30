@@ -31,9 +31,14 @@
       <br />
       <b-tabs content-class="mt-3" fill v-if="bedinfo != null && $route.params.an != null">
         <b-tab>
-          <template slot="title">
-            Vital Sign
-            <b-badge v-if="sosscore > 0" pill class="text-dark button-color">{{sosscore}}</b-badge>
+          <template slot="title" >
+          
+             Vital Sign 
+            <!-- <div v-if="sosscore > 0"> -->
+              <b-badge v-if="sosscore <= 3 && sosscore != 0" pill class="text-dark button-color" style="font-size: 16px">SOS: {{sosscore}}</b-badge>
+              
+              <b-badge v-else-if="sosscore > 3" pill variant="danger" style="font-size: 16px">SOS: {{sosscore}}</b-badge>
+            <!-- </div> -->
           </template>
           <b-card bg-variant="light" text-variant="dark">
             <b-col>
@@ -243,7 +248,7 @@
                 <b-row>
                   <MedInput subtitle="Action" description="remark" :sendVSData.sync="action"></MedInput>
                 </b-row>
-              </b-button> 
+              </b-button>
             </b-col>
           </b-row>
         </b-tab>
@@ -649,25 +654,26 @@ export default {
         "https://nipaapi.herokuapp.com/api/getLastestVS/" +
           instance.$route.params.an
       )
-      .then(function(response) {        
-        if(response.data.data[0] == undefined){
+      .then(function(response) {
+        if (response.data.data.length == 0) {
           instance.lastestvs = response.data.data;
-          console.log("response.data.data");
-        }
-        else{
+          console.log("No lastest vital sign data");
+        } else {
           instance.lastestvs = response.data.data[0];
-          console.log(instance.lastestvs);
+          console.log("lastestvs",instance.lastestvs);
         }
       });
     instance.condition = condition.getCondition();
     axios
-      .get("https://nipaapi.herokuapp.com/api/getBedInfo/" + instance.$route.params.an)
+      .get(
+        "https://nipaapi.herokuapp.com/api/getBedInfo/" +
+          instance.$route.params.an
+      )
       .then(function(response) {
-        console.log(response.data.data);
         instance.bedinfo = response.data.data[0];
+        console.log("bedinfo", response.data.data);
       });
   }
-  
 };
 </script>
 

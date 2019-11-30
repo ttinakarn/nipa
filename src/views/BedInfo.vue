@@ -29,9 +29,9 @@
             <b-col lg="12" style="text-align: left;">
               <h5>Admit Date: {{moment(bedinfo.admitdate).format('LL')}}</h5> 
             </b-col>
-            <!-- <b-col lg="12" style="text-align: left;">
+            <b-col lg="12" style="text-align: left;">
               <h5 v-if="bedinfo.max != null">Remark: {{bedinfo.max}}</h5> 
-            </b-col> -->
+            </b-col>
           </b-row>
         </b-col>
       </b-jumbotron>
@@ -56,9 +56,8 @@ export default {
     axios
       .get("https://nipaapi.herokuapp.com/api/getBedInfo/" + instance.$route.params.an)
       .then(function(response) {
-        console.log(response.data.data);
         instance.bedinfo = response.data.data[0];
-        // console.log(instance.bedinfo.an);
+        console.log("bedinfo", instance.bedinfo);
       });
   }
 }
