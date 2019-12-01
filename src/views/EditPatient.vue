@@ -171,8 +171,21 @@ export default {
         this.admitdate == null
       ) {
         instance.isLoading = false;
-        this.$bvModal.msgBoxOk("Please complete the form.", {
-          title: "Can't add new patient",
+        this.$bvModal.msgBoxOk("Can't Save.", {
+          title: "Please complete the form",
+          size: "sm",
+          buttonSize: "sm",
+          okVariant: "danger",
+          headerClass: "p-2 border-bottom-0",
+          footerClass: "p-2 border-top-0",
+          centered: true
+        });
+      } else if (
+        this.available == false
+      ) {
+        instance.isLoading = false;
+        this.$bvModal.msgBoxOk("Can't Save.", {
+          title: "Bed " + this.bednumber + " is not avaliable",
           size: "sm",
           buttonSize: "sm",
           okVariant: "danger",

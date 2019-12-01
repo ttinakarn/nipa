@@ -551,7 +551,7 @@ export default {
         this.fallrisk == 0
       ) {
         instance.isLoading = false;
-        this.$bvModal.msgBoxOk("Please fill out the form.", {
+        this.$bvModal.msgBoxOk("Please complete the form", {
           title: "Can't Save",
           size: "sm",
           buttonSize: "sm",
