@@ -38,7 +38,7 @@
             </b-dropdown-item>
 
             <b-dropdown-item>
-              <router-link to="/patients" class="text-dark">Patient's History</router-link>
+              <router-link to="/patients" class="text-dark">Discharged Patient</router-link>
             </b-dropdown-item>
 
             <b-dropdown-divider></b-dropdown-divider>
