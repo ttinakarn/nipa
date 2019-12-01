@@ -648,7 +648,7 @@ export default {
     var instance = this;
     axios
       .get(
-        "https://nipaapi.herokuapp.com/api/getLastestVS/" +
+        "https://nipaapi.herokuapp.com/api/lastestVS/" +
           instance.$route.params.an
       )
       .then(function(response) {
