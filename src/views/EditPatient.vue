@@ -61,17 +61,11 @@
         </b-row>
         <hr />
         <b-row class="m-3">
-          <b-col cols="2">
+          <b-col cols="1">
             <label for="text">Admit Date</label>
           </b-col>
-          <b-col cols="4">
+          <b-col cols="11">
             <b-form-input type="date" v-model="admitdate" :state="admitdate != null"></b-form-input>
-          </b-col>
-          <b-col cols="2">
-            <label for="text">Discharge Date</label>
-          </b-col>
-          <b-col cols="4">
-            <b-form-input type="date" v-model="dischargedate"></b-form-input>
           </b-col>
         </b-row>
         <div class="text-center">
@@ -116,7 +110,6 @@ export default {
       surname: null,
       dob: null,
       admitdate: null,
-      dischargedate: null,
       available: true
     };
   },
@@ -144,8 +137,6 @@ export default {
             "YYYY-MM-DD"
           );
         }
-
-        instance.dischargedate = response.data.data[0].dischargedate;
         instance.allDataLoaded = true;
       });
     axios
@@ -160,7 +151,6 @@ export default {
       var instance = this;
       instance.isLoading = true;
       if (
-        this.available == false ||
         this.bednumber == null ||
         this.hn == null ||
         this.an == null ||
@@ -194,9 +184,6 @@ export default {
           centered: true
         });
       } else {
-        if (this.dischargedate != null) {
-          this.dischargedate = moment(this.dischargedate).format();
-        }
         axios
           .put(
             "https://nipaapi.herokuapp.com/api/patientInformation/" +
@@ -209,8 +196,7 @@ export default {
               name: this.name,
               surname: this.surname,
               dob: moment(this.dob).format(),
-              admitdate: moment(this.admitdate).format(),
-              dischargedate: this.dischargedate
+              admitdate: moment(this.admitdate).format()
             }
           )
           .then(response => {
