@@ -150,7 +150,7 @@ export default {
         this.available == false
       ) {
         instance.isLoading = false;
-        this.$bvModal.msgBoxOk("Bed " + this.bednumber + " is not avaliable", {
+        this.$bvModal.msgBoxOk("Bed " + this.bednumber + " is not available", {
           title: "Can't add new patient",
           size: "sm",
           buttonSize: "sm",

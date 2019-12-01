@@ -1,5 +1,6 @@
 <template>
   <div>
+    <loading :active.sync="isLoading" :can-cancel="false" :is-full-page="true"></loading>
     <navbar />
     <div class="container">
       <b-row align-h="end">
@@ -25,6 +26,7 @@
             <th scope="col">HN</th>
             <th scope="col">Name</th>
             <th scope="col">Edit</th>
+            <th scope="col">Discharge</th>
           </tr>
         </thead>
         <tbody>
@@ -41,6 +43,13 @@
                 >Edit</router-link>
               </b-button>
             </td>
+            <td>
+              <b-button
+                size="sm"
+                style="background: #dc3545; border: #dc3545;"
+                @click="discharge(patient.bednumber, patient.an)"
+              >Discharge</b-button>
+            </td>
           </tr>
         </tbody>
       </table>
@@ -51,23 +60,100 @@
 <script>
 import axios from "axios";
 import navbar from "@/components/NavbarHome.vue";
+import Loading from "vue-loading-overlay";
+import "vue-loading-overlay/dist/vue-loading.css";
+import moment from "moment";
+
 export default {
   components: {
-    navbar
+    navbar,
+    Loading
   },
   data() {
     return {
+      isLoading: false,
       patients: null
     };
   },
   mounted() {
-    var instance = this;
-    axios
-      .get("https://nipaapi.herokuapp.com/api/patient")
-      .then(function(response) {
-        instance.patients = response.data.data;
-        console.log("Patients", instance.patients);
-      });
+    this.getdata();
+  },
+  methods: {
+    getdata() {
+      var instance = this;
+      instance.patients = null;
+      axios
+        .get("https://nipaapi.herokuapp.com/api/patient")
+        .then(function(response) {
+          instance.patients = response.data.data;
+          console.log("Patients", instance.patients);
+        });
+    },
+    discharge(bednumber, an) {
+      var instance = this;
+      this.$bvModal
+        .msgBoxConfirm(
+          "Are you sure you want discharge bed number " + bednumber + "?",
+          {
+            title: "Confirmation Discharge Patient",
+            size: "sm",
+            buttonSize: "sm",
+            okVariant: "danger",
+            okTitle: "YES",
+            cancelTitle: "NO",
+            footerClass: "p-2",
+            hideHeaderClose: false,
+            centered: true
+          }
+        )
+        .then(value => {
+          if (value == true) {
+            console.log("discharge");
+            instance.isLoading = true;
+            axios
+              .put("https://nipaapi.herokuapp.com/api/dischargedate/" + an, {
+                dischargedate: moment().format("YYYY-MM-DD")
+              })
+              .then(function(response) {
+                instance.isLoading = false;
+                instance.$bvModal
+                  .msgBoxOk("Bed " + bednumber + " has been discharged", {
+                    title: "Confirmation",
+                    size: "sm",
+                    buttonSize: "sm",
+                    okVariant: "success",
+                    headerClass: "p-2 border-bottom-0",
+                    footerClass: "p-2 border-top-0",
+                    centered: true
+                  })
+                  .then(value => {
+                    instance.isLoading = true;
+                    instance.getdata();
+                    instance.isLoading = false;
+                  })
+                  .catch(err => {
+                    // An error occurred
+                  });
+              })
+              .catch(error => {
+                instance.isLoading = false;
+                instance.$bvModal.msgBoxOk(error.message, {
+                  title: "Can't discharge",
+                  size: "sm",
+                  buttonSize: "sm",
+                  okVariant: "danger",
+                  headerClass: "p-2 border-bottom-0",
+                  footerClass: "p-2 border-top-0",
+                  centered: true
+                });
+                console.log(error);
+              });
+          }
+        })
+        .catch(err => {
+          // An error occurred
+        });
+    }
   }
 };
 </script>

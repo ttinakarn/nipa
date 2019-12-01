@@ -161,8 +161,8 @@ export default {
         this.admitdate == null
       ) {
         instance.isLoading = false;
-        this.$bvModal.msgBoxOk("Can't Save.", {
-          title: "Please complete the form",
+        this.$bvModal.msgBoxOk("Please complete the form", {
+          title: "Can't Save",
           size: "sm",
           buttonSize: "sm",
           okVariant: "danger",
@@ -174,8 +174,8 @@ export default {
         this.available == false
       ) {
         instance.isLoading = false;
-        this.$bvModal.msgBoxOk("Can't Save.", {
-          title: "Bed " + this.bednumber + " is not avaliable",
+        this.$bvModal.msgBoxOk("Bed " + this.bednumber + " is not available", {
+          title: "Can't Save",
           size: "sm",
           buttonSize: "sm",
           okVariant: "danger",
@@ -202,7 +202,7 @@ export default {
           .then(response => {
             instance.isLoading = false;
             this.$bvModal
-              .msgBoxOk("The data was succesfully updated.", {
+              .msgBoxOk("The data was successfully updated", {
                 title: "Data Saved",
                 size: "sm",
                 buttonSize: "sm",
