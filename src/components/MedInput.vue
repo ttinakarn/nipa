@@ -76,8 +76,10 @@ export default {
   },
   methods: {
     calsosscore() {
-      console.log(this.sos[5].max);
-
+      console.log("this.$v.value.$error",this.$v.value.$error);
+      console.log("this.$v.$invalid", this.$v.$invalid);
+      
+      
       if (this.description == "temp") {
         if (this.value == null || this.value === "") {
           this.$store.commit("setsostemp", 0);
@@ -212,7 +214,7 @@ export default {
       this.$v.$touch();
       if (this.$v.$invalid && this.description != "remark") {
         this.$store.commit("setsubmitstatus" + this.description, false);
-      } else if (this.value === null) {
+      } else if (this.value === null || this.value.length == 0) {
         this.$store.commit("setsubmitstatus" + this.description, null);
       } else {
         this.$store.commit("setsubmitstatus" + this.description, true);
