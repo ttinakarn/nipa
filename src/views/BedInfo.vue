@@ -54,7 +54,7 @@ export default {
   mounted() {
     var instance = this;    
     axios
-      .get("https://nipaapi.herokuapp.com/api/getBedInfo/" + instance.$route.params.an)
+      .get("https://nipaapi.herokuapp.com/api/bednumber/" + instance.$route.params.an)
       .then(function(response) {
         instance.bedinfo = response.data.data[0];
         console.log("bedinfo", instance.bedinfo);

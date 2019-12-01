@@ -663,7 +663,7 @@ export default {
     instance.condition = condition.getCondition();
     axios
       .get(
-        "https://nipaapi.herokuapp.com/api/getBedInfo/" +
+        "https://nipaapi.herokuapp.com/api/bednumber/" +
           instance.$route.params.an
       )
       .then(function(response) {
