@@ -78,7 +78,6 @@
 </template>
 
 <script>
-import moment from "moment"
 import navbar from "@/components/NavbarHome.vue";
 import axios from "axios";
 import Loading from "vue-loading-overlay";
@@ -169,8 +168,8 @@ export default {
             title: this.title,
             name: this.name,
             surname: this.surname,
-            dob: moment(this.dob).format(),
-            admitdate: moment(this.admitdate).format(),
+            dob: this.dob,
+            admitdate: this.admitdate,
           })
           .then(response => {
             instance.isLoading = false;
