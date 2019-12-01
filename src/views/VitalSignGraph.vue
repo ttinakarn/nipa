@@ -18,6 +18,12 @@
             <b-col cols="6" style="text-align: left;">
               <h5>AN: {{bedinfo.an}}</h5>
             </b-col>
+             <b-col cols="6" style="text-align: left;">
+              <h5>Admited date: {{bedinfo.admitdate}}</h5>
+            </b-col>
+            <b-col cols="6" style="text-align: left;">
+              <h5>Discharge date: {{bedinfo.dischargedate}}</h5>
+            </b-col>
           </b-row>
         </b-col>
         <b-col sm="2" class="hide">
