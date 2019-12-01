@@ -168,8 +168,8 @@ export default {
             title: this.title,
             name: this.name,
             surname: this.surname,
-            dob: this.dob,
-            admitdate: this.admitdate
+            dob: moment(this.dob).format(),
+            admitdate: moment(this.admitdate).format(),
           })
           .then(response => {
             instance.isLoading = false;
