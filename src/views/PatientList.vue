@@ -24,7 +24,7 @@
             <th scope="col">AN</th>
             <th scope="col">HN</th>
             <th scope="col">Name</th>
-            <th scope="col">View</th>
+            <th scope="col">Edit</th>
           </tr>
         </thead>
         <tbody>
@@ -38,7 +38,7 @@
                 <router-link
                   :to="{ name: 'patient', params: {an: patient.an}}"
                   style="color: #2c3e50;"
-                >View</router-link>
+                >Edit</router-link>
               </b-button>
             </td>
           </tr>
