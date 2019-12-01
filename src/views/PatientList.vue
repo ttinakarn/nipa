@@ -111,7 +111,7 @@ export default {
             console.log("discharge");
             instance.isLoading = true;
             axios
-              .put("https://nipaapi.herokuapp.com/api/dischargedate/" + an, {
+              .put("https://nipaapi.herokuapp.com/api/dischargepatient/" + an, {
                 dischargedate: moment().format("YYYY-MM-DD")
               })
               .then(function(response) {

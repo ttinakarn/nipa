@@ -117,7 +117,7 @@ export default {
     var instance = this;
     axios
       .get(
-        "https://nipaapi.herokuapp.com/api/patientInformation/" +
+        "https://nipaapi.herokuapp.com/api/patient/" +
           instance.$route.params.an
       )
       .then(function(response) {
@@ -186,7 +186,7 @@ export default {
       } else {
         axios
           .put(
-            "https://nipaapi.herokuapp.com/api/patientInformation/" +
+            "https://nipaapi.herokuapp.com/api/patient/" +
               instance.$route.params.an,
             {
               bednumber: this.bednumber,
