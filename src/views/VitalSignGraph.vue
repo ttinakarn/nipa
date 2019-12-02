@@ -56,7 +56,7 @@
         </b-tab>
         <b-tab title="Last 8 hrs of temperate" title-link-class="text-secondary">
           <div v-if="tabIndex == 2">
-            <chart label="last8hrstemp" :x="lastesttemp" :y="lastesttempdate"></chart>
+            <chart label="Last 8hrs temp" :x="lastesttemp" :y="lastesttempdate"></chart>
           </div>
         </b-tab>
         <b-tab title="Last 8 hrs of pulse" title-link-class="text-secondary">
@@ -135,6 +135,8 @@ export default {
             );
           }
         }
+        instance.lastesttemp = instance.temp.slice(instance.temp.length-8, instance.temp.length)
+        instance.lastesttempdate = instance.tempdate.slice(instance.tempdate.length-8, instance.tempdate.length)
         for (var i = 0; i < response.data.data.length; i++) {
           if (response.data.data[i].pulse != null) {
             instance.pulse.push(response.data.data[i].pulse);
@@ -143,40 +145,9 @@ export default {
             );
           }
         }
+        instance.lastestpulse = instance.pulse.slice(instance.pulse.length-8, instance.pulse.length)
+        instance.lastestpulsedate = instance.pulsedate.slice(instance.pulsedate.length-8, instance.pulsedate.length)
       });
-
-    axios
-      .get(
-        "https://nipaapi.herokuapp.com/api/lasttemp8vitalsign/" +
-          instance.$route.params.an
-      )
-      .then(function(response) {
-        console.log("lastest vital sign data: ", response.data.data);
-        for (var i = 0; i < response.data.data.length; i++) {
-          instance.lastesttemp.push(response.data.data[i].temp);
-          instance.lastesttempdate.push(
-            moment(response.data.data[i].date).format("lll")
-          );
-        }
-        instance.lastesttemp.reverse();
-      });
-
-    axios
-      .get(
-        "https://nipaapi.herokuapp.com/api/lastpulse8vitalsign/" +
-          instance.$route.params.an
-      )
-      .then(function(response) {
-        console.log("lastest vital sign data: ", response.data.data);
-        for (var i = 0; i < response.data.data.length; i++) {
-          instance.lastestpulse.push(response.data.data[i].pulse);
-          instance.lastestpulsedate.push(
-            moment(response.data.data[i].date).format("lll")
-          );
-        }
-        instance.lastestpulse.reverse();
-      });
-      
   },
   methods: {
     print() {
