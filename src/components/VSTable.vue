@@ -97,7 +97,7 @@
           >{{data.dbp}}</span>
         </td>
 
-        <td>{{data.sos}}</td>
+        <td style="width:100px">{{data.sos}}</td>
         
         <td
           v-if="data.bednumber == bednumber && o2sat == true && (data.o2sat < condition[0].mino2sat)"

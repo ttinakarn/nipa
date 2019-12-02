@@ -1,17 +1,9 @@
 <template>
   <div>
     <navbar />
-
-    <div style="margin: 10px">
-      <VSTable
-        firstcol="Bed"
-        :summaryvs="alerted"
-        :show="false"
-        :name="false"
-        :header="true"
-        firstcolsize="width:60px"
-      ></VSTable>
-      <VSTable firstcol="Bed" :summaryvs="normal" :show="false" :name="false" :header="false"></VSTable>
+    <div style="margin: 10px" v-if="getdata == true">
+      <VSTable firstcol="Bed" :summaryvs="summary" :show="false" :name="false" :header="true"></VSTable>
+      <!-- <VSTable firstcol="Bed" :summaryvs="normal" :show="true" :name="false" :header="false"></VSTable> -->
     </div>
   </div>
 </template>
@@ -26,12 +18,14 @@ import VSTable from "@/components/VSTable.vue";
 import { condition } from "../condition.js";
 import io from "socket.io-client";
 import navbar from "@/components/NavbarHome.vue";
+import { mapState } from "vuex";
 
 export default {
   components: {
     VSTable,
     navbar
   },
+  computed: mapState(["getdata"]),
   data() {
     return {
       column: [
@@ -51,6 +45,7 @@ export default {
         "remark"
       ],
       vitalsigns: [],
+      getsummary: false,
       summary: [],
       alerted: [],
       normal: [],
@@ -58,11 +53,15 @@ export default {
       messages: [],
       socket: io("https://nipaapi.herokuapp.com/"),
       count: 0,
-      sos: null
+      sos: null,
+      updatecol: [],
+      updatecoldata: [],
+      addnewrow: false,
     };
   },
   methods: {
     getData() {
+      this.$store.commit("setgetdata", false);
       var instance = this;
       instance.condition = condition.getCondition();
       console.log(instance.condition);
@@ -105,106 +104,113 @@ export default {
                 }
               }
             }
+            if (i == instance.summary.length) {
+              instance.getsummary = true;
+            }
           }
 
-          for (var i = 0; i < instance.summary.length; i++) {
-            instance.summary[i].sos = 0;
-            if (instance.summary[i].temp <= instance.sos[0].max) {
-              instance.summary[i].sos += instance.sos[0].score;
-            } else if (
-              instance.summary[i].temp >= instance.sos[1].min &&
-              instance.summary[i].temp <= instance.sos[1].max
-            ) {
-              instance.summary[i].sos += instance.sos[1].score;
-            } else if (
-              instance.summary[i].temp >= instance.sos[2].min &&
-              instance.summary[i].temp <= instance.sos[2].max
-            ) {
-              instance.summary[i].sos += instance.sos[2].score;
-            } else if (
-              instance.summary[i].temp >= instance.sos[3].min &&
-              instance.summary[i].temp <= instance.sos[3].max
-            ) {
-              instance.summary[i].sos += instance.sos[2].score;
-            } else if (instance.summary[i].temp >= instance.sos[4].min) {
-              instance.summary[i].sos += instance.sos[4].score;
-            }
+          if (instance.getsummary == true) {
+            for (var i = 0; i < instance.summary.length; i++) {
+              instance.summary[i].sos = 0;
+              if (instance.summary[i].temp <= instance.sos[0].max) {
+                instance.summary[i].sos += instance.sos[0].score;
+              } else if (
+                instance.summary[i].temp >= instance.sos[1].min &&
+                instance.summary[i].temp <= instance.sos[1].max
+              ) {
+                instance.summary[i].sos += instance.sos[1].score;
+              } else if (
+                instance.summary[i].temp >= instance.sos[2].min &&
+                instance.summary[i].temp <= instance.sos[2].max
+              ) {
+                instance.summary[i].sos += instance.sos[2].score;
+              } else if (
+                instance.summary[i].temp >= instance.sos[3].min &&
+                instance.summary[i].temp <= instance.sos[3].max
+              ) {
+                instance.summary[i].sos += instance.sos[2].score;
+              } else if (instance.summary[i].temp >= instance.sos[4].min) {
+                instance.summary[i].sos += instance.sos[4].score;
+              }
 
-            if (instance.summary[i].pulse <= parseInt(instance.sos[5].max)) {
-              instance.summary[i].sos += instance.sos[5].score;
-            } else if (
-              instance.summary[i].pulse >= parseInt(instance.sos[6].min) &&
-              instance.summary[i].pulse <= parseInt(instance.sos[6].max)
-            ) {
-              instance.summary[i].sos += instance.sos[6].score;
-            } else if (
-              instance.summary[i].pulse >= parseInt(instance.sos[7].min) &&
-              instance.summary[i].pulse <= parseInt(instance.sos[7].max)
-            ) {
-              instance.summary[i].sos += instance.sos[7].score;
-            } else if (
-              instance.summary[i].pulse >= parseInt(instance.sos[8].min) &&
-              instance.summary[i].pulse <= parseInt(instance.sos[8].max)
-            ) {
-              instance.summary[i].sos += instance.sos[8].score;
-            } else if (
-              instance.summary[i].pulse >= parseInt(instance.sos[9].min) &&
-              instance.summary[i].pulse <= parseInt(instance.sos[9].max)
-            ) {
-              instance.summary[i].sos += instance.sos[9].score;
-            } else if (
-              instance.summary[i].pulse >= parseInt(instance.sos[10].min)
-            ) {
-              instance.summary[i].sos += instance.sos[10].score;
-            }
+              if (instance.summary[i].pulse <= parseInt(instance.sos[5].max)) {
+                instance.summary[i].sos += instance.sos[5].score;
+              } else if (
+                instance.summary[i].pulse >= parseInt(instance.sos[6].min) &&
+                instance.summary[i].pulse <= parseInt(instance.sos[6].max)
+              ) {
+                instance.summary[i].sos += instance.sos[6].score;
+              } else if (
+                instance.summary[i].pulse >= parseInt(instance.sos[7].min) &&
+                instance.summary[i].pulse <= parseInt(instance.sos[7].max)
+              ) {
+                instance.summary[i].sos += instance.sos[7].score;
+              } else if (
+                instance.summary[i].pulse >= parseInt(instance.sos[8].min) &&
+                instance.summary[i].pulse <= parseInt(instance.sos[8].max)
+              ) {
+                instance.summary[i].sos += instance.sos[8].score;
+              } else if (
+                instance.summary[i].pulse >= parseInt(instance.sos[9].min) &&
+                instance.summary[i].pulse <= parseInt(instance.sos[9].max)
+              ) {
+                instance.summary[i].sos += instance.sos[9].score;
+              } else if (
+                instance.summary[i].pulse >= parseInt(instance.sos[10].min)
+              ) {
+                instance.summary[i].sos += instance.sos[10].score;
+              }
 
-            if (instance.summary[i].resp <= parseInt(instance.sos[17].max)) {
-              instance.summary[i].sos += instance.sos[17].score;
-            } else if (
-              instance.summary[i].resp >= parseInt(instance.sos[18].min) &&
-              instance.summary[i].resp <= parseInt(instance.sos[18].max)
-            ) {
-              instance.summary[i].sos += instance.sos[18].score;
-            } else if (
-              instance.summary[i].resp >= parseInt(instance.sos[19].min) &&
-              instance.summary[i].resp <= parseInt(instance.sos[19].max)
-            ) {
-              instance.summary[i].sos += instance.sos[19].score;
-            } else if (
-              instance.summary[i].resp >= parseInt(instance.sos[20].min) &&
-              instance.summary[i].resp <= parseInt(instance.sos[20].max)
-            ) {
-              instance.summary[i].sos += instance.sos[20].score;
-            } else if (
-              instance.summary[i].resp >= parseInt(instance.sos[21].min)
-            ) {
-              instance.summary[i].sos += instance.sos[21].score;
-            }
+              if (instance.summary[i].resp <= parseInt(instance.sos[17].max)) {
+                instance.summary[i].sos += instance.sos[17].score;
+              } else if (
+                instance.summary[i].resp >= parseInt(instance.sos[18].min) &&
+                instance.summary[i].resp <= parseInt(instance.sos[18].max)
+              ) {
+                instance.summary[i].sos += instance.sos[18].score;
+              } else if (
+                instance.summary[i].resp >= parseInt(instance.sos[19].min) &&
+                instance.summary[i].resp <= parseInt(instance.sos[19].max)
+              ) {
+                instance.summary[i].sos += instance.sos[19].score;
+              } else if (
+                instance.summary[i].resp >= parseInt(instance.sos[20].min) &&
+                instance.summary[i].resp <= parseInt(instance.sos[20].max)
+              ) {
+                instance.summary[i].sos += instance.sos[20].score;
+              } else if (
+                instance.summary[i].resp >= parseInt(instance.sos[21].min)
+              ) {
+                instance.summary[i].sos += instance.sos[21].score;
+              }
 
-            if (instance.summary[i].sbp <= parseInt(instance.sos[11].max)) {
-              instance.summary[i].sos += instance.sos[11].score
-            } else if (
-              instance.summary[i].sbp >= parseInt(instance.sos[12].min) &&
-              instance.summary[i].sbp <= parseInt(instance.sos[12].max)
-            ) {
-              instance.summary[i].sos += instance.sos[12].score
-            } else if (
-              instance.summary[i].sbp >= parseInt(instance.sos[13].min) &&
-              instance.summary[i].sbp <= parseInt(instance.sos[13].max)
-            ) {
-              instance.summary[i].sos += instance.sos[13].score
-            } else if (
-              instance.summary[i].sbp >= parseInt(instance.sos[14].min) &&
-              instance.summary[i].sbp <= parseInt(instance.sos[14].max)
-            ) {
-              instance.summary[i].sos += instance.sos[14].score
-            } else if (
-              instance.summary[i].sbp >= parseInt(instance.sos[15].min) &&
-              instance.summary[i].sbp <= parseInt(instance.sos[15].max)
-            ) {
-              instance.summary[i].sos += instance.sos[15].score
-            } else if (instance.summary[i].sbp >= parseInt(instance.sos[16].min)) {
-              instance.summary[i].sos += instance.sos[16].score
+              if (instance.summary[i].sbp <= parseInt(instance.sos[11].max)) {
+                instance.summary[i].sos += instance.sos[11].score;
+              } else if (
+                instance.summary[i].sbp >= parseInt(instance.sos[12].min) &&
+                instance.summary[i].sbp <= parseInt(instance.sos[12].max)
+              ) {
+                instance.summary[i].sos += instance.sos[12].score;
+              } else if (
+                instance.summary[i].sbp >= parseInt(instance.sos[13].min) &&
+                instance.summary[i].sbp <= parseInt(instance.sos[13].max)
+              ) {
+                instance.summary[i].sos += instance.sos[13].score;
+              } else if (
+                instance.summary[i].sbp >= parseInt(instance.sos[14].min) &&
+                instance.summary[i].sbp <= parseInt(instance.sos[14].max)
+              ) {
+                instance.summary[i].sos += instance.sos[14].score;
+              } else if (
+                instance.summary[i].sbp >= parseInt(instance.sos[15].min) &&
+                instance.summary[i].sbp <= parseInt(instance.sos[15].max)
+              ) {
+                instance.summary[i].sos += instance.sos[15].score;
+              } else if (
+                instance.summary[i].sbp >= parseInt(instance.sos[16].min)
+              ) {
+                instance.summary[i].sos += instance.sos[16].score;
+              }
             }
           }
 
@@ -233,23 +239,60 @@ export default {
     }
   },
   mounted() {
+    var instance = this;
     this.getData();
+
+    this.$store.commit("setgetdata", true);
     this.socket.on("dataUpdated", data => {
-      this.summary = [];
-      this.normal = [];
-      this.alerted = [];
+      console.log(data);
       this.$store.commit("setbednumber", data.bednumber);
+      console.log("data.status", data.status);
+
       for (var i in data.status) {
         this.$store.commit(
           "set" + Object.keys(data.status[i])[0],
           data.status[i][Object.keys(data.status[i])[0]]
         );
-        // console.log('set'+Object.keys(data.status[i])[0], data.status[i][Object.keys(data.status[i])[0]]);
+        if (data.status[i][Object.keys(data.status[i])[0]] == true) {
+          this.updatecol.push(Object.keys(data.status[i])[0]);
+          this.updatecoldata.push(data.status[i].data);
+        }
       }
-      // this.$store.commit('set', data.pulse);
-      // console.log("Bednumber", this.$store.state.bednumber);
-      this.getData();
-      // console.log(data);
+
+      for (var i = 0; i < instance.summary.length; i++) {
+        if (instance.summary[i].bednumber == data.bednumber) {
+          for (let j = 0; j < this.updatecol.length; j++) {
+            instance.summary[i][this.updatecol[j]] = this.updatecoldata[j];
+            i = instance.summary.length-1;
+          }
+          instance.addnewrow = false;
+        } else {
+          instance.addnewrow = true;
+        }
+        console.log(instance.addnewrow);
+        console.log(i);
+        
+        if(i == instance.summary.length-1 && instance.addnewrow == true){
+          console.log(i);
+          console.log("Refresh page");
+          
+          this.summary = [];
+          this.getData();
+          this.$store.commit("setgetdata", true);
+          instance.addnewrow = false;
+        }
+      }
+      
+      // for (var i = 0; i < instance.summary.length; i++) {
+      //   if (instance.summary[i].bednumber != data.bednumber) {
+      //     this.summary = [];
+      //     this.getData();
+      //     this.$store.commit("setgetdata", true);
+      //   }
+      // }
+      
+      this.updatecol = [];
+      this.updatecoldata = [];
     });
   }
 };
