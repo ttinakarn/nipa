@@ -56,7 +56,7 @@ export default {
       sos: null,
       updatecol: [],
       updatecoldata: [],
-      addnewrow: false,
+      addnewrow: false
     };
   },
   methods: {
@@ -104,7 +104,7 @@ export default {
                 }
               }
             }
-            if (i == instance.summary.length) {
+            if (i == instance.summary.length - 1) {
               instance.getsummary = true;
             }
           }
@@ -128,7 +128,7 @@ export default {
                 instance.summary[i].temp >= instance.sos[3].min &&
                 instance.summary[i].temp <= instance.sos[3].max
               ) {
-                instance.summary[i].sos += instance.sos[2].score;
+                instance.summary[i].sos += instance.sos[3].score;
               } else if (instance.summary[i].temp >= instance.sos[4].min) {
                 instance.summary[i].sos += instance.sos[4].score;
               }
@@ -263,32 +263,126 @@ export default {
         if (instance.summary[i].bednumber == data.bednumber) {
           for (let j = 0; j < this.updatecol.length; j++) {
             instance.summary[i][this.updatecol[j]] = this.updatecoldata[j];
-            i = instance.summary.length-1;
+
+            //Calculate new sos score
+            instance.summary[i].sos = 0;
+            if (instance.summary[i].temp <= instance.sos[0].max) {
+                instance.summary[i].sos += instance.sos[0].score;
+              } else if (
+                instance.summary[i].temp >= instance.sos[1].min &&
+                instance.summary[i].temp <= instance.sos[1].max
+              ) {
+                instance.summary[i].sos += instance.sos[1].score;
+              } else if (
+                instance.summary[i].temp >= instance.sos[2].min &&
+                instance.summary[i].temp <= instance.sos[2].max
+              ) {
+                instance.summary[i].sos += instance.sos[2].score;
+              } else if (
+                instance.summary[i].temp >= instance.sos[3].min &&
+                instance.summary[i].temp <= instance.sos[3].max
+              ) {
+                instance.summary[i].sos += instance.sos[3].score;
+              } else if (instance.summary[i].temp >= instance.sos[4].min) {
+                instance.summary[i].sos += instance.sos[4].score;
+              }
+
+              if (instance.summary[i].pulse <= parseInt(instance.sos[5].max)) {
+                instance.summary[i].sos += instance.sos[5].score;
+              } else if (
+                instance.summary[i].pulse >= parseInt(instance.sos[6].min) &&
+                instance.summary[i].pulse <= parseInt(instance.sos[6].max)
+              ) {
+                instance.summary[i].sos += instance.sos[6].score;
+              } else if (
+                instance.summary[i].pulse >= parseInt(instance.sos[7].min) &&
+                instance.summary[i].pulse <= parseInt(instance.sos[7].max)
+              ) {
+                instance.summary[i].sos += instance.sos[7].score;
+              } else if (
+                instance.summary[i].pulse >= parseInt(instance.sos[8].min) &&
+                instance.summary[i].pulse <= parseInt(instance.sos[8].max)
+              ) {
+                instance.summary[i].sos += instance.sos[8].score;
+              } else if (
+                instance.summary[i].pulse >= parseInt(instance.sos[9].min) &&
+                instance.summary[i].pulse <= parseInt(instance.sos[9].max)
+              ) {
+                instance.summary[i].sos += instance.sos[9].score;
+              } else if (
+                instance.summary[i].pulse >= parseInt(instance.sos[10].min)
+              ) {
+                instance.summary[i].sos += instance.sos[10].score;
+              }
+
+              if (instance.summary[i].resp <= parseInt(instance.sos[17].max)) {
+                instance.summary[i].sos += instance.sos[17].score;
+              } else if (
+                instance.summary[i].resp >= parseInt(instance.sos[18].min) &&
+                instance.summary[i].resp <= parseInt(instance.sos[18].max)
+              ) {
+                instance.summary[i].sos += instance.sos[18].score;
+              } else if (
+                instance.summary[i].resp >= parseInt(instance.sos[19].min) &&
+                instance.summary[i].resp <= parseInt(instance.sos[19].max)
+              ) {
+                instance.summary[i].sos += instance.sos[19].score;
+              } else if (
+                instance.summary[i].resp >= parseInt(instance.sos[20].min) &&
+                instance.summary[i].resp <= parseInt(instance.sos[20].max)
+              ) {
+                instance.summary[i].sos += instance.sos[20].score;
+              } else if (
+                instance.summary[i].resp >= parseInt(instance.sos[21].min)
+              ) {
+                instance.summary[i].sos += instance.sos[21].score;
+              }
+
+              if (instance.summary[i].sbp <= parseInt(instance.sos[11].max)) {
+                instance.summary[i].sos += instance.sos[11].score;
+              } else if (
+                instance.summary[i].sbp >= parseInt(instance.sos[12].min) &&
+                instance.summary[i].sbp <= parseInt(instance.sos[12].max)
+              ) {
+                instance.summary[i].sos += instance.sos[12].score;
+              } else if (
+                instance.summary[i].sbp >= parseInt(instance.sos[13].min) &&
+                instance.summary[i].sbp <= parseInt(instance.sos[13].max)
+              ) {
+                instance.summary[i].sos += instance.sos[13].score;
+              } else if (
+                instance.summary[i].sbp >= parseInt(instance.sos[14].min) &&
+                instance.summary[i].sbp <= parseInt(instance.sos[14].max)
+              ) {
+                instance.summary[i].sos += instance.sos[14].score;
+              } else if (
+                instance.summary[i].sbp >= parseInt(instance.sos[15].min) &&
+                instance.summary[i].sbp <= parseInt(instance.sos[15].max)
+              ) {
+                instance.summary[i].sos += instance.sos[15].score;
+              } else if (
+                instance.summary[i].sbp >= parseInt(instance.sos[16].min)
+              ) {
+                instance.summary[i].sos += instance.sos[16].score;
+              }
+            i = instance.summary.length - 1;
           }
           instance.addnewrow = false;
         } else {
           instance.addnewrow = true;
         }
-        
-        if(i == instance.summary.length-1 && instance.addnewrow == true){
+
+        if (i == instance.summary.length - 1 && instance.addnewrow == true) {
           console.log(i);
           console.log("Refresh page");
-          
+
           this.summary = [];
           this.getData();
           this.$store.commit("setgetdata", true);
           instance.addnewrow = false;
         }
       }
-      
-      // for (var i = 0; i < instance.summary.length; i++) {
-      //   if (instance.summary[i].bednumber != data.bednumber) {
-      //     this.summary = [];
-      //     this.getData();
-      //     this.$store.commit("setgetdata", true);
-      //   }
-      // }
-      
+
       this.updatecol = [];
       this.updatecoldata = [];
     });
