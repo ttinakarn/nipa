@@ -68,7 +68,10 @@
     </b-card>
     <div style="margin: 10px" v-if="showdata == true">
       <b-row align-h="end" style="margin: 10px" class="hide">
-        <b-button style="background: #7FDBD5; border: #7FDBD5;" @click="print()">
+        <b-button style="background: #7FDBD5; border: #7FDBD5; margin: 5px" @click="onExport()">
+          <span class="text-dark">Export as excel</span>
+        </b-button>
+        <b-button style="background: #7FDBD5; border: #7FDBD5; margin: 5px" @click="print()">
           <span class="text-dark">Print</span>
         </b-button>
       </b-row>
@@ -92,6 +95,8 @@ import moment from "moment";
 import chart from "@/components/Chart.vue";
 import VSTable from "@/components/VSTable.vue";
 import navbar from "@/components/NavbarHome.vue";
+import XLSX from 'xlsx';
+
 export default {
   components: {
     chart,
@@ -128,6 +133,9 @@ export default {
         instance.bedinfo = response.data.data[0];
         instance.vitalsigns = response.data.data;
         for (var i = 0; i < response.data.data.length; i++) {
+          instance.vitalsigns[i].admitdate = moment(instance.vitalsigns[i].admitdate).format('ll')
+          instance.vitalsigns[i].dischargedate = moment(instance.vitalsigns[i].dischargedate).format('ll')
+          instance.vitalsigns[i].date = moment(instance.vitalsigns[i].date).format('lll')
           if (response.data.data[i].temp != null) {
             instance.temp.push(response.data.data[i].temp);
             instance.tempdate.push(
@@ -152,6 +160,12 @@ export default {
   methods: {
     print() {
       window.print();
+    },
+    onExport() {
+      const dataWS = XLSX.utils.json_to_sheet(this.vitalsigns)
+      const wb = XLSX.utils.book_new()
+      XLSX.utils.book_append_sheet(wb, dataWS)
+      XLSX.writeFile(wb, 'AN_'+this.$route.params.an + '.xlsx')
     }
   }
 };
