@@ -18,7 +18,7 @@
             <b-col cols="6" style="text-align: left;">
               <h5>AN: {{bedinfo.an}}</h5>
             </b-col>
-             <b-col cols="6" style="text-align: left;">
+            <b-col cols="6" style="text-align: left;">
               <h5>Admited date: {{moment(bedinfo.admitdate).format('ll')}}</h5>
             </b-col>
             <b-col cols="6" style="text-align: left;">
@@ -54,6 +54,16 @@
             <chart label="Pulse" :x="pulse" :y="pulsedate"></chart>
           </div>
         </b-tab>
+        <b-tab title="Last 8 hrs of temperate" title-link-class="text-secondary">
+          <div v-if="tabIndex == 2">
+            <chart label="last8hrstemp" :x="lastesttemp" :y="lastesttempdate"></chart>
+          </div>
+        </b-tab>
+        <b-tab title="Last 8 hrs of pulse" title-link-class="text-secondary">
+          <div v-if="tabIndex == 3">
+            <chart label="last8hrspulse" :x="lastestpulse" :y="lastestpulsedate"></chart>
+          </div>
+        </b-tab>
       </b-tabs>
     </b-card>
     <div style="margin: 10px" v-if="showdata == true">
@@ -81,7 +91,7 @@ import axios from "axios";
 import moment from "moment";
 import chart from "@/components/Chart.vue";
 import VSTable from "@/components/VSTable.vue";
-import navbar from "@/components/NavbarHome.vue"
+import navbar from "@/components/NavbarHome.vue";
 export default {
   components: {
     chart,
@@ -97,6 +107,10 @@ export default {
       tempdate: [],
       pulse: [],
       pulsedate: [],
+      lastesttemp: [],
+      lastesttempdate: [],
+      lastestpulse: [],
+      lastestpulsedate: [],
       tabIndex: 0
     };
   },
@@ -106,7 +120,8 @@ export default {
 
     axios
       .get(
-        "https://nipaapi.herokuapp.com/api/vitalsign/" + instance.$route.params.an
+        "https://nipaapi.herokuapp.com/api/vitalsign/" +
+          instance.$route.params.an
       )
       .then(function(response) {
         console.log("vital sign data: ", response.data.data);
@@ -129,6 +144,39 @@ export default {
           }
         }
       });
+
+    axios
+      .get(
+        "https://nipaapi.herokuapp.com/api/lasttemp8vitalsign/" +
+          instance.$route.params.an
+      )
+      .then(function(response) {
+        console.log("lastest vital sign data: ", response.data.data);
+        for (var i = 0; i < response.data.data.length; i++) {
+          instance.lastesttemp.push(response.data.data[i].temp);
+          instance.lastesttempdate.push(
+            moment(response.data.data[i].date).format("lll")
+          );
+        }
+        instance.lastesttemp.reverse();
+      });
+
+    axios
+      .get(
+        "https://nipaapi.herokuapp.com/api/lastpulse8vitalsign/" +
+          instance.$route.params.an
+      )
+      .then(function(response) {
+        console.log("lastest vital sign data: ", response.data.data);
+        for (var i = 0; i < response.data.data.length; i++) {
+          instance.lastestpulse.push(response.data.data[i].pulse);
+          instance.lastestpulsedate.push(
+            moment(response.data.data[i].date).format("lll")
+          );
+        }
+        instance.lastestpulse.reverse();
+      });
+      
   },
   methods: {
     print() {

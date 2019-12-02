@@ -24,7 +24,7 @@
               <h5>Name: {{bedinfo.title}}{{bedinfo.name}} {{bedinfo.surname}}</h5> 
             </b-col>
             <b-col lg="6" xs="12" style="text-align: left;">
-              <h5>Age: 48 yrs</h5> 
+              <h5>Age: {{moment(bedinfo.dob).fromNow(true)}}</h5> 
             </b-col>
             <b-col lg="12" style="text-align: left;">
               <h5>Admit Date: {{moment(bedinfo.admitdate).format('LL')}}</h5> 
