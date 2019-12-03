@@ -68,10 +68,7 @@ export default new Router({
     {
       path: '/tv',
       name: 'tv',
-      component: TV,
-      meta: { 
-        requiresAuth: true
-      }
+      component: TV
     },
     {
       path: '/condition',
