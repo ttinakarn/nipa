@@ -2,7 +2,7 @@
   <div>
     <navbar />
 
-    <div class="display-4">Welcome Tip</div>
+    <div class="display-4">Welcome {{currentuser[0].name}}</div>
     <br />
     <b-row>
       <b-col lg="6">
@@ -51,10 +51,12 @@
 
 <script>
 import navbar from "@/components/NavbarHome.vue";
+import { mapState } from "vuex";
 export default {
   components: {
     navbar
-  }
+  },
+  computed: mapState(["currentuser"])
 };
 </script>
 

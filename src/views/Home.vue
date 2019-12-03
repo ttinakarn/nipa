@@ -4,12 +4,12 @@
       <b-navbar-brand class="topnav-centered">Ward 1</b-navbar-brand>
       <b-navbar-nav class="ml-auto">
         <b-navbar-brand class="text-danger" right>
-          <router-link to="/" class="text-danger">Logout</router-link>
+          <span @click="logout">Logout</span>
         </b-navbar-brand>
       </b-navbar-nav>
     </b-navbar>
     <br />
-    <div class="display-4">Welcome Tip</div>
+    <div class="display-4">Welcome {{currentuser[0].name}}</div>
     <br />
     <div v-if="beds == null">
       <b-spinner variant="info" label="Loading..."></b-spinner>
@@ -65,12 +65,15 @@
 <script>
 import axios from "axios";
 import moment from "moment";
+import { mapState } from "vuex";
+
 export default {
   data() {
     return {
       beds: null
     };
   },
+  computed: mapState(["currentuser"]),
   mounted() {
     // moment.locale("th");
     this.$store.commit("setsosscore", 0);
@@ -81,6 +84,13 @@ export default {
         instance.beds = response.data.data;
         console.log("Beds", instance.beds);
       });
+  },
+  methods: {
+    logout(){
+      console.log("log out");
+      this.$store.commit("setcurrentuser", null);
+      this.$router.push("/");
+    }
   }
 };
 </script>

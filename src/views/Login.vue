@@ -40,8 +40,8 @@ export default {
     };
   },
   methods: {
-    checksize(x){      
-      if(x.matches){
+    checksize(x) {
+      if (x.matches) {
         this.$router.push("/home");
       } else {
         this.$router.push("/index");
@@ -49,7 +49,12 @@ export default {
     },
     login() {
       this.isLoading = true;
-      if (this.username == null || this.password == null || this.username.length == 0 || this.password.length == 0) {
+      if (
+        this.username == null ||
+        this.password == null ||
+        this.username.length == 0 ||
+        this.password.length == 0
+      ) {
         this.isLoading = false;
         this.$bvModal.msgBoxOk("Please enter username and password", {
           size: "sm",
@@ -60,14 +65,40 @@ export default {
           centered: true
         });
       } else {
-        axios.post("", {
+        this.checklogin();
+      }
+    },
+    checklogin() {
+      var instance = this;
+      axios
+        .post("https://nipaapi.herokuapp.com/api/login", {
           username: this.username,
           password: this.password
-        }).then(function(response){
-
         })
-        this.checksize(this.size)
-      }
+        .then(function(response) {
+          console.log(response);
+          if (response.data.status == "success") {
+            instance.$store.commit("setcurrentuser", response.data.data);
+            instance.checksize(instance.size);
+            // console.log(instance.$store.getters.currentuser);
+            // console.log(instance.$store.getters.currentuser[0].name);
+            // console.log(instance.$store.getters.currentuser[0].empid);
+          } else {
+            instance.$bvModal.msgBoxOk(response.data.message, {
+              size: "sm",
+              buttonsize: "sm",
+              okVariant: "danger",
+              headerClass: "p-2 border-bottom-0",
+              footerClass: "p-2 border-top-0",
+              centered: true
+            });
+          }
+          instance.isLoading = false;
+        })
+        .catch(error => {
+          console.log(error.message);
+          instance.isLoading = false;
+        });
     }
   }
 };

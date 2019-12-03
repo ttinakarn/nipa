@@ -28,72 +28,114 @@ export default new Router({
     {
       path: '/home',
       name: 'home',
-      component: Home
+      component: Home,
+      meta: { 
+        requiresAuth: true
+      }
     },
     {
       path: '/bedinfo/:bednumber/:an',
       name: 'bedinfo',
-      component: BedInfo
+      component: BedInfo,
+      meta: { 
+        requiresAuth: true
+      }
     },
     {
       path: '/addvs/:bednumber/:an',
       name: 'addvs',
-      component: AddVS
+      component: AddVS,
+      meta: { 
+        requiresAuth: true
+      }
     },
     {
       path: '/dashboard',
       name: 'dashboard',
-      component: Dashboard
+      component: Dashboard,
+      meta: { 
+        requiresAuth: true
+      }
     },
     {
       path: '/graph/:an',
       name: 'graph',
-      component: VitalSignGraph
+      component: VitalSignGraph,
+      meta: { 
+        requiresAuth: true
+      }
     },
     {
       path: '/tv',
       name: 'tv',
-      component: TV
+      component: TV,
+      meta: { 
+        requiresAuth: true
+      }
     },
     {
       path: '/condition',
       name: 'condition',
-      component: Condition
+      component: Condition,
+      meta: { 
+        requiresAuth: true
+      }
     },
     {
       path: '/index',
       name: 'index',
-      component: Index
+      component: Index,
+      meta: { 
+        requiresAuth: true
+      }
     },
     {
       path: '/patientslist',
       name: 'patientslist',
-      component: PatientList
+      component: PatientList,
+      meta: { 
+        requiresAuth: true
+      }
     },
     {
       path: '/patient/:an',
       name: 'patient',
-      component: EditPatient
+      component: EditPatient,
+      meta: { 
+        requiresAuth: true
+      }
     },
     {
       path: '/addpatient',
       name: 'addpatient',
-      component: AddPatient
+      component: AddPatient,
+      meta: { 
+        requiresAuth: true
+      }
     },
     {
       path: '/patients',
       name: 'patients',
-      component: Patients
+      component: Patients,
+      meta: { 
+        requiresAuth: true
+      }
     },
     {
       path: '/admit/:hn',
       name: 'admit',
-      component: Admit
+      component: Admit,
+      meta: { 
+        requiresAuth: true
+      }
     },
     {
       path: '/admitdetail/:an',
       name: 'admitdetail',
-      component: AdmitDetail
+      component: AdmitDetail,
+      meta: { 
+        requiresAuth: true
+      }
     }
   ]
 })

@@ -603,7 +603,7 @@ export default {
             fallrisk: parseInt(this.fallrisk),
             remark: this.remark,
             action: this.action,
-            empid: "213049",
+            empid: instance.$store.getters.currentuser[0].empid,
             date: moment().format(),
             bednumber: instance.bednumber,
             sos: parseInt(this.$store.getters.sosscore)

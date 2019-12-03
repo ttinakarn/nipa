@@ -5,6 +5,7 @@ Vue.use(Vuex)
 
 export const store = new Vuex.Store({
     state: {
+        currentuser: null,
         getdata: false,
         vs: [],
         bednumber: 0,
@@ -43,6 +44,9 @@ export const store = new Vuex.Store({
         sossbp: 0
     },
     mutations: {
+        setcurrentuser(state, data){
+            state.currentuser = data
+        },
         setgetdata(state, data){
             state.getdata = data
         },
@@ -153,6 +157,7 @@ export const store = new Vuex.Store({
         }
     },
     getters: {
+        currentuser: state=>state.currentuser,
         getdata: state=>state.getdata,
         vs: state=>state.vs,
         bednumber: state=>state.bednumber,
