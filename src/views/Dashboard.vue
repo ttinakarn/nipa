@@ -261,8 +261,11 @@ export default {
 
       for (var i = 0; i < instance.summary.length; i++) {
         if (instance.summary[i].bednumber == data.bednumber) {
-          for (let j = 0; j < this.updatecol.length; j++) {
+          for (var j = 0; j < this.updatecol.length; j++) {
+            console.log("updated data",instance.summary[i][this.updatecol[j]], this.updatecoldata[j]);
             instance.summary[i][this.updatecol[j]] = this.updatecoldata[j];
+            console.log("updated data",instance.summary[i][this.updatecol[j]], this.updatecoldata[j]);
+            
 
             //Calculate new sos score
             instance.summary[i].sos = 0;
@@ -365,8 +368,9 @@ export default {
               ) {
                 instance.summary[i].sos += instance.sos[16].score;
               }
-            i = instance.summary.length - 1;
+            
           }
+          i = instance.summary.length - 1;
           instance.addnewrow = false;
         } else {
           instance.addnewrow = true;
