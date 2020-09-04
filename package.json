@@ -18,7 +18,7 @@
     "vue-chartjs": "^3.4.2",
     "vue-easytable": "^1.7.2",
     "vue-loading-overlay": "^3.2.0",
-    "vue-moment": "^4.0.0",
+    "vue-moment": "^4.1.0",
     "vue-router": "^3.0.3",
     "vue-socket.io": "^3.0.7",
     "vue-star": "0.0.4",
